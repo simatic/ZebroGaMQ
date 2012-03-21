@@ -33,9 +33,9 @@ from net.totem.gamelogic.gameinstancemanagementdata import GameInstanceManagemen
 
 gameInstanceManagementDataDict = {}
 
-def createGameInstance(masterLogin, masterPassword, gameName, instanceName, loggingServer=True):
+def createAndJoinGameInstance(login, password, gameName, instanceName, loggingServer=True):
     """
-    Create a GameLogicServer managing a game instance.
+    Create and join GameLogicServer managing a game instance.
     By default, logging parameter is set to True: a process is created to log every relevant message.
     Set the logging parameter to false if you don't need the logging process. 
     """
@@ -51,8 +51,8 @@ def createGameInstance(masterLogin, masterPassword, gameName, instanceName, logg
     logging.debug("GameServer] Going to create process for game instance "+ gameName+ " " + instanceName)
     gameinstance.process = Process(target=createGameLogicServer,
                                    args=(gameinstance,
-                                        masterLogin,
-                                        masterPassword,))
+                                        login,
+                                        password,))
     gameinstance.process.start()
     logging.debug("GameServer] Acquiring semaphore: wait for end of creation of the game instance")
     gameinstance.semaphore.acquire()
@@ -63,40 +63,33 @@ def createGameInstance(masterLogin, masterPassword, gameName, instanceName, logg
                         args=(gameName,
                               instanceName,))
         process.start()
-    logging.debug("GameServer] Create queue and binding for game master "+ masterLogin)
-    gameinstance.queueRequest.put(["joinMaster", masterLogin])
+    logging.debug("GameServer] Create queue and binding for "+ login)
+    gameinstance.queueRequest.put(["join", login])
     item = gameinstance.queueReturn.get()
     return item[0]
 
-def joinSpectatorGameInstance(spectatorLogin, spectatorPassword, gameName, instanceName, observationKey):
-    logging.info("GameServer] Spectator "+spectatorLogin+" joining game instance "+ gameName + " "+ instanceName+ " with observation key " + observationKey)
-    # if instance doesn't exist
-    vhost = RabbitMQConfiguration().getRabbitMQProperty("virtualHostSeparator") + gameName + RabbitMQConfiguration().getRabbitMQProperty("virtualHostSeparator") + instanceName
-    if vhost not in gameInstanceManagementDataDict.keys():
-        logging.warning("GameServer] Game instance "+ gameName +" "+ instanceName+ "doesn't exist, joining of spectator canceled ")
-        return False
-    else:
-        gameinstance = gameInstanceManagementDataDict[vhost]
-        set_permissions_vhost_participant(vhost, spectatorLogin, spectatorPassword)
-        gameinstance.queueRequest.put(["joinSpectator", spectatorLogin, observationKey])
-        item = gameinstance.queueReturn.get()
-        logging.info("GameServer] Spectator " + spectatorLogin + " has joined the game instance "+gameName+" "+instanceName + ".")
-        return item[0]
 
-def joinPlayerGameInstance(playerLogin, playerPassword, gameName, instanceName):
-    logging.info("GameServer] Player " + playerLogin + " joining game instance " +gameName + " " + instanceName)
+def joinGameInstance(login, password, gameName, instanceName, observationKey=None):
+    if observationKey is None:
+        logging.info("GameServer] "+login+" joining game instance "+ gameName + " "+ instanceName)
+    else:
+        logging.info("GameServer] "+login+" joining game instance "+ gameName + " "+ instanceName+ " with observation key " + observationKey)
     # if instance doesn't exist
     vhost = RabbitMQConfiguration().getRabbitMQProperty("virtualHostSeparator") + gameName + RabbitMQConfiguration().getRabbitMQProperty("virtualHostSeparator") + instanceName
     if vhost not in gameInstanceManagementDataDict.keys():
-        logging.warning("GameServer] Game instance "+ gameName +" "+ instanceName + "doesn't exist, joining of player canceled ")
+        logging.warning("GameServer] Game instance "+ gameName +" "+ instanceName+ "doesn't exist, joining canceled ")
         return False
     else:
         gameinstance = gameInstanceManagementDataDict[vhost]
-        set_permissions_vhost_participant(vhost, playerLogin, playerPassword)
-        gameinstance.queueRequest.put(["joinPlayer", playerLogin])
+        set_permissions_vhost_participant(vhost, login, password)
+        if observationKey is None:
+            gameinstance.queueRequest.put(["join", login])
+        else:
+            gameinstance.queueRequest.put(["joinWithObservationKey", login, observationKey])
         item = gameinstance.queueReturn.get()
-        logging.info("GameServer] Player " + playerLogin + " has joined the game instance "+gameName+" "+instanceName + ".")
+        logging.info("GameServer] " + login + " has joined the game instance "+gameName+" "+instanceName + ".")
         return item[0]
+    
     
 def listGameInstances(gameName):
     """
@@ -135,6 +128,7 @@ def terminateGameInstance(gameName, instanceName):
             #print "queue return:", gameinstance.queueReturn.get()
             logging.debug("GameServer] queue return:" + str(gameinstance.queueReturn.get()))
         return True
+
 
 def terminate():
     logging.info("GameServer] Terminating all game instances")

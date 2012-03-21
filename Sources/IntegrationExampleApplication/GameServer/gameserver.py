@@ -27,7 +27,6 @@ from net.totem.configuration.xmlrpc.xmlrpcconfig import XMLRPCConfiguration
 from net.totem.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
 import gameserverprotocol
 
-
 global server
 
 def setLogger():
@@ -54,9 +53,8 @@ if __name__ == '__main__':
     server = SimpleXMLRPCServer((XMLRPCConfiguration().getXMLRPCProperty("gameServerXMLRPCHost"),
                                  port))
     server.register_introspection_functions()
-    server.register_function(gameserverprotocol.createGameInstance)
-    server.register_function(gameserverprotocol.joinSpectatorGameInstance)
-    server.register_function(gameserverprotocol.joinPlayerGameInstance)
+    server.register_function(gameserverprotocol.createAndJoinGameInstance)
+    server.register_function(gameserverprotocol.joinGameInstance)
     server.register_function(gameserverprotocol.listGameInstances)
     server.register_function(gameserverprotocol.terminateGameInstance)
     server.register_function(gameserverprotocol.terminate)

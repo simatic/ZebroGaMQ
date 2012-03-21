@@ -53,60 +53,41 @@ class WorkerChannel(object):
                                    body=message);
     
     # actions
-    def joinMaster(self, masterLogin):
-        logging.info("GameLogicServer] Joining of a master " + masterLogin)
-        self.channel.queue_declare(queue=masterLogin)
-        logging.debug("GameLogicServer] Queue declared for master" + masterLogin)
-        observationKey = "*." + masterLogin + ".*.*"
-        logging.debug("GameLogicServer] master\'s binding key is " + observationKey)
+    def join(self, login):
+        logging.info("GameLogicServer] Joining of " + login)
+        self.channel.queue_declare(queue=login)
+        logging.debug("GameLogicServer] Queue declared " + login)
+        observationKey = "*." + login + ".*.*"
+        logging.debug("GameLogicServer] Binding key is " + observationKey)
         self.channel.queue_bind(exchange=RabbitMQConfiguration().getRabbitMQProperty("gameLogicServerExchangeName"),
-                                queue=masterLogin,
+                                queue=login,
                                 routing_key=observationKey)
-        logging.debug("GameLogicServer] First queue bound for master" + masterLogin)
+        logging.debug("GameLogicServer] First queue bound for " + login)
         observationKey = "*.all.*.*"
-        logging.debug("GameLogicServer] master\'s binding key for broadcasts is " + observationKey)
+        logging.debug("GameLogicServer] Binding key for broadcasts is " + observationKey)
         self.channel.queue_bind(exchange=RabbitMQConfiguration().getRabbitMQProperty("gameLogicServerExchangeName"),
-                                queue=masterLogin,
+                                queue=login,
                                 routing_key=observationKey)
-        logging.debug(" GameLogicServer] Second queue bound for master " + masterLogin)
-        self.publish(masterLogin, self.state, "join.joinMasterOK", masterLogin + " has joined as a master")
+        logging.debug(" GameLogicServer] Second queue bound for " + login)
+        self.publish(login, self.state, "join.joinOK", login + " has joined")
         
        
-    def joinSpectator(self, spectatorLogin, spectatorKey):
-        logging.info("GameLogicServer] Joining of a spectator "+ spectatorLogin)
-        self.channel.queue_declare(queue=spectatorLogin)
-        logging.debug("GameLogicServer] Queue declared for spectator " + spectatorLogin)
-        logging.debug("GameLogicServer] Spectator\'s observation key is " + spectatorKey)
+    def joinWithObservationKey(self, login, observationKey):
+        logging.info("GameLogicServer] Joining of "+ login)
+        self.channel.queue_declare(queue=login)
+        logging.debug("GameLogicServer] Queue declared for " + login)
+        logging.debug("GameLogicServer] Observation key is " + observationKey)
         self.channel.queue_bind(exchange=RabbitMQConfiguration().getRabbitMQProperty("gameLogicServerExchangeName"),
-                                queue=spectatorLogin,
-                                routing_key=spectatorKey)
-        logging.debug("GameLogicServer] First queue bound on for spectator " + spectatorLogin)
+                                queue=login,
+                                routing_key=observationKey)
+        logging.debug("GameLogicServer] First queue bound on for " + login)
         observationKey = "*.all.*.*"
-        logging.debug("GameLogicServer] Spectator\'s binding key for broadcasts is " + spectatorKey)
+        logging.debug("GameLogicServer] Binding key for broadcasts is " + spectatorKey)
         self.channel.queue_bind(exchange=RabbitMQConfiguration().getRabbitMQProperty("gameLogicServerExchangeName"),
-                                queue=spectatorLogin,
+                                queue=login,
                                 routing_key=observationKey)
-        logging.debug(" GameLogicServer] Second queue bound on for spectator " + spectatorLogin)
-        self.publish(spectatorLogin, self.state, "join.joinSpectatorOK", spectatorLogin + " has joined as a spectator")
-        
-    
-    def joinPlayer(self, playerLogin):
-        logging.info("GameLogicServer] Joining of a player "+playerLogin)
-        self.channel.queue_declare(queue=playerLogin)
-        logging.debug("GameLogicServer] Queue declared for player " + playerLogin)
-        observationKey = "*." + playerLogin + ".*.*"
-        logging.debug("GameLogicServer] player\'s binding key is " + observationKey)
-        self.channel.queue_bind(exchange=RabbitMQConfiguration().getRabbitMQProperty("gameLogicServerExchangeName"),
-                                queue=playerLogin,
-                                routing_key=observationKey)
-        logging.debug("GameLogicServer] First queue bound for player " + playerLogin)
-        observationKey = "*.all.*.*"
-        logging.debug("GameLogicServer] player\'s binding key for broadcasts is " + observationKey)
-        self.channel.queue_bind(exchange=RabbitMQConfiguration().getRabbitMQProperty("gameLogicServerExchangeName"),
-                                queue=playerLogin,
-                                routing_key=observationKey)
-        logging.debug("GameLogicServer] Second queue bound for player " + playerLogin)
-        self.publish(playerLogin, self.state, "join.joinPlayerOK", playerLogin + " has joined as a player")
+        logging.debug(" GameLogicServer] Second queue bound on for " + login)
+        self.publish(login, self.state, "join.joinOK", login + " has joined")
     
     
     def terminate(self):

@@ -27,24 +27,12 @@ def terminate(state, header, body):
     logging.debug("GameLogicServer] message received header = " + str(header) + ", body = " + body)
     state.exiting = True
 
-def joinMaster(state, header, body):
+def join(state, header, body):
     logging.debug("GameLogicServer] message received header = " + str(header) + ", body = " + body)
 
-def joinMasterOK(state, header, body):
+def joinOK(state, header, body):
     logging.debug("GameLogicServer] message received header = " + str(header) + ", body = " + body)
-
-def joinSpectator(state, header, body):
-    logging.debug("GameLogicServer] message received header = " + str(header) + ", body = " + body)
-
-def joinSpectatorOK(state, header, body):
-    logging.debug("GameLogicServer] message received header = " + str(header) + ", body = " + body)
-
-def joinPlayer(state, header, body):
-    logging.debug("GameLogicServer] message received header = " + str(header) + ", body = " + body)
-
-def joinPlayerOK(state, header, body):
-    logging.debug("GameLogicServer] message received header = " + str(header) + ", body = " + body)
-
+    
 def receiveHeartbeat(state, header, body):
     logging.debug("GameLogicServer] message received header = " + str(header) + ", body = " + body)
     state.heartbeats[header[0]] = body

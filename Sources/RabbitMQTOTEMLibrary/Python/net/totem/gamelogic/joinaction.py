@@ -22,16 +22,12 @@
 """
 
 import gamelogicactionenumtype
-from gamelogicprotocol import joinMaster, joinMasterOK, joinSpectator, joinSpectatorOK, joinPlayer, joinPlayerOK
+from gamelogicprotocol import join, joinOK
 
 def doNothing(state, header, body):
     pass
 
 JoinAction = gamelogicactionenumtype.GameLogicActionEnumeration("JoinAction", 10, 0, 1000,
-    [("joinMaster", joinMaster),
-     ("joinMasterOK", joinMasterOK),
-     ("joinSpectator", joinSpectator),
-     ("joinSpectatorOK", joinSpectatorOK),
-     ("joinPlayer", joinPlayer),
-     ("joinPlayerOK", joinPlayerOK)
+    [("join", join),
+     ("joinOK", joinOK)
      ])

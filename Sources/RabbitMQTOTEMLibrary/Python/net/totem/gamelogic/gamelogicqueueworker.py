@@ -39,17 +39,13 @@ class Worker(threading.Thread):
     def run(self):
         while self.state.exiting == False:
             item = self.queueRequest.get()
-            if item[0] == "joinMaster":
-                logging.debug("GameLogicServer] Forwarding for joining of a master")
-                self.workerchannel.joinMaster(item[1])
+            if item[0] == "join":
+                logging.debug("GameLogicServer] Forwarding for joining")
+                self.workerchannel.join(item[1])
                 self.queueReturn.put([True])     
-            if item[0] == "joinSpectator":
-                logging.debug("GameLogicServer] Forwarding for joining of a spectator")
-                self.workerchannel.joinSpectator(item[1], item[2])
-                self.queueReturn.put([True])
-            if item[0] == "joinPlayer":
-                logging.debug("GameLogicServer] Forwarding for joining of a player")
-                self.workerchannel.joinPlayer(item[1])
+            if item[0] == "joinWithObservationKey":
+                logging.debug("GameLogicServer] Forwarding for joining with observation key")
+                self.workerchannel.joinWithObservationKey(item[1], item[2])
                 self.queueReturn.put([True])
             if item[0] == "terminate":
                 logging.debug("GameLogicServer] Forwarding for termination")
