@@ -24,10 +24,10 @@ public class XMLRPCLogin {
 	}
 	
 	
-	public static boolean createGameInstance(String login, String password, String gameName, String gameInstanceName) {
+	public static boolean createAndJoinGameInstance(String login, String password, String gameName, String gameInstanceName) {
 		boolean res = false;
 		Object answer = null;
-		answer = executeXmlRpcCall("createGameInstance", login, password, gameName, gameInstanceName);
+		answer = executeXmlRpcCall("createAndJoinGameInstance", login, password, gameName, gameInstanceName);
 		if (answer == null) {
 			Util.println("The server didn't return XML.");
 			return res;
@@ -35,7 +35,7 @@ public class XMLRPCLogin {
 			Util.println("The procedure didn't return a boolean.");
 			return res;
 		} else if (((Boolean) answer) == Boolean.TRUE) {
-			Util.println("XMLRPC call createGameInstance has succeded for " +login + 
+			Util.println("XMLRPC call createAndJoinGameInstance has succeded for " +login + 
 						" in "+ gameName + "/" + gameInstanceName);
 			res = true;
 		}
@@ -43,10 +43,10 @@ public class XMLRPCLogin {
 	}
 	
 	
-	public static boolean joinPlayerGameInstance(String login, String password, String gameName, String gameInstanceName) {
+	public static boolean joinGameInstance(String login, String password, String gameName, String gameInstanceName) {
 		boolean res = false;
 		Object answer = null;
-		answer = executeXmlRpcCall("joinPlayerGameInstance", login, password, gameName, gameInstanceName);
+		answer = executeXmlRpcCall("joinGameInstance", login, password, gameName, gameInstanceName);
 		if (answer == null) {
 			Util.println("The server didn't return XML.");
 			return res;
@@ -54,7 +54,7 @@ public class XMLRPCLogin {
 			Util.println("The procedure didn't return a boolean.");
 			return res;
 		} else if (((Boolean) answer) == Boolean.TRUE) {
-			Util.println("XMLRPC call joinPlayerGameInstance has succeded for " +login + 
+			Util.println("XMLRPC call joinGameInstance has succeded for " +login + 
 						" in "+ gameName + "/" + gameInstanceName);
 			res = true;
 		}
@@ -62,10 +62,10 @@ public class XMLRPCLogin {
 	}
 	
 	
-	public static boolean joinSpectatorGameInstance(String login, String password, String gameName, String gameInstanceName, String observationKey) {
+	public static boolean joinGameInstance(String login, String password, String gameName, String gameInstanceName, String observationKey) {
 		boolean res = false;
 		Object answer = null;
-		answer = executeXmlRpcCall("joinSpectatorGameInstance", login, password, gameName, gameInstanceName, observationKey);
+		answer = executeXmlRpcCall("joinGameInstance", login, password, gameName, gameInstanceName, observationKey);
 		if (answer == null) {
 			Util.println("The server didn't return XML.");
 			return res;
@@ -73,7 +73,7 @@ public class XMLRPCLogin {
 			Util.println("The procedure didn't return a boolean.");
 			return res;
 		} else if (((Boolean) answer) == Boolean.TRUE) {
-			Util.println("XMLRPC call joinSpectatorGameInstance has succeded for " +login + 
+			Util.println("XMLRPC call joinGameInstance has succeded for " +login + 
 						" in "+ gameName + "/" + gameInstanceName);
 			res = true;
 		}

@@ -141,9 +141,9 @@ class PlayerTask extends AsyncTask<Void, Integer, Integer> {
 	private boolean executeXMLRPCLogin(){
 		boolean res = false;
 		if(state.login.equals(PlayerApplication.INSTANCE_CREATOR_NAME)){
-			res = XMLRPCLogin.createGameInstance(state.login, state.password, state.gameName, state.gameInstanceName);
+			res = XMLRPCLogin.createAndJoinGameInstance(state.login, state.password, state.gameName, state.gameInstanceName);
 		}else{
-			res = XMLRPCLogin.joinPlayerGameInstance(state.login, state.password, state.gameName, state.gameInstanceName);
+			res = XMLRPCLogin.joinGameInstance(state.login, state.password, state.gameName, state.gameInstanceName);
 		}
 		return res;
 	}
