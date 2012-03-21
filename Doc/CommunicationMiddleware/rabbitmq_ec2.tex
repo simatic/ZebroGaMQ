@@ -1,0 +1,202 @@
+% TCM: TOTEM Communication Middleware
+% Copyright: Copyright (C) 2009-2012
+% Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
+% Permission is granted to copy, distribute and/or modify this document
+% under the terms of the GNU Free Documentation License, Version 1.3
+% or any later version published by the Free Software Foundation;
+% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+% A copy of the license is included in the section entitled "GNU
+% Free Documentation License".
+
+\section{Installation of RabbitMQ and Pika on Amazon EC2}
+\label{S_installation_rabbitmq_ec2}
+
+ \note{Important note:}{This appendix is deprecated since we have not
+   done recent tests on the Amazon Cloud Computing Platform
+   EC2. Please ask if you need an update of this section.}
+
+In this section, we explain how to launch and configure an EC2
+instance for executing the RabbitMQ broker (in Erlang), and some Pika
+producers and consumers (in Python). The steps presented in this
+section could be used to create a dedicated EC2 ``Amazone Machine
+Image'' (AMI), as named in the Amazone EC2 vocabulary, for TOTEM.
+Similar instructions are included in a separate
+section (namely Section~\ref{S_installation_rabbitmq_local}) for
+installing RabbitMQ on a desktop computer.
+
+\subsection{Create an ``Instance''}
+\label{SS_ec2_create_instance}
+
+First of all, create an account on Amazon Elastic Compute Cloud
+(EC2): \begin{small}\texttt{https://\-aws.\-amazon.\-com}\end{small}. Then,
+connect to the ``AWS Management Console'' and create an instance as follows:
+\begin{enumerate}
+\item Choose the \textsf{EC2} page.
+\item Select an ``Amazon Machine Image'' by ``Viewing'' all images of
+  ``All platforms'' with for example the identifier
+  \texttt{ami-06f80e6f}. This image is an Ubuntu operating system
+  version \textsf{10.4}.
+\item Launch an image using the contextual menu of the AMI you
+  previously selected (by right clicking). In the ``Request Instances
+  Wizard'', choose an ``Instance type'' of type \textsf{Micro} for
+  instance: it is sufficient for our tests. At the ``Create Key Pair''
+  step, create a new key pair and do not forget to load it in order to
+  be granted an access through a SSH connection. Be careful! If you
+  loose this key, you somewhat loose the instance you have just
+  created.  The saved file (\textsf{*.pem}) must be put in a directory
+  with restricted access (usely named \textsf{\string~/.ssh} on a
+  Unix-like system, and with the rights \textsf{0700}) and must be
+  assigned restricted rights (\textsf{0400}). At the ``Configure
+  Firewall'' step, create a new security group. At the end of this
+  procedure, the instance is running: Go to see the ``Instances'' by
+  selecting the entry \textsf{Instances} in the menu on the left.
+\item Browse the contextual menu of the instance that is running and
+  have a look at the ``Instance Management'' menu and the ``Instance
+  Lifecycle'' menu.
+\item When an instance is selected, information such as the ``Public
+  DNS'' are provided in the frame under the list of instances. A
+  ``Public DNS'' is an IP address such as for
+  example \begin{small}\texttt{ec2-174-129-122-66.compute-1.amazonaws.com}\end{small}
+\end{enumerate}
+
+\subsection{Configure the ``Instance''}
+\label{SS_ec2_configure_instance}
+
+The next step is to connect to the instance and install the software
+for the example application. This is done as follows:
+\begin{enumerate}
+\item For the instance you have created following the steps of the
+  previous section, open the TCP port number \textsf{22} for the
+  procotol SSH. Go to the ``Security Groups'' frame by selecting the
+  corresponding entry in the menu on the left. Select the security
+  group you have previously created and add a new ``Allowed
+  Connection'' of ``Connection Method'' type \textsf{SSH} and
+  ``Source'' value \textsf{IP\_address\_of\_your\_computer/0}. The
+  other information such as ``From Port'' and ``To Port'' are
+  correctly configured to the default value \textsf{22}.
+\item You can now open a shell connection to the instance using the
+  following command (by adapting it to your use case):
+\begin{shellcmd}
+\$ ssh -i \$\{KeyPairFile.pem\} bitnami@\$\{PublicDNS\}
+\end{shellcmd}
+Note that you need the ``Key Pair'' file and the ``Public DNS''. The
+login name \textsf{bitnami} is a default login name provided by the
+AMI providers. This user is a ``sudoer'' and can thus use the command
+\texttt{sudo} for executing a command as the user \texttt{root} when
+necessary.
+\item Install the Ubuntu package for Erlang with all its
+  dependencies using the utility tool \texttt{apt-get}:
+\begin{shellcmd}
+sudo apt-get install erlang
+\end{shellcmd}
+\item Install the software RabbitMQ, version 2.7.1, by using the
+  following commands:\\
+\begin{shellcmd}
+\$ wget http://www.rabbitmq.com/releases/rabbitmq-server/v2.7.1/\textbackslash
+  rabbitmq-server-generic-unix-2.7.1.tar.gz
+\$ tar xfz rabbitmq-server-generic-unix-2.7.1.tar.gz
+\end{shellcmd}
+Note that we do not install the Ubuntu package of RabbitMQ, but rather
+prefer installing the software from a regular Unix archive so that we
+will execute RabbitMQ as a non-\texttt{root} user.  The broker of
+RabbitMQ, called the server in RabbitMQ terminology, is now installed
+in the directory \textsf{/home/bitnami/rabbitmq\_server-2.7.1}.  The
+commands of RabbitMQ (\textsf{rabbitmq-server} to launch the broker
+and \textsf{rabbitmqctl} to control the broker) are available in the
+directory \textsf{/home/bitnami/rabbitmq\_server-2.7.1/sbin}. In order
+to add the RabbitMQ commands to the shell path, and to configure the
+location of the database and the log files, execute the following
+commands:
+\begin{shellcmd}
+\$ echo "PATH=\${PATH}:rabbitmq\_server-2.7.1/sbin" >> .bashrc
+\$ mkdir /home/bitnami/rabbitmq\_server-2.7.1/mnesia
+\$ echo "export RABBITMQ\_MNESIA\_BASE=/home/bitnami/rabbitmq\_server-2.7.1/mnesia" >> .bashrc
+\$ mkdir /home/bitnami/rabbitmq\_server-2.7.1/log
+\$ echo "export RABBITMQ\_LOG\_BASE=/home/bitnami/rabbitmq\_server-2.7.1/log" >> .bashrc
+\$ . .bashrc \# to update the environment of the current shell connection
+\end{shellcmd}
+Note that RabbitMQ environment variables default to the values
+\textsf{/var/lib/rabbitmq/mnesia} and \textsf{/var/log/rabbitmq},
+preventing the launching of the broker as a non-\texttt{root} user.
+We terminate the installation of RabbitMQ by following the
+instructions provided in the section ``Issues with hostname'' of the
+Web page \textsf{http://www.rabbitmq.com/ec2.html} and we apply the
+following commands:
+\begin{shellcmd}
+sudo -s
+echo "rabbit" > /etc/hostname
+echo "127.0.0.1 rabbit" >> /etc/hosts
+hostname -F /etc/hostname
+exit
+\end{shellcmd}
+\item Your RabbitMQ installation can be tested by launching the broker
+  as follows:
+\begin{shellcmd}
+\$ rabbitmq-server -detached \# execute in the background
+Activating RabbitMQ plugins ...
+0 plugins activated:
+\$ rabbitmqctl status
+Status of node rabbit@rabbit ...
+[{running_applications,[{rabbit,"RabbitMQ","2.7.1"},
+                        {mnesia,"MNESIA  CXC 138 12","4.4.14"},
+                        {os\_mon,"CPO  CXC 138 46","2.2.5"},
+                        {sasl,"SASL  CXC 138 11","2.1.9.2"},
+                        {stdlib,"ERTS  CXC 138 10","1.17"},
+                        {kernel,"ERTS  CXC 138 10","2.14"}]},
+ {nodes,[{disc,[rabbit@rabbit]}]},
+ {running\_nodes,[rabbit@rabbit]}]
+...done.
+\$ rabbitmqctl stop
+Stopping and halting node rabbit@rabbit ...
+...done.
+\$ rabbitmqctl status
+Status of node rabbit@rabbit ...
+Error: unable to connect to node rabbit@rabbit: nodedown
+diagnostics:
+- nodes and their ports on rabbit: [{rabbitmqctl2776,45667}]
+- current node: rabbitmqctl2776@rabbit
+- current node home dir: /home/bitnami
+- current node cookie hash: 58UmUjslvHMdJuJyRDcEag==
+\$ jobs
+\end{shellcmd}
+\item In order to allow communication with the RabbitMQ broker
+  installed on the cloud from your computer, add a new ``Allowed
+  Connection'' to your security group with the following parameters:
+  ``Connection Method'' is \textsf{Custom}, ``Protocol'' is
+  \textsf{TCP}, ``From Port'' and ``To Port'' are \textsf{5672}
+  (default port number of RabbitMQ broker), ``Source IP'' is
+  \textsf{IP\_address\_of\_your\_computer/0}.
+\item Install the software Pika, version 0.9.5 by executing the
+  following commands
+\begin{shellcmd}
+\$ wget http://pypi.python.org/packages/source/p/pika/pika-v0.9.5.tar.gz
+\$ tar xfz pika-v0.9.5.tar.gz
+\end{shellcmd}
+Note that we do not install the Python packages using the \texttt{pip}
+or \texttt{easy\_install} utility tools; you can thus perform this
+step differently. The Python package Pika is installed in the
+directories \textsf{/home/bitnami/pika-v0.9.5}. Insert this
+package in the path of Python by adding the directories in the shell
+variable \textsf{PYTHONPATH}:
+\begin{shellcmd}
+\$ echo "export PYTHONPATH=/home/bitnami/pika-v0.9.5" >> .bashrc
+\end{shellcmd}
+\item Check that Pika is correctly installed by trying the following
+  Python commands that demonstrate that the Pika package can be
+  imported in a Python script:
+\begin{shellcmd}
+\$ python
+Python 2.6.5 (r265:79063, Apr 16 2010, 13:09:56) 
+[GCC 4.4.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import pika
+>>> quit()
+\end{shellcmd}
+\end{enumerate}
+
+\subsection{Create and share a TOTEM ``Amazon Machine Image''}
+\label{SS_ec2_create_share_ami}
+
+To be decided if this is the role of the project. We know how to do it.
+
+\endinput

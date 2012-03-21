@@ -1,0 +1,450 @@
+% TCM: TOTEM Communication Middleware
+% Copyright: Copyright (C) 2009-2012
+% Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
+% Permission is granted to copy, distribute and/or modify this document
+% under the terms of the GNU Free Documentation License, Version 1.3
+% or any later version published by the Free Software Foundation;
+% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+% A copy of the license is included in the section entitled "GNU
+% Free Documentation License".
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc} % caractères accentués en sortie
+\usepackage{lmodern}
+\usepackage{geometry} 
+\usepackage{graphicx}          % Pour inclure des graphiques
+\usepackage{alltt}
+\usepackage{listings}
+\usepackage{longtable}
+\usepackage{url}
+\usepackage{multirow} 
+
+\newenvironment{shellcmd}{\begin{small}\begin{alltt}}{\end{alltt}\end{small}}
+
+\geometry{hmargin=2.5cm, vmargin=2.5cm } 
+\sloppy % ne pas être pointilleux à propos des césures de ligne, utiliser
+	% plus que l'intervalle normal entre mots si besoin
+
+\newcommand{\num}[1]{\begin{small}\textit{#1}\end{small}}
+
+\usepackage{amssymb}          % Pour inclure des ensembles mathématiques
+\RequirePackage[usenames]{color}
+\makeatletter
+\newcommand{\ygg@basicalert}[2]{\fbox{\bfseries\sffamily\scriptsize#1}{
+\sf\small$\blacktriangleright$#2$\blacktriangleleft$}}
+\newcommand{\note}[2]{\ygg@basicalert{\textsc{#1}}{\textcolor{red}{#2}}}
+\newcommand{\important}[1]{\ygg@basicalert{\textsc{Important}}{\textcolor{red}{#1}}}
+\newcommand{\denis}[1]{\ygg@basicalert{\textsc{Denis}}{\textcolor{RedOrange}{#1}}}
+\newcommand{\michel}[1]{\ygg@basicalert{\textsc{Michel}}{\textcolor{Purple}{#1}}}
+\newcommand{\leif}[1]{\ygg@basicalert{\textsc{Leif}}{\textcolor{RoyalBlue}{#1}}}
+\newcommand{\done}[1]{\ygg@basicalert{\textsc{Done}}{\textcolor{OliveGreen}{#1}}}
+\newcommand{\donenocomment}{\fbox{\bfseries\sffamily\scriptsize {Done}}{\sf\small}}
+\newcommand{\tobedone}[1]{\ygg@basicalert{\textsc{ToBeDone}}{\textcolor{LimeGreen}{#1}}}
+\newcommand{\todo}[1]{\ygg@basicalert{\textsc{Todo}}{\textcolor{Mahogany}{#1}}}
+\newcommand{\issue}[1]{\ygg@basicalert{\textsc{OpenIssue}}{\textcolor{OrangeRed}{#1}}}
+\newcommand{\notsupported}{\fbox{\bfseries\sffamily\scriptsize Not supported}{\sf\small}}
+\newcommand{\notsupportedcomment}[1]{\ygg@basicalert{\textsc{NotSupported}}{\textcolor{black}{#1}}}
+\newcommand{\postponed}{\fbox{\bfseries\sffamily\scriptsize \textcolor{Sepia}{Postponed}}{\sf\small}}
+\newcommand{\irrelevant}[1]{\ygg@basicalert{\textsc{Irrelevant}}{\textcolor{Sepia}{#1}}}
+\makeatother
+
+\begin{document}
+
+\title{Presentation of the TOTEM Communication Infrastructure}
+
+\author{Denis Conan, Michel Simatic and Gabriel Adgeg}
+
+\maketitle
+
+\newpage
+
+\begin{center}
+\begin{Large}History of changes\end{Large}
+
+~
+
+\begin{longtable}{|l|p{10cm}|}
+\hline
+\textbf{Date} & \textbf{Changes} \\
+\hline
+\hline
+31st January, 2011 & Initiate with the first version.
+\\
+\hline
+4th February, 2011 & Make it visible to TOTEM partners.\newline
+Not finalized to be studied and needs proof reading.\newline 
+Contribution is mainly in the appendices.
+\\
+\hline
+18th February, 2011 & New Section~5 ``Example application
+demonstrating the integration of the technologies'' (\textsf{Django},
+\textsf{RabbitMQ} Broker, \textsf{RabbitMQ} Python Client with
+\textsf{Pika}, \textsf{RabbitMQ} Java Client, \textsf{RabbitMQ} Java
+Client for Android), game room completed and game play partly
+specified.\newline
+Move from \textsf{Kombu} to \textsf{Pika}.\\
+\hline
+21th February, 2011 & Small corrections.\newline
+For testing the example application, follow the instructions of
+Appendix B (except B.2) and Section 5.3
+\\
+\hline
+25th February, 2011 &  Section~5.2.3 ``Communication architecture
+during the game play'' complete.\newline
+Code of the example application demonstrating game room and game play
+updated.\\
+\hline
+15th March, 2011 &  First snapshot version of the Java library for
+using \textsf{RabbitMQ} in TOTEM in the applications
+\textsf{GameMaster}, \textsf{Spectator}, and \textsf{Player}. This API
+is to be described in a dedicated section of the document.
+\\
+\hline
+21th March, 2011 &  First snapshot version of the Python library for
+using \textsf{RabbitMQ} in TOTEM in the \textsf{GameServer}
+(\textsf{GameRoom} server and \textsf{ApplicationInstance}
+server). This API is to be described in a dedicated section of the
+document.
+\\
+\hline
+23th March, 2011 &  ``Application instance'' is preferred to ``game play''.
+\newline
+The Section~A of the appendix describing EBS, AMQP and
+\textsf{RabbitMQ} is completed.
+\\
+\hline
+28th March, 2011 &  New Section on the ``API of the communication
+infrastructure'', that is on the user manual of the communication
+infrastructure using \textsf{RabbitMQ}.
+\newline
+Java Android TOTEM library decomposed into four modules:
+\textsf{common}, \textsf{game\-master\-application},
+\textsf{player\-application}, and \textsf{spectator\-application}.
+\\
+\hline
+29th March, 2011 & New Section on the ``Requirements'', with for
+each of them some comments and the status.
+\newline
+Add status of sections in the introduction.
+\newline
+First draft of the Section~\ref{S_use_case} introducing the illustrative
+application. The content was previously in the analysis subsection of
+Section~\ref{S_integration}.
+\newline
+First draft of the Section~\ref{S_presentation_concepts} introducing
+the AMQP concepts. The content was previously in the appendix.
+\newline
+Example integration application with Java Android Clients,
+\textsf{Game Master}, \textsf{Player}, and \textsf{Spectator}.
+\\
+\hline
+30th of March, 2011 &
+Add a figure of AMQP concepts in Section~\ref{S_presentation_concepts}.
+\newline
+First draft of the system architecture with a focus in communication
+infrastructure in Section~\ref{S_architecture}.
+\newline
+First draft of the detailed design, with figures moved from
+Section~\ref{S_integration} to Section~\ref{S_detailed_design}.
+\\
+\hline
+15th of April, 2011 &
+Moving RabbitMQ server from version 2.3.1 to version 2.4.1.
+\newline
+Reorganize Section~\ref{S_installation_rabbitmq_local} and add a
+subsection on a JavaScript client example.
+\\
+\hline
+30th of April, 2011 &
+The Section ``Requirements'' has been updated to current status.
+\newline
+The game room server using \textsf{RabbitMQ} is replaced by a game
+server using \textsf{XML-RPC} to control the game instances, which use
+\textsf{RabbitMQ}. The term ``application instance server'' is
+replaced by ``game logic server'' and the code is separated from the
+game server.
+\newline
+The API is complemented with methods to publish to all and to a
+consumer.
+\newline
+New section ``Organisation of the source code'' to describe the
+directory structure of the Subversion Repository.
+\\
+\hline
+2nd of May, 2011 &
+Update of the Section ``Example application demonstrating the integration of the technologies''.
+\newline
+Android clients updated to the last version of the example application.
+\\
+\hline
+9th of May, 2011 &
+Add instructions in Section ``Installation of RabbitMQ'', for installing and checking the version number of Erlang, SunJDK, Maven, and Python.
+\newline
+Add instructions in Section ``Installation of RabbitMQ'' for w-getting \textsf{RabbitMQ}.
+\newline
+Add a new Section ``Short tutorial on how to design and implement a
+new protocol''.
+\newline
+The example application does no more use \textsf{Django}, the
+integration to the \textsf{Django} game server is done elsewhere. Any
+previously existing \textsf{Django} parts are removed.
+\\
+\hline
+11th of May, 2011 &
+Defensive programming of the Java TOTEM Communication Library: the
+semantics of the publications is ``at least once'', thus the Section
+``Detailed design of the communication infrastructure'' is updated
+with this new design decision.
+\newline
+New script for the automatic running of the example application with
+Android Emulators.
+\\
+\hline
+26th of May, 2011 &
+In order to prepare the integration with the MPEG4 Player, the TOTEM
+library is complemented with a TOTEM RabbitMQ Proxy on Android.
+\\
+\hline
+8th of July, 2011 &
+Appendix updated with version 2.5.1 of RabbitMQ. New Author Gabriel Adgeg.
+\\
+\hline
+2nd of August, 2011 &
+New appendix for RabbitMQ client in Javascript with node.js. Former Javascript appendix is not removed, since it should be used with clients that cannot use node.js.
+\\
+\hline
+9th of August, 2011 &
+Corrections added to the appendix for RabbitMQ client in Javascript with node.js. Useless diagram removed. Output of the execution of the Step1 added.
+\\
+\hline
+22nd of August, 2011 &
+New project in directory \texttt{RabbitMQ/Tests/proxy-node-amqp}. A
+proxy implemented with \textsf{Node.js} is provided to communicate
+with the \textsf{RabbitMQ} broker. A web client is also provided to
+communicate with the proxy in order to receive messages from a given
+queue. All the details to install and launch this example are located
+in the file \texttt{readme.txt}. 
+\\
+\hline
+27th of September, 2011 &
+New version of Android Java client applications of the integration example application.
+\\
+\hline
+17th of October, 2011 &
+Move to version 2.5.1 of RabbitMQ.
+\newline
+Deprecated appendix for RabbitMQ Javascript plugin removed.
+\newline
+Appendix for Java J2SE clients is set to deprecated since these
+have not been updated to the latest version of TOTEM library.
+\newline
+Description of Javascript subsystems for Master and Spectator
+applications running in a browser added.
+\newline
+Installation procedure of XMLRPC library for Node.js added.
+\\
+\hline
+18th of October, 2011 &
+Appendix for installing \textsf{RabbitMQ} on Amazon EC2 stated to
+status deprecated since the section has not already been updated to
+the last version.
+\newline
+Appendix for adapting \textsf{RabbitMQ} Java client library to Android
+phones removed since the adaptation is not needed anymore.
+\\ 
+\hline
+25th of October, 2011 &
+Implementation and execution note updated with new Javascript configuration 
+files. 
+\newline
+Node.js installation procedure corrected.
+\newline
+References to RabbitMQ proxy for MPEG player removed.
+\\
+\hline
+9th of November, 2011 &
+New figures to present the architecture of the middleware.
+\newline
+Notes added on parts that will be updated soon.
+\newline
+Organisation of the source code updated.
+\\
+\hline
+7th of December, 2011 &
+Python source code modified to fix the pika.NotImplementedError bug.
+\\
+\hline
+15th of December, 2011 &
+Full support of several parallel game instances.
+\newline
+New XMLRPC methods to list game instances or to terminate a single game instance.
+\newline
+RabbitMQ-Totem library in JavaScript: state machine, action kind, actions, transparent consumption of messages.
+\newline
+Possibility to host several Masters and Spectators JavaScript applications of different games on a single NodeJs proxy.
+\newline
+Python projects for GameServer and GameLogicServer changed in PyDev projects.
+\\
+\hline
+22th of December, 2011 &
+Performances of the middlaware are added to the 
+requirements section.
+\\
+\hline
+18th of January, 2012 &
+Installation of NPM updated, since curl command is required.
+\newline
+Version 0.1.0 of AMQP library for Node is required, since bugs seem to appear in later versions. 
+\\
+\hline
+6th of February, 2012 &
+References to Logging server changed in Chapter 2.
+\newline
+Requirements updated with precisions about the presence service and HTTP 
+communication.
+\newline
+Short presentation of Node.js, and of its choice in Chapter 4.
+\newline
+Design decisions concerning AMQP ressources added in Chapter 6. 
+\\
+\hline
+6th of February, 2012 &
+Presentation of AMQP concepts for JavaScript in Chapter 6.
+\newline
+New XML-RPC methods added in the Figure of the architecture-game-server.
+\newline
+JavaScript idioms added to Chapter 7.
+\newline
+JavaScript API directory is added to Chapter 8.
+\newline
+Tutorial replaced with the one used during the Lab. Some explanations have
+been modified for a better understanding. 
+\\
+\hline
+15th of February, 2012 &
+Presentation of the concepts of the middleware(the use of XML-RPC, actions and 
+actions kinds...)  added to the tutorial Section.
+\newline
+Many details added to the tutorial to detail the points where students had 
+problems during the Lab.
+\newline
+New tutorial for the JavaScript applications. 
+\newline
+Methods refactored with new version of API in the tutorial.
+\newline
+Section "Integration of technologies" updated to new contents on the SVN
+\newline
+Obsolete appendix for Android phones removed.
+\newline
+Appendix for J2SE applications corrected.
+\newline
+Version of the RabbitMQ broker is set to 2.7.1.
+\\
+\hline
+\end{longtable}
+\end{center}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section*{License of TOTEM communication middleware}
+
+\begin{verbatim}
+TCM: TOTEM Communication Middleware
+Copyright: Copyright (C) 2009-2012
+Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 3 of the License, or any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+USA
+
+Developer(s): Denis Conan, Gabriel Adgeg
+\end{verbatim}
+
+\newpage
+
+\section{Introduction}
+\label{S_introduction}
+
+\noindent NB: This document is a living document.
+
+\bigskip
+
+\noindent Status of the sections of the document:
+\begin{itemize}
+\item Section~\ref{S_introduction}, ``Introduction'': Complete.
+\item Section~\ref{S_use_case}, ``Illustrative scenarios and use
+  cases'': Complete.
+\item Section~\ref{S_requirements}, ``Requirements for the
+  communication infrastructure'': Complete.
+\item Section~\ref{S_presentation_concepts}, ``Presentation of EBS,
+  AMQP, RabbitMQ and Node.js'': Complete.
+\item Section~\ref{S_architecture}, ``Architecture of the
+  communication infrastructure'': Complete.
+\item Section~\ref{S_detailed_design}, ``Detailed design of the
+  communication infrastructure'': Complete.
+\item Section~\ref{S_api}, ``API of the communication infrastructure'': Complete.
+\item Section~\ref{S_sourcecode}, ``Organisation of the source code'':
+  Complete. 
+\item Section~\ref{S_tutorialprotocol}, ``Tutorial on how to
+  design and implement a new protocol'': Complete.
+\item Section~\ref{S_integration}, ``Example application demonstrating
+  the integration of the technologies'': Complete.
+\item Section~\ref{S_installation_rabbitmq_local}, ``Installation of
+  RabbitMQ'': Complete.
+\item Section~\ref{S_installation_rabbitmq_ec2}, ``Installation of
+  RabbitMQ and Pika on Amazon EC2'': Complete but deprecated.
+\end{itemize}
+
+\newpage
+\input{use_case}
+\newpage
+\input{requirements}
+\newpage
+\input{presentation_of_concepts}
+\newpage
+\input{architecture}
+\newpage
+\input{detailed_design}
+\newpage
+\input{api}
+\newpage
+\input{sourcecode}
+\newpage
+\input{tutorial_protocol}
+\newpage
+\input{integration_technology_application}
+\newpage
+
+\appendix
+\addcontentsline{toc}{section}{Appendix}
+
+\newpage
+
+\input{rabbitmq_local}
+
+\newpage
+
+\input{rabbitmq_ec2}
+
+\newpage
+
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{apalike}
+\bibliography{biblio}
+
+\end{document}

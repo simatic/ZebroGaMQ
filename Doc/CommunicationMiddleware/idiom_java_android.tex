@@ -1,0 +1,243 @@
+% TCM: TOTEM Communication Middleware
+% Copyright: Copyright (C) 2009-2012
+% Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
+% Permission is granted to copy, distribute and/or modify this document
+% under the terms of the GNU Free Documentation License, Version 1.3
+% or any later version published by the Free Software Foundation;
+% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+% A copy of the license is included in the section entitled "GNU
+% Free Documentation License".
+
+
+\subsection{Android Java idioms for player, game master and spectator
+applications}
+\label{SS_api_android}
+
+\textit{The idioms are the same for player, game master and spectator applications. But depending on client application, some class names vary. For example, 
+the class GameMasterState is called 
+PlayerState for the player application and SpectatorState for the 
+spectator application. In this section, we provide the idioms for the 
+PlayerMasterAndroid.}
+
+\subsubsection{Class \texttt{PlayerApplication}}
+
+The class \texttt{PlayerApplication} is the \texttt{Activity} of the Android 
+application. It is used to:
+
+\begin{enumerate}
+\item Load configuration data from the file \texttt{xmlrpc.properties}:
+\begin{small}
+\begin{alltt}
+gameServerXMLRPCHost        localhost
+gameServerXMLRPCPort        8888
+[...]
+\end{alltt}
+\end{small}
+\item Load configuration data from the file \texttt{rabbit.properties}:
+\begin{small}
+\begin{alltt}
+gameServerUserName          gameserver
+gameLogicServerUserName	    gamelogicserver
+loggingServerUserName       loggingserver
+
+gameLogicServerBrokerHost   localhost
+gameLogicServerBrokerPort   5672
+gameLogicServerExchangeType topic
+gameLogicServerExchangeName GameInstance
+[...]
+\end{alltt}
+\end{small}
+\item Create and set the logger, used to display log messages on the device 
+screen:
+\begin{small}
+\begin{alltt}
+Util.setLogger(this);
+\end{alltt}
+\end{small}
+\item Execute the \texttt{PlayerTask}
+\begin{small}
+\begin{alltt}
+playerTask = new PlayerTask(PlayerApplication.this);
+playerTask.execute();
+\end{alltt}
+\end{small}
+\end{enumerate}
+
+\subsubsection{Class \texttt{PlayerTask}}
+
+
+The class \texttt{PlayerTask} allows to execute the XML-RPC call for the login 
+and to compute the response of the GameServer. Note that we have decided to 
+make this class extend the class AsyncTask of the Android SDK to enable the 
+displaying of information messages during the XML-RPC call. However, if you 
+consider that such messages are not required by your application, you can 
+organize your code without a class extending AsyncTask.
+The class \texttt{PlayerTask} consists in the following steps:
+
+\begin{enumerate}
+
+\item Log-in to the game server, and either create a game instance by an 
+XML-RPC call of the method \texttt{createGameInstance} or join an existing game
+instance by an XML-RPC call of the method \texttt{joinGameInstance}.
+\item Create the game logic state managed by the client application:
+\begin{small}
+\begin{alltt}
+state = new PlayerState();
+\end{alltt}
+\end{small}
+\item Instantiate the ChannelManager to communicate with the broker and
+assign the game logic state and the lists of actions of
+  the state machine of the client:
+\begin{small}
+\begin{alltt}
+state.channel = ChannelsManager.getInstance(state,
+                                                MyListOfGameLogicActions.ListOfActionsMaps);
+\end{alltt}
+\end{small}
+\item Publish a message for announcing the joining to
+  the broker, the second argument being the content
+  of the message (\emph{e.g.}, \texttt{``Publish the String "lisa,mygamename,myinstancename"''}):
+\begin{small}
+\begin{alltt}
+state.channel.publishToGameLogicServer(state,
+                                       JoinAction.JOIN\_PLAYER,
+                                       state.login
+                                       + ....getProperty("bodySeparator")
+                                       + state.gameName
+                                       + ....getProperty("bodySeparator")
+                                       + state.gameInstanceName);
+\end{alltt}
+\end{small}
+\end{enumerate}
+
+\subsubsection{State machine enumeration type for the game logic of the player}
+
+The state machine for the game logic is specified into two sorts of
+enumeration types: the first sort enumeration type specifies the
+lists of action kinds
+(cf.~Listing~\ref{L-applicationinstanceactionkinds}) and the second
+enumeration type specifies the actions per action kinds
+(cf.~Listing~\ref{L-applicationinstanceactionsone}
+and~Listing~\ref{L-applicationinstanceactionstwo}). The protocol of the game 
+logic specified in the TOTEM library is complemented by the list of actions 
+specified in these classes.
+
+\begin{lstlisting}[float=htbp,frame=bt,basicstyle=\scriptsize\sffamily,numbers=left,
+   numberstyle=\tiny, stepnumber=1,
+    numbersep=5pt,language=java,label=L-applicationinstanceactionkinds,caption=List of action kinds of the state machine for the game logic of the player]
+public enum MyListOfGameLogicActions {
+  MY_FIRST_ACTION_KIND(MyFirstActionKind.actionMap),
+  MY_SECOND_ACTION_KIND(MySecondActionKind.actionMap);
+	
+	// Ignore the code below. Just make sure it is present in all your enums.
+	// The copy and paste is due to a limitation of Java enums (no inheritance).
+\end{lstlisting}
+
+\begin{lstlisting}[float=htbp,frame=bt,basicstyle=\scriptsize\sffamily,numbers=left,
+   numberstyle=\tiny, stepnumber=1,
+    numbersep=5pt,language=java,label=L-applicationinstanceactionsone,caption=Player's actions of the first action kind]
+public enum MyFirstActionKind implements PlayerActionInterface {
+  MY_FIRST_ACTION("myFirstAction") {
+    public Object execute(PlayerState state, String[] header, String body)
+        throws ActionInvocationException {
+      return MyGameLogicProtocol.myFirstAction(state, header,body);
+    }
+  },
+  MY_SECOND_ACTION("mySecondAction") {
+    public Object execute(PlayerState state, String[] header, String body)
+        throws ActionInvocationException {
+      return MyGameLogicProtocol.mySecondAction(state, header, body);
+    }
+  },
+  MY_THIRD_ACTION("myThirdAction") {
+    public Object execute(PlayerState state, String[] header, String body)
+        throws ActionInvocationException {
+      return null;
+    }
+  };
+  public final static int KIND_NUMBER = 100;
+  public final static int LOWER_ACTION_NUMBER = 0;
+  public final static int UPPER_ACTION_NUMBER = 1000;
+  // Ignore the code below. Just make sure it is present in all your enums.
+  // The copy and paste is due to a limitation of Java enums (no inheritance).
+  [...]
+}
+\end{lstlisting}
+
+\begin{lstlisting}[float=htbp,frame=bt,basicstyle=\scriptsize\sffamily,numbers=left,
+   numberstyle=\tiny, stepnumber=1,
+    numbersep=5pt,language=python,label=L-applicationinstanceactionstwo,caption=Player's actions of the second action kind]
+public enum MySecondApplicationInstanceActionKind implements PlayerActionInterface {
+  MY_FOURTH_ACTION("myFourthAction") {
+    public Object execute(PlayerState state, String[] header, String body)
+        throws ActionInvocationException {
+      return MyGameLogicProtocol.myFourthAction(state, header, body);
+    }
+  },
+  MY_FIFTH_ACTION("myFitfhAction") {
+    public Object execute(PlayerState state, String[] header, String body)
+        throws ActionInvocationException {
+      return null;
+    }
+  };
+  public final static int KIND_NUMBER = 101;
+  public final static int LOWER_ACTION_NUMBER = 0;
+  public final static int UPPER_ACTION_NUMBER = 1000;
+  // Ignore the code below. Just make sure it is present in all your enums.
+  // The copy and paste is due to a limitation of Java enums (no inheritance).
+  [...]
+}
+\end{lstlisting}
+
+\subsubsection{Game logic protocol of the state machine}
+
+In Listing~\ref{L-applicationinstanceprotocol}, the protocol of the
+state machine for the game logic is specified as a set of static
+methods with three arguments: the state of the client, the header of
+the message received and the content of the message. The
+header of the message is the routing key of the message: four strings
+indicating the emitter, the addressee, the action kind and the action.
+
+\begin{lstlisting}[float=htbp,frame=bt,basicstyle=\scriptsize\sffamily,numbers=left,
+   numberstyle=\tiny, stepnumber=1,
+    numbersep=5pt,language=java,label=L-applicationinstanceprotocol,caption=Game logic's protocol of the state machine for the game logic]
+public class MyGameLogicProtocol {
+  public static Object myFirstAction(PlayerState state, String[] header, String body) {
+    Util.println("Player" + state.login + "]" + body);
+    return null;
+  }
+  public static Object mySecondAction(PlayerState state, String[] header, String body) {
+    Util.println("[Player" + state.login + "]" + body);
+    return null;
+  }
+  public static Object myFourthAction(PlayerState state, String[] header, String body) {
+    Util.println("[Player" + state.login + "]" + body);
+    return null;
+  }
+}
+\end{lstlisting}
+
+\subsubsection{Game logic state}
+
+The game logic state is defined in the TOTEM library and can be
+extended by client applications. All the attributes presented in
+Listing~\ref{L-applicationinstancestate} are public.
+
+\begin{lstlisting}[float=htbp,frame=bt,basicstyle=\scriptsize\sffamily,numbers=left,
+   numberstyle=\tiny, stepnumber=1,
+    numbersep=5pt,language=java,label=L-applicationinstancestate,caption=Player's state of the state machine]
+public class PlayerState {
+    public String    login;
+    public String    password;
+    public String    gameName;
+    public String    gameInstanceName;
+    public String    virtualHost;
+    public String    exchangeName;
+    public ChannelsManager channelsManager;
+    public int       numberOfRetries;
+    public boolean   hasConnectionExited;
+    connectionExit();
+}
+\end{lstlisting}
+
+\endinput

@@ -1,0 +1,60 @@
+% TCM: TOTEM Communication Middleware
+% Copyright: Copyright (C) 2009-2012
+% Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
+% Permission is granted to copy, distribute and/or modify this document
+% under the terms of the GNU Free Documentation License, Version 1.3
+% or any later version published by the Free Software Foundation;
+% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+% A copy of the license is included in the section entitled "GNU
+% Free Documentation License".
+
+\section{Organisation of the source code}
+\label{S_sourcecode}
+
+The source code provided into the directory structure
+\textsf{TOTEM.CommunicationMiddleware/Sources} is organised as
+follows. Every directory contains a file \texttt{readme.txt}.
+
+\begin{small}
+\begin{alltt}
+
+Sources
+|-- IntegrationExampleApplication      \textit{# application presented in Section 9}
+|   |-- GameLogicServer                \textit{# game logic of the game}
+|   |-- GameServer                     \textit{# Python server part managing the broker}
+|   |-- MasterApplication              \textit{# J2SE game master application}
+|   |-- MasterApplicationJavascript    \textit{# Javascript game master application}
+|   |-- NodeJsProxy                    \textit{# Node.js proxy used by Javascript applications}
+|   |-- PlayerApplication              \textit{# J2SE player application}
+|   |-- PlayerMasterAndroid            \textit{# Java Android application acting both as player and master}
+|   |-- SpectatorApplication           \textit{# J2SE spectator application}
+|   |-- SpectatorApplicationJavascript \textit{# Javascript spectator application}
+|   `-- TerminationApplication         \textit{# Python application to call for termination}
+|-- RabbitMQTOTEMLibrary               \textit{# Code extracted to be in the TOTEM library}
+|   |-- Java
+|   |   |-- common
+|   |   |-- gamemasterapplication
+|   |   |-- playerapplication
+|   |   `-- spectatorapplication
+|   |-- JavaScript
+|   |    `-- external
+|   `-- Python
+|       `-- eu
+|           `-- telecomsudparis
+|               `-- rabbitmq
+|                   |-- applicationinstance
+|                   `-- configuration
+`-- TutorialExamples       \textit{# RabbitMQ tutorial, cf. http://www.rabbitmq.com/getstarted.html}
+    |-- Android
+    |   |-- Step1, |-- Step2, |-- Step3, |-- Step4, |-- Step5, `-- Step6
+    |-- J2SE
+    |   |-- Step1, |-- Step2, |-- Step3, |-- Step4, |-- Step5, `-- Step6
+    |-- Javascript
+    |   |-- Step1, |-- Step2, |-- Step3, |-- Step4, |-- Step5, `-- Step6
+    `-- Pika
+        |-- Step1, |-- Step2, |-- Step3, |-- Step4, |-- Step5, `-- Step6
+
+\end{alltt}
+\end{small}
+
+\endinput

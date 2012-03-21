@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="lib/xmlrpcLib.jar"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="lib" path="lib/commons-io-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/gamelogic-common-0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/gameplayer-0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/amqp-client-2.7.0.jar"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>

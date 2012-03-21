@@ -1,0 +1,140 @@
+% TCM: TOTEM Communication Middleware
+% Copyright: Copyright (C) 2009-2012
+% Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
+% Permission is granted to copy, distribute and/or modify this document
+% under the terms of the GNU Free Documentation License, Version 1.3
+% or any later version published by the Free Software Foundation;
+% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+% A copy of the license is included in the section entitled "GNU
+% Free Documentation License".
+
+\section{Detailed design of the communication infrastructure}
+\label{S_detailed_design}
+
+This section details the design of the communication infrastructure:
+the part built over the XMLRPC standard
+(cf.~Figure~\ref{F_architecture_game_server}) and the part built over
+the AMQP standard (cf.~Figure~\ref{F_architecture_game_instance}).
+
+In Figure~\ref{F_architecture_game_server}, the game server receives
+the login calls of the end-users. The game master calls for the
+creation of the game instance. When created, the game logic server
+of the game instance receives the calls forwarded by the game server
+for opening the connection to the AMQP channels. At the end of the
+creation and login phase, the AMQP communication infrastructure is as
+depicted in Figure~\ref{F_architecture_game_instance}.
+
+The design decisions concerning AMQP resources are the following ones:
+\begin{itemize}
+\item Every entity that communicates with the broker, either end-user 
+applications (PlayerApplication, MasterApplication...) or processes (GameServer,
+ LoggingServer...) matches with an AMQP user on the broker side. As a game 
+instance is represented by a virtual host, permissions are granted to users to
+access the instance(s) they are logged in. Game instances are contained into 
+distinct partitions, without any possible 
+inter-communication. However, a user can repeat its login procedure in 
+several game instances. It can then be able to communicate separately 
+to several game instances.
+
+\item A topic exchange is used by the GameLogicServer in order to enable the 
+macthing between messages and routing keys. The routing key policy used by the 
+middleware associates each message to a sender, a recipient, an action kind and 
+an action name. Furthermore, with the meta-characters ``*'' and ``\#'', it is 
+quite easy to enable broadcast communication, or subscription to all the users' 
+queues.
+
+\item For each user, a queue is declared and named with the user's login 
+name. The queue is then
+bound to the topic exchange GameInstance. For example, a queue named \textit{
+Player1} is declared for user Player1. This queue is bound to the exchange 
+GameInstance with the routing key \texttt{*.Player1.*.*}. 
+It can be understood as ``receive all the messages from any sender which are 
+for Player1''. Acknowledgment flags of 
+queues are set to true: this means that the broker won't send any other message
+to a client as long as the previous one hasn't been acknowledged. This property 
+is particularly useful for the \textsf{Node.js} proxy: if the proxy crashes, 
+all the messages for a JavaScript client stay on the broker side.
+
+\end{itemize}
+
+\begin{figure}[htbp!]
+\begin{center}
+\includegraphics[scale=0.80,angle=90]{Figures/architecture_game_server}
+\caption{Architecture of the XML-RPC communication infrastructure}
+\label{F_architecture_game_server}
+\end{center}
+\end{figure}
+
+\begin{figure}[htbp!]
+\begin{center}
+\includegraphics[scale=0.7,angle=90]{Figures/architecture_game_instance}
+\caption{Architecture of the AMQP communication infrastructure}
+\label{F_architecture_game_instance}
+\end{center}
+\end{figure}
+
+The design and implementation decisions concerning AMQP message
+exchanges:
+\begin{itemize}
+\item The style of programming is by exchanging messages and reacting
+  to messages. This is ensured by the use of a state machine. In the sequel of 
+  the document, the protocols of the state
+  machines are sequences of messages with their type and content, and
+  the reactions are the actions executed when receiving messages.
+\item The Python TOTEM library is dedicated to the
+  applications running on the game logic server and the logging
+  server, thus using Pika in the continuous-passing programming style
+  (with callbacks) in order to better scale.
+\item The Java TOTEM library is dedicated to mobile Android
+  applications, thus using the \textsf{RabbitMQ} Java Client with the
+  blocking-calls programming style in order to limit multithreading
+  and asynchrony.
+\item The JavaScript TOTEM library is dedicated to Web applications, 
+and communicates with the RabbitMQ broker through a proxy. The proxy itself is 
+built with the JavaScript framework \textsf{Node.js}, which uses an AMQP library
+ to 
+publish and consume messages from the broker. Messages received by the proxy and
+dedicated to a particular Web application are retrieved by this application via
+AJAX requests using long polling. To publish messages, Web 
+applications send them to the proxy in GET requests, and the proxy publishes 
+those messages to the broker on the AMQP connection matching the Web 
+application.
+\item Python, Java and JavaScript idioms are built to obtain extensible state
+  machines (cf.~Section~\ref{S_api}).
+\item The GameLogicServer, which uses the Python library for AMQP Pika, cannot 
+publish messages in separate threads, as the channel used is not thread-safe.
+For Java and Android clients, with the version of the AMQP client used 
+(2.7.0 or greater), there isn't anymore such a constraint. When using JavaScript, either on a Web application or on the Node.js proxy, there isn't such a constraint neither, since JavaScript is a single-threaded language.
+\item As stated in the AMQP standard, when a problem
+  happens, the connection is closed. In the Java
+  TOTEM library, if an exception is thrown when connecting, publishing
+  or consuming, then the connection is closed and re-opened in order
+  to retry the operation (up to a maximum number of retries).
+  For Web applications, a maximum number of retries is also given, but
+  it is only used for the consumption of messages. If a disconnection 
+  between the application and the proxy occurs, the Web application tries to
+  reconnect to the proxy to receive messages until the maximum number of 
+retries is reached. For the publication
+  of messages, it's up to the Web browser to ensure the sending of the GET 
+  request as soon as the network is reachable again.
+
+\end{itemize}
+
+The limitations of the current design and implementation, which
+correspond to the example application described in
+Section~\ref{S_integration}, are the following ones:
+\begin{itemize}
+\item No tests have been performed with several game logic servers. In
+  the example application described in Section~\ref{S_integration},
+  there is one virtual host for the game logic server of the sole game
+  instance.
+\item There is no defense programming such as checking whether the
+  game instance is already created / started, the user (game master,
+  player, or spectator) has already joined the game instance, a
+  spectator is already a player. These kinds of verifications are business
+application specific and should
+  for instance lead to the definition of many new message types and
+  exception classes.
+\end{itemize}
+
+\endinput

@@ -1,0 +1,548 @@
+% TCM: TOTEM Communication Middleware
+% Copyright: Copyright (C) 2009-2012
+% Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
+% Permission is granted to copy, distribute and/or modify this document
+% under the terms of the GNU Free Documentation License, Version 1.3
+% or any later version published by the Free Software Foundation;
+% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+% A copy of the license is included in the section entitled "GNU
+% Free Documentation License".
+
+
+\section{Tutorial: understanding the concepts of the middleware to publish and 
+consume messages}
+\label{S_tutorialprotocol}
+
+This section is a tutorial for explaining the concepts of the
+middleware and of its client applications (located in the directory
+\texttt{TOTEM.CommunicationMiddleware/Sources/IntegrationExampleApplication}
+of the TOTEM SVN), and the use of those concepts to publish and
+consume GPS coordinates using the AMQP part of the TOTEM Communication
+Middleware. It is also the opportunity to briefly presents the
+different XML-RPC methods used to interact with the game server.
+
+\subsection{In a nutshell}
+\label{SS_nutshell}
+
+\subsubsection{Game server and Game Logic server}
+
+A client of the middleware can communicate with two different 
+entities: the Game server and the Game Logic server. The Game 
+server represents the lobby (term used in the jargon 
+of multiple-players video games): it allows the listing, the creation, 
+the joining and the termination of game instances. The Game 
+Logic server represents a single game instance. Two different
+protocols should be used depending on the entity to communicate with: 
+communication with the Game server is ensured by XML-RPC calls, whereas 
+communication with the Game Logic server is based on AMQP.
+
+\subsubsection{Interacting with the game server using XML-RPC}
+
+A client should first either create a game instance, or list the already 
+existing game instances and join one. To perform the XML-RPC calls, a 
+Java/Android application calls the Game server
+using XML-RPC. For JavaScript applications, the methods are 
+provided by the API: they allow to send a request to the Node.js proxy which 
+executes the XML-RPC calls to the GameServer. Here follows the methods that can 
+be called on the Game server:
+
+\begin{itemize}
+\item 
+\begin{shellcmd} 
+Object[] listGameInstances(gameName)
+\end{shellcmd} 
+ to retrieve the list of existing instances for a given game (Object[]
+ for Java clients, whose elements can be cast in String - tuple for
+ Android and JavaScript clients);
+\item 
+\begin{shellcmd}
+Boolean createGameInstance(login, password, gameName,instanceName)
+\end{shellcmd} 
+to create a game instance for a given game, and to join it;
+\item 
+\begin{shellcmd}
+Boolean joinPlayerGameInstance(login, password, gameName, instanceName)
+\end{shellcmd} 
+to make a player application (Java or Android) join an existing game instance;
+\item 
+\begin{shellcmd}
+Boolean joinSpectatorGameInstance(login, password,gameName,instanceName, observationKey)
+\end{shellcmd} 
+to make a spectator application (Java or JavaScript) join an existing game
+instance ,observationKey is used to filter messages to consume;
+\item 
+\begin{shellcmd}
+Boolean terminateGameInstance(gameName, instanceName)
+\end{shellcmd} 
+to terminate a given instance of a given game;
+\item 
+\begin{shellcmd}
+Boolean terminate()
+\end{shellcmd} 
+to terminate the game server, and hence every existing game
+instances. Note: clients don't need special permissions to call this
+method.
+\end{itemize}
+
+\subsubsection{Publishing messages}
+
+Once a client has joined a game instance, the publication and the
+consumption of messages within the game instance is ensured using the
+AMQP protocol. The TOTEM Communication Middleware provides high-level
+methods hiding the complexity of AMQP.
+
+Messages can be published to a given user (designed by its login) or
+to the Game Logic server, or can be broadcast to all the users of a
+game instance and to the Game Logic server. The three matching
+(publish, publishToGameLogicServer, publishToAll)
+publication methods use the following parameters:
+\begin{itemize}
+\item the \textbf{state} of the state machine of the user, which
+  contains the information required for the publication of a
+  message (login, game name, instance name...),
+\item a String representing the \textbf{content} of the message,
+\item an \textbf{action kind} and an \textbf{action}. Their role is described 
+in Section \ref{SSS_actions}. 
+\end{itemize}
+
+As it is already mentioned in Section \ref{S_detailed_design}, the
+\textbf{Game Logic server programmed in Python should not publish
+  messages in separate threads}, since the AMQP mechanism for the
+publication of messages is not thread-safe. There isn't such
+limitation on Java Android and JavaScript applications.
+
+
+\subsubsection{Computing messages: actions and action kinds}
+\label{SSS_actions}
+Since clients of the TOTEM Communication Middleware don't have to
+handle the low-level details of reception of messages, they just need
+to define a behaviour on the consumption of these messages. This is
+why actions and action kinds are made for. An action represents a
+particular behaviour, whereas an action kind defines a name space for
+a set of actions of a whole protocol. When a client publish a message
+to another client, it must give both the action kind and the action
+matching with the message. When the other client consumes the message,
+if the action kind and the action are defined on its state machine,
+the corresponding method will automatically be triggered by the TOTEM
+Communication Middleware. Otherwise, the messages are printed
+nevertheless.  The implementation of actions and action kinds are
+different for Java Android applications, JavaScript applications and
+for the Game Logic server in Python (please refer to Chapter \ref{S_api}
+for further details).  Let's see the example of a JavaScript
+application which has defined the following action kind and action:
+\begin{shellcmd}
+function LocationActionKind () \{\}
+
+LocationActionKind.prototype.sendCoordinates = function (state, publisher, consumer, message)\{ 
+      println("Send coordinates action","New coordinates from "+publisher+": "+message); 
+\};
+\end{shellcmd}
+and which has stored the action kind on its state machine:
+\begin{shellcmd}
+myState.listOfActions.LocationActionKind = new LocationActionKind();
+\end{shellcmd}
+
+From now, every client that publishes a message to this JavaScript
+application, setting the action parameter of the publish method to
+\texttt{"LocationActionKind.sendCoordinates"}
+(\textsf{actionkind.action}) will trigger the execution of the
+\texttt{sendCoordinates(state, publisher, consumer, message)} function
+on the JavaScript application side.
+
+\subsection{Publishing and consuming GPS coordinates}
+\label{SS_sending_computing_GPS}
+
+In Section \ref{SS_point_to_point_android}, a player
+periodically publish a message to another player. On the consumption of
+the message, the other player prints this message. In
+Section \ref{SS_broadcast_gamelogic}, the player broadcast its
+coordinates to the others players and to the game logic server. In
+Section \ref{SS_broadcast_js}, the master application written in
+JavaScript consumes the messages.
+
+\subsubsection{Point to point communication between Android devices}
+\label{SS_point_to_point_android}
+
+In the Android project \texttt{PlayerMasterAndroid}:
+
+\begin{enumerate}
+\item Create new \textsf{actionKind} and \textsf{action} in a Java
+  state machine:
+\begin{itemize}
+\item Copy the class \texttt{MyFirstActionKind} located in the package
+\texttt{eu.telecomsudparis.integration.player.android}, paste it in the same
+package, and rename it \texttt{LocationActionKind}. 
+\newline
+Note: If you are using an IDE like
+Eclipse, every references to  \texttt{MyFirstActionKind} should be automatically
+replaced by reference to \texttt{LocationActionKind}. Otherwise, you need to
+replace those references by yourself.
+\item In this new class:
+\begin{itemize}
+\item The value of the attribute \texttt{nameKind} is set to
+  \texttt{"myFirstActionKind"}. Replace this value by
+  \texttt{"locationActionKind"}.
+\begin{itemize}
+\item The action kind part of location messages is a string,
+  for instance \texttt{player1.gamelogicserver.locationActionKind}
+  followed by a string specifying the action.
+\end{itemize}
+\item The value of the attribute \texttt{KIND\_NUMBER} is to \texttt{100}. 
+Replace this value by \texttt{102}.
+\item The name of the first enum of the list is set to
+  \texttt{MY\_FIRST\_ACTION("myFirstAction")}, Replace this name with
+  \texttt{SEND\_GPS\_COORDINATES("sendGPSCoordinates")}.
+\begin{itemize}
+\item The action part of location messages is specified by that string,
+  for instance
+  \texttt{player1.gamelogicserver.locationActionKind.sendGPSCoordinates}.
+\end{itemize}
+\end{itemize}
+\item The enumerations \texttt{MY\_SECOND\_ACTION("mySecondAction")} and
+  \texttt{MY\_THIRD\_ACTION("myThirdAction")} can be removed. Note:
+  Beware to keep a semicolon after the last enumeration, otherwise the source
+  code does not compile.
+\end{itemize}
+
+\item Implement the required behaviour on the reception of the \textsf{action}:
+
+\begin{itemize}
+\item In the class \texttt{MyGameLogicProtocol}, add the following
+  static method:
+\begin{shellcmd}
+public static Object computeGPSCoordinates(String player, String coordinates) \{
+      Util.println(player+" GPS coordinates received : "+coordinates);
+      return null;
+\}
+\end{shellcmd}
+\item In the class \texttt{LocationActionKind}, complete the method
+  \texttt{execute} of \texttt{SEND\_GPS\_COORDINATES}:
+\begin{shellcmd}
+public Object execute(PlayerState state, String[] header, String body) 
+                     throws ActionInvocationException \{
+    return MyGameLogicProtocol.computeGPSCoordinates(header[0],body);
+\}
+\end{shellcmd} 
+\textit{Notice that \texttt{header[0]} refers to the sender of the message.}
+\end{itemize}
+
+
+\item Register the new \textsf{action kind} in the list of actions:
+\begin{itemize}
+\item Add a new enumeration in the class \texttt{MyListOfGameLogicActions},
+  after MY\_FIRST\_ACTION\_KIND(MyFirstActionKind.actionMap) and
+  MY\_SECOND\_ACTION\_KIND(MySecondActionKind.actionMap):
+\begin{itemize}
+\item \texttt{LOCATION\_ACTION\_KIND(LocationActionKind.actionMap);}
+\end{itemize}
+\end{itemize}
+
+\item Simulate the publication of GPS coordinates:
+
+\begin{itemize}
+\item In the class \texttt{PlayerTask}, add the method presented in
+  Listing \ref{L-GPS-thread}:
+\begin{lstlisting}[float=htbp,frame=bt,basicstyle=\scriptsize\sffamily,numbers=left,
+   numberstyle=\tiny, stepnumber=1,
+    numbersep=5pt,language=java,label=L-GPS-thread,caption=Method to send simulated GPS coordinates]
+// simulates the sending of GPS coordinates
+private void startSendGPSCoordinatesThread() {
+     new Thread(){
+     double latitude  = -179.8642632;
+     double longitude = -179.2570048;
+     // the recipient is the other player
+     String recipient = state.login.equals(PlayerApplication.INSTANCE_CREATOR_NAME) ? 
+                                           PlayerApplication.INSTANCE_JOINER_NAME :
+                                           PlayerApplication.INSTANCE_CREATOR_NAME;
+     public void run() {
+         while (!state.hasConnectionExited()){
+	     try {
+	         state.channelsManager.publish(recipient,
+                                               state,
+                                               LocationActionKind.SEND_GPS_COORDINATES, 
+                                               latitude+"/"+longitude);
+	         // increment the coordinates
+	         latitude ++;
+	         longitude ++;
+	     } catch (IOException e) {
+	         e.printStackTrace();
+	     }
+	     // wait for 5 seconds
+	     try {
+	        Thread.sleep(5000);
+	     } catch (InterruptedException e) {
+	        Util.println("[Player" + state.login + 
+				"]Thread sleep was interrupted");
+	     }
+         }
+     }
+  }.start();
+}
+\end{lstlisting}
+\item Complete the method \texttt{doInBackground(Void... params)} to make
+the client which creates the instance calling this method:
+
+\begin{shellcmd}
+@Override
+protected Integer doInBackground(Void... params) \{
+    [...]
+    if(res)\{
+        if(state.login.equals(PlayerApplication.INSTANCE_CREATOR_NAME))\{
+             startSendGPSCoordinatesThread();
+        \}
+        return RESULT_OK;
+    \}else\{
+        return RESULT_ERROR;
+    \}
+\}
+\end{shellcmd}
+\end{itemize}
+\item Test the communication between two Android devices (or emulators):
+\label{item_test}
+\begin{enumerate}
+\item Configure and start the Game server:
+\begin{itemize}
+\item Set the IP addresses of the GameServer and of the
+  TerminationApplication. Replace the value of
+  \texttt{gameLogicServerBrokerHost} in the file
+  \texttt{GameServer/rabbitmq.properties}, and the values of
+  \texttt{gameServerXMLRPCHost} in the files
+  \texttt{GameServer/xmlrpc.properties} and
+  \texttt{TerminationApplication/xmlrpc.properties}.
+\item Start the server side launching the following command in a shell:
+  \begin{shellcmd}  
+\$ ./run_with_android_phones.sh
+\end{shellcmd}
+\end{itemize}
+\item Configure and run the PlayerMasterAndroid on two Android devices:
+\begin{itemize}
+\item Set the IP addresses of the PlayerMasterAndroid. Replace the
+  value of \texttt{gameLogicServerBrokerHost} in the file
+  \texttt{PlayerMasterAndroid/res/raw/rabbitmq.properties} and the
+  value of \texttt{gameServerXMLRPCHost} in the file
+  \texttt{PlayerMasterAndroid/res/raw/xmlrpc.properties}.
+\item Run the application as an Android Application on two devices.
+\end{itemize}
+\item Create and join the game instance to test the sending of messages:
+\begin{itemize}
+\item On the first device, press the menu button, and click on
+  ``Create Instance''.
+\item On the second device, press the menu button, and click on ``Join
+  Instance''.
+\item Once the two devices are correctly logged into the game instance, you 
+should see on the second device the reception of new GPS coordinates from the 
+first device every five seconds, and the displaying of the following message:
+\begin{shellcmd}  
+PLAYER_1 GPS coordinates received: -167.8642632/-167.2570048
+\end{shellcmd}
+This message means that the action \texttt{sendGPSCoordinates} of the
+\texttt{LocationActionKind} has been properly triggered.
+\end{itemize}
+\item Terminate the instance, the Game server and the two Android applications:
+\begin{itemize}
+\item Execute the following command in a shell:
+  \begin{shellcmd}  
+\$ ./termination.sh
+\end{shellcmd}
+\end{itemize}
+\end{enumerate}
+\end{enumerate}
+
+\subsubsection{Broadcast between Android devices and the Game Logic server }
+\label{SS_broadcast_gamelogic}
+This subsection presents how to implement the reception of GPS
+coordinates on the game logic server side.
+
+\begin{enumerate}
+\item Create the new \textsf{actionKind} and \textsf{action} in the Python
+  state machine:
+
+\begin{itemize}
+\item In the directory GameLogicServer, copy/paste the file
+  \texttt{myfirstactionkind.py} into the new file
+  \texttt{locationactionkind.py}
+\item In this new file:
+\begin{itemize}
+\item Rename the variable \texttt{MyFirstActionKind} into
+  \texttt{LocationActionKind}.
+
+\item The value of the first argument of the constructor is set to
+  \texttt{"myFirstActionKind"}. Replace this value by
+  \texttt{"locationActionKind"}.
+\item The value of the second argument of the constructor is set to 
+\texttt{100}. Replace this value by \texttt{102}.
+\end{itemize}
+\end{itemize}
+
+\item Implement the required behaviour on the reception of the \textsf{action}:
+\begin{itemize}
+\item In the file \texttt{myprotocol.py}, add the following method:
+\begin{shellcmd}
+def computeGPSCoordinates(state, header, body):
+    print ' [GameLogicServer] GPS coordinates received from %r: %r' % (header[0], body)
+\end{shellcmd}
+\item In the file \texttt{locationactionkind.py}, the first element of
+  the dictionary is set to \texttt{("myFirstAction", myFirstAction)}.
+  Replace it with \texttt{("sendGPSCoordinates",computeGPSCoordinates)}
+  to indicate that it's the method \texttt{computeGPSCoordinates} that
+  should be called on the reception of a message \texttt{sendGPSCoordinates}.
+\item You can remove the two other elements \texttt{("mySecondAction",
+  mySecondAction)} and \texttt{("myThirdAction",doNothing)} from the
+  dictionnary. In this case, don't forget to remove the comma
+  after the first element, otherwise the source code contains a syntax
+  error.
+\item Add the following import at the beginning of the file: 
+\newline
+\texttt{from myprotocol import computeGPSCoordinates}
+\end{itemize}
+
+\item Register the new \texttt{action kind} in the list of actions:
+
+ \begin{itemize}
+\item In the file \texttt{mylistofactions.py}, add the following element at the
+end of the dictionary:
+\newline
+\texttt{("locationActionKind", LocationActionKind)}
+\item Add the corresponding import at the beginning of this file:
+\newline 
+\texttt{from locationactionkind import LocationActionKind}
+\end{itemize}
+
+\item Make the Player application broadcast the sending of its GPS coordinates:
+\begin{itemize}
+\item In the class PlayerTask of the PlayerApplicationAndroid, inside the \texttt{startSendGPSCoordinatesThread()} method, replace the method
+\texttt{publish} by the following one:
+\begin{shellcmd}
+state.channelsManager.publishToAll(state,
+                                   LocationActionKind.SEND_GPS_COORDINATES, 
+                                   latitude+"/"+longitude);
+\end{shellcmd}
+\end{itemize}
+\item Test the broadcast between Android devices and the Game 
+server:
+\begin{itemize}
+\item Repeat the procedure described section \ref{SS_point_to_point_android} 
+point \ref{item_test}.
+\item On the Game server shell, you should see the reception of new
+  GPS coordinates from the first device every five seconds, and the
+  displaying of the following message:
+\begin{shellcmd}  
+[GameLogicServer] New GPS coordinates received from 'PLAYER_1':
+'-148.8642632/-148.2570048'
+\end{shellcmd}
+This message means that the action \texttt{sendGPSCoordinates} of the
+\texttt{LocationActionKind} has been properly triggered on the Game
+server side.
+\end{itemize}
+
+\end{enumerate}
+
+
+\subsubsection{Adding a Master application in JavaScript}
+\label{SS_broadcast_js}
+
+Another feature of the middleware is the possibility to add JavaScript
+applications acting like master or spectator applications. This
+Section explains how the action \texttt{LocationActionKind}/
+\texttt{sendGPSCoordinates} is implemented in JavaScript.
+
+\begin{enumerate}
+\item Create new \textsf{action kind} and \textsf{action} in the
+  MasterApplicationJavaScript:
+\begin{itemize}
+\item add a new \textsf{action kind} and a new \textsf{action} at the
+  end of the file
+  \texttt{MasterApplicationJavaScript/my-master-actions.js}, after the
+  declaration of \texttt{MyFirstActionKind} and
+  \texttt{myFirstAction}:
+\begin{shellcmd}
+function LocationActionKind () \{\}
+
+LocationActionKind.prototype.sendGPSCoordinates = function (state, publisher, 
+                                                            consumer, message)\{
+        println(publisher,"New GPS coordinates received: "+message);
+\};
+\end{shellcmd}
+\end{itemize}
+\item Register the new \texttt{action kind} in the list of actions:
+\begin{itemize}
+\item In the function \texttt{\$(document).ready()} of the
+  \texttt{master.js} file, add the following line after the
+  instantiation of the \texttt{gameMasterState}:
+\begin{shellcmd}
+gameMasterState.listOfActions.locationActionKind = new LocationActionKind(); 
+\end{shellcmd}
+\end{itemize}
+\item Test the broadcast between an Android device, the Game 
+server and the MasterApplicationJavaScript:
+\begin{enumerate}
+\item Make sure that you have configured the IP addresses of the
+  PlayerMasterAndroid and of the GameServer as described in Section
+  \ref{SS_point_to_point_android}, item \ref{item_test}.
+\item Configure the NodeJsProxy used by JavaScript applications:
+\begin{itemize}
+\item Set the IP addresses used for the NodeJsProxy, for the
+  GameServer and for the RabbitMQ broker. Replace the values of
+  \texttt{nodeProxyHost} and \texttt{gameServerHost} in the file
+  \texttt{NodeJsProxy/resources/config.properties}, and the value of
+  gameLogicBrokerHost in the file
+  \texttt{NodeJsProxy/resources/rabbitmq.properties}.
+\end{itemize}
+\item Modify the PlayerMasterAndroid application to enable the sending of GPS coordinates:
+\begin{itemize}
+\item Update the method \texttt{doInBackground(Void... params)} of the
+  class \texttt{PlayerTask.java}, add the following commentary:
+\begin{shellcmd}
+@Override
+protected Integer doInBackground(Void... params) \{
+    [...]
+    if(res)\{
+        startSendGPSCoordinatesThread();
+        return RESULT_OK;
+    \}else\{
+        return RESULT_ERROR;
+    \}
+\}
+\end{shellcmd}
+\end{itemize}
+\item Start the server side by launching the following command in a shell:
+\begin{shellcmd}
+\$ ./run_with_master_and_spectator_javascript_applications.sh
+\end{shellcmd}
+\item Create a new game instance with the MasterApplicationJavascript:
+\begin{itemize}
+\item Start the Master application located at the
+  URL \begin{small}\texttt{http://NODE\_PROXY\_HOST:8001/Master}\end{small}
+  (where NODE\_PROXY\_HOST is the address of the variable
+  \texttt{nodeProxyHost} in the file
+  \texttt{NodeJsProxy/resources/config.properties}).
+\end{itemize}
+\item Join the game instance with the PlayerMasterAndroid to test the sending of
+messages:
+\begin{itemize}
+\item Run the application as an Android Application on a device.
+\item Press the menu button, and click on ``Join Instance''.
+\item Once the device is correctly logged in to the game instance, you
+  should see on the master application the reception of new GPS
+  coordinates from the Android device every five seconds, and the
+  display of the following message:
+\begin{shellcmd}
+PLAYER\_2	New GPS coordinates received: -179.8642632/-179.2570048
+\end{shellcmd}
+This message means that the action \texttt{sendGPSCoordinates} of the 
+\texttt{LocationActionKind} has been properly triggered.
+\end{itemize}
+\item Terminate the instance, the GameServer, the NodeJsProxy and the Android 
+application:
+\begin{itemize}
+\item Press the ``Terminate instance'' button of the Master application.
+\item Execute the following command in a shell:
+  \begin{shellcmd}  
+\$ ./termination.sh
+\end{shellcmd}
+\end{itemize}
+\end{enumerate}
+
+\end{enumerate}
+
+\endinput

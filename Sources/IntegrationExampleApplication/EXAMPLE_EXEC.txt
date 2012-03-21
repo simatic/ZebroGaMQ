@@ -1,0 +1,260 @@
+TCM: TOTEM Communication Middleware
+Copyright: Copyright (C) 2009-2012
+Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 3 of the License, or any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+USA
+
+Developer(s): Denis Conan, Gabriel Adgeg
+
+
+1/ Beginning of the demonstration
+---------------------------------
+
+$ ./run_with_master_and_spectator_javascript_application.sh
+
+
+Stopping and halting node 'rabbit@adgeg-laptop' ...
+...done.
+Activating RabbitMQ plugins ...
+
+********************************************************************************
+********************************************************************************
+
+0 plugins activated:
+
+Stopping node 'rabbit@adgeg-laptop' ...
+...done.
+Resetting node 'rabbit@adgeg-laptop' ...
+...done.
+Starting node 'rabbit@adgeg-laptop' ...
+...done.
+ [GameServer] Game server started, identifier
+ [GameServer] Listening on port  8888
+ [GameServer] List of registered method for xml rpc calls of game server ['createGameInstance', 'joinPlayerGameInstance', 'joinSpectatorGameInstance', 'listGameInstances', 'system.listMethods', 'system.methodHelp', 'system.methodSignature', 'terminate', 'terminateGameInstance']
+Server at http://localhost:8001/. To stop the server, type CTRL+C.
+URL of Master application: http://localhost:8001/Master
+URL of Spectator application: http://localhost:8001/Spectator
+
+Instructions for the sequel of the demonstration:
+1/ Start the Master application on your Web browser
+2/ Start the Spectator application on your Web browser
+3/ (Optional) Start the PlayerMasterAndroid on an Android Device
+    press the menu button, and click on "Join Instance".
+
+Finally, to properly stop the demonstration,
+execute the termination.sh script located in the current directory.
+
+
+totem@totem-laptop:~/TOTEM/Sandbox/TSP-MARGE-Communication/RabbitMQ/IntegrationExampleApplication$ loading ../MasterApplicationJavascript/master.html...
+static file ../MasterApplicationJavascript/master.html loaded
+loading ../MasterApplicationJavascript/external/master-style.css...
+static file ../MasterApplicationJavascript/external/master-style.css loaded
+loading external/common/jquery-1.6.2.min.js...
+static file external/common/jquery-1.6.2.min.js loaded
+loading ../MasterApplicationJavascript/master.js...
+static file ../MasterApplicationJavascript/master.js loaded
+ [GameServer] Creation of a game instance Tidy-City Instance-1
+ [GameServer] Going to create process for game play Tidy-City Instance-1
+ [GameServer] Acquiring semaphore: wait for end of creation of the game instance
+ [GameLogicServer] Creating instance 'Tidy-City'/'Instance-1' with master = 'michel' and password = 'simatic'
+Creating vhost "/Tidy-City/Instance-1" ...
+...done.
+Creating user "gamelogicserver" ...
+...done.
+Setting permissions for user "gamelogicserver" in vhost "/Tidy-City/Instance-1" ...
+...done.
+Creating user "loggingserver" ...
+...done.
+Setting permissions for user "loggingserver" in vhost "/Tidy-City/Instance-1" ...
+...done.
+Creating user "michel" ...
+...done.
+Setting permissions for user "michel" in vhost "/Tidy-City/Instance-1" ...
+...done.
+ [GameLogicServer] Creating Worker thread for vhost  /Tidy-City/Instance-1
+ [GameLogicServer] WorkerChannel - Starting a connection
+ [GameLogicServer] WorkerChannel - Creating a channel
+ [GameLogicServer] Creating GameLogicChannel for vhost  /Tidy-City/Instance-1
+ [GameLogicServer] Connected
+ [GameLogicServer] Channel on /instance opened
+ [GameLogicServer] Exchange on /instance declared
+ [GameLogicServer] Queue on /instance declared
+ [GameLogicServer] Binding declared
+ [GameLogicServer] Binding for all declared, releasing gameLogicSemaphore for vhost  /Tidy-City/Instance-1
+ [GameLogicServer] Waiting for messages on /instance. To exit, CTRL+C or kill
+ [GameServer] Semaphore released
+ [GameServer] Going to create process for LoggingServer
+ [GameServer] Create queue and binding for game master michel
+ [GameLogicServer] Creating Logging server for  Tidy-City Instance-1
+ [LoggingServer] Starting a connection
+ [GameLogicServer] Forwarding for joining of a master
+ [GameLogicServer] Joining of a master michel
+ [GameLogicServer] Queue declared for master michel
+ [GameLogicServer] master's binding key is  *.michel.*.*
+ [LoggingServer] - Creating a channel
+ [LoggingServer] Declaring a queue Logging
+ [GameLogicServer] First queue bound for master michel
+ [GameLogicServer] master's binding key for broadcasts is *.all.*.*
+ [GameLogicServer] Second queue bound for master michel
+ [GameLogicServer] Worker - publish message 'michel has joined as a master' with action 'join.joinMasterOK' to consumer 'michel'
+totem-laptop.local - [08/Dec/2011 15:35:59] "POST / HTTP/1.1" 200 -
+Response for master michel's game instance creation request: true
+ [LoggingServer] Binding the queue with the rooting key #
+[DEBUG] Creating AMQP Connection for user michel on vhost /Tidy-City/Instance-1'.
+ [LoggingServer] Waiting for messages on /Tidy-City/Instance-1
+[INFO] AMQP Connection is established for user michel.
+[INFO] Exchange GameInstance declared by michel.
+[DEBUG] Message 'michel,Tidy-City,Instance-1' published by user 'michel' on exchange 'GameInstance' with routing key 'michel.gamelogicserver.join.joinMaster'.
+ [LoggingServer] Received 'michel.gamelogicserver.join.joinMaster', 'michel,Tidy-City,Instance-1'
+ [GameLogicServer] Received on /instance 'michel,Tidy-City,Instance-1' with key = 'michel.gamelogicserver.join.joinMaster'
+ [GameLogicServer] message received header = ['michel', 'gamelogicserver', 'join', 'joinMaster'], body = 'michel,Tidy-City,Instance-1'
+[INFO] Queue michel subscribed by michel.
+[DEBUG] on messagesReceived: message = michel has joined as a master with routingKey = gamelogicserver.michel.join.joinMasterOK
+loading ../SpectatorApplicationJavascript/spectator.html...
+static file ../SpectatorApplicationJavascript/spectator.html loaded
+loading ../SpectatorApplicationJavascript/external/spectator-style.css...
+static file ../SpectatorApplicationJavascript/external/spectator-style.css loaded
+loading ../SpectatorApplicationJavascript/spectator.js...
+static file ../SpectatorApplicationJavascript/spectator.js loaded
+[DEBUG] Message 'Sequence Number 1  Wed, 26 Oct 2011 08:33:44 GMT' published by user 'michel' on exchange 'GameInstance' with routing key 'michel.gamelogicserver.presence.heartbeat'.
+ [LoggingServer] Received 'michel.gamelogicserver.presence.heartbeat', 'Sequence Number 1  Wed, 26 Oct 2011 08:33:44 GMT'
+ [GameLogicServer] Received on /instance 'Sequence Number 1  Wed, 26 Oct 2011 08:33:44 GMT' with key = 'michel.gamelogicserver.presence.heartbeat'
+ [GameLogicServer] message received header = ['michel', 'gamelogicserver', 'presence', 'heartbeat'], body = 'Sequence Number 1  Wed, 26 Oct 2011 08:33:44 GMT'
+ [GameLogicServer] the list of heartbeats is = {'michel': 'Sequence Number 1  Wed, 26 Oct 2011 08:33:44 GMT'}
+[DEBUG] Message 'Sequence Number 2  Wed, 26 Oct 2011 08:33:49 GMT' published by user 'michel' on exchange 'GameInstance' with routing key 'michel.gamelogicserver.presence.heartbeat'.
+ [LoggingServer] Received 'michel.gamelogicserver.presence.heartbeat', 'Sequence Number 2  Wed, 26 Oct 2011 08:33:49 GMT'
+ [GameLogicServer] Received on /instance 'Sequence Number 2  Wed, 26 Oct 2011 08:33:49 GMT' with key = 'michel.gamelogicserver.presence.heartbeat'
+ [GameLogicServer] message received header = ['michel', 'gamelogicserver', 'presence', 'heartbeat'], body = 'Sequence Number 2  Wed, 26 Oct 2011 08:33:49 GMT'
+ [GameLogicServer] the list of heartbeats is = {'michel': 'Sequence Number 2  Wed, 26 Oct 2011 08:33:49 GMT'}
+[DEBUG] Message 'Sequence Number 3  Wed, 26 Oct 2011 08:33:54 GMT' published by user 'michel' on exchange 'GameInstance' with routing key 'michel.gamelogicserver.presence.heartbeat'.
+ [LoggingServer] Received 'michel.gamelogicserver.presence.heartbeat', 'Sequence Number 3  Wed, 26 Oct 2011 08:33:54 GMT'
+ [GameLogicServer] Received on /instance 'Sequence Number 3  Wed, 26 Oct 2011 08:33:54 GMT' with key = 'michel.gamelogicserver.presence.heartbeat'
+ [GameLogicServer] message received header = ['michel', 'gamelogicserver', 'presence', 'heartbeat'], body = 'Sequence Number 3  Wed, 26 Oct 2011 08:33:54 GMT'
+ [GameLogicServer] the list of heartbeats is = {'michel': 'Sequence Number 3  Wed, 26 Oct 2011 08:33:54 GMT'}
+[DEBUG] Empty message published by user 'michel' on exchange 'GameInstance' with routing key 'michel.gamelogicserver.presence.askParticipantsList'.
+ [LoggingServer] Received 'michel.gamelogicserver.presence.askParticipantsList', ' '
+ [GameLogicServer] Received on /instance ' ' with key = 'michel.gamelogicserver.presence.askParticipantsList'
+ [GameLogicServer] message received header = ['michel', 'gamelogicserver', 'presence', 'askParticipantsList'], body = ' '
+ [GameLogicServer] publish message "{'michel': 'Sequence Number 3  Wed, 26 Oct 2011 08:33:54 GMT'}" with action 'presence.participantsList' to consumer 'michel'
+ [LoggingServer] Received 'gamelogicserver.michel.presence.participantsList', "{'michel': 'Sequence Number 3  Wed, 26 Oct 2011 08:33:54 GMT'}"
+[DEBUG] on messagesReceived: message = {'michel': 'Sequence Number 3  Wed, 26 Oct 2011 08:33:54 GMT'} with routingKey = gamelogicserver.michel.presence.participantsList
+ [GameServer] Spectator 'Denis'/'hs78dfPPgz' joining game instance 'Tidy-City'/'Instance-1' with observation key '*.*.*.*'
+Creating user "Denis" ...
+...done.
+Setting permissions for user "Denis" in vhost "/Tidy-City/Instance-1" ...
+...done.
+ [GameLogicServer] Forwarding for joining of a spectator
+ [GameLogicServer] Joining of a spectator
+ [GameLogicServer] Queue declared for spectator Denis
+ [GameLogicServer] Spectator's observation key is  *.*.*.*
+ [GameLogicServer] First queue bound on for spectator Denis
+ [GameLogicServer] Spectator's binding key for broadcasts is *.all.*.*
+ [GameLogicServer] Second queue bound on for spectator Denis
+ [GameLogicServer] publish message 'Denis has joined as a spectator' with action 'join.joinSpectatorOK' to consumer 'Denis'
+ [LoggingServer] Received 'gamelogicserver.Denis.join.joinSpectatorOK', 'Denis has joined as a spectator'
+ [GameServer] Spectator 'Denis' has joined the game instance 'Tidy-City'/'Instance-1'.
+totem-laptop.local - - [26/Oct/2011 10:33:57] "POST / HTTP/1.1" 200 -
+Response for master Denis's game instance creation request: true
+[DEBUG] Creating AMQP Connection for user Denis on vhost /Tidy-City/Instance-1'.
+[INFO] AMQP Connection is established for user Denis.
+[INFO] Exchange GameInstance declared by Denis.
+[DEBUG] Message 'Denis,Tidy-City,Instance-1,*.*.*.*' published by user 'Denis' on exchange 'GameInstance' with routing key 'Denis.gamelogicserver.join.joinSpectator'.
+ [LoggingServer] Received 'Denis.gamelogicserver.join.joinSpectator', 'Denis,Tidy-City,Instance-1,*.*.*.*'
+ [GameLogicServer] Received on /instance 'Denis,Tidy-City,Instance-1,*.*.*.*' with key = 'Denis.gamelogicserver.join.joinSpectator'
+ [GameLogicServer] message received header = ['Denis', 'gamelogicserver', 'join', 'joinSpectator'], body = 'Denis,Tidy-City,Instance-1,*.*.*.*'
+[INFO] Queue Denis subscribed by Denis.
+[DEBUG] on messagesReceived: message = Denis has joined as a spectator with routingKey = gamelogicserver.Denis.join.joinSpectatorOK
+[DEBUG] on messagesReceived: message = Denis,Tidy-City,Instance-1,*.*.*.* with routingKey = Denis.gamelogicserver.join.joinSpectator
+ [GameServer] Player 'Lisa'/'ufsf64dEE575' joining game instance 'Tidy-City'/'Instance-1'
+Creating user "Lisa" ...
+...done.
+[DEBUG] Message 'Sequence Number 4  Wed, 26 Oct 2011 08:33:59 GMT' published by user 'michel' on exchange 'GameInstance' with routing key 'michel.gamelogicserver.presence.heartbeat'.
+ [LoggingServer] Received 'michel.gamelogicserver.presence.heartbeat', 'Sequence Number 4  Wed, 26 Oct 2011 08:33:59 GMT'
+ [GameLogicServer] Received on /instance 'Sequence Number 4  Wed, 26 Oct 2011 08:33:59 GMT' with key = 'michel.gamelogicserver.presence.heartbeat'
+ [GameLogicServer] message received header = ['michel', 'gamelogicserver', 'presence', 'heartbeat'], body = 'Sequence Number 4  Wed, 26 Oct 2011 08:33:59 GMT'
+ [GameLogicServer] the list of heartbeats is = {'michel': 'Sequence Number 4  Wed, 26 Oct 2011 08:33:59 GMT'}
+[DEBUG] on messagesReceived: message = Sequence Number 4  Wed, 26 Oct 2011 08:33:59 GMT with routingKey = michel.gamelogicserver.presence.heartbeat
+Setting permissions for user "Lisa" in vhost "/Tidy-City/Instance-1" ...
+...done.
+ [GameLogicServer] Forwarding for joining of a player
+ [GameLogicServer] Joining of a player
+ [GameLogicServer] Queue declared for player Lisa
+ [GameLogicServer] player's binding key is  *.Lisa.*.*
+ [GameLogicServer] First queue bound for player Lisa
+ [GameLogicServer] player's binding key for broadcasts is *.all.*.*
+ [GameLogicServer] Second queue bound for player Lisa
+ [GameLogicServer] publish message 'Lisa has joined as a player' with action 'join.joinPlayerOK' to consumer 'Lisa'
+ [GameServer] Player 'Lisa' has joined the game instance 'Tidy-City'/'Instance-1'.
+ [LoggingServer] Received 'gamelogicserver.Lisa.join.joinPlayerOK', 'Lisa has joined as a player'
+[DEBUG] on messagesReceived: message = Lisa has joined as a player with routingKey = gamelogicserver.Lisa.join.joinPlayerOK
+[DEBUG] Message 'Sequence Number 5  Wed, 26 Oct 2011 08:34:04 GMT' published by user 'michel' on exchange 'GameInstance' with routing key 'michel.gamelogicserver.presence.heartbeat'.
+ [LoggingServer] Received 'michel.gamelogicserver.presence.heartbeat', 'Sequence Number 5  Wed, 26 Oct 2011 08:34:04 GMT'
+ [GameLogicServer] Received on /instance 'Sequence Number 5  Wed, 26 Oct 2011 08:34:04 GMT' with key = 'michel.gamelogicserver.presence.heartbeat'
+ [GameLogicServer] message received header = ['michel', 'gamelogicserver', 'presence', 'heartbeat'], body = 'Sequence Number 5  Wed, 26 Oct 2011 08:34:04 GMT'
+ [GameLogicServer] the list of heartbeats is = {'michel': 'Sequence Number 5  Wed, 26 Oct 2011 08:34:04 GMT'}
+[DEBUG] on messagesReceived: message = Sequence Number 5  Wed, 26 Oct 2011 08:34:04 GMT with routingKey = michel.gamelogicserver.presence.heartbeat
+157.159.110.225 - - [26/Oct/2011 10:34:04] "POST / HTTP/1.1" 200 -
+ [LoggingServer] Received 'Lisa.gamelogicserver.presence.heartbeat', 'Sequence Number 1  Wed Oct 26 10:30:38 HAEC 2011'
+ [GameLogicServer] Received on /instance 'Sequence Number 1  Wed Oct 26 10:30:38 HAEC 2011' with key = 'Lisa.gamelogicserver.presence.heartbeat'
+ [GameLogicServer] message received header = ['Lisa', 'gamelogicserver', 'presence', 'heartbeat'], body = 'Sequence Number 1  Wed Oct 26 10:30:38 HAEC 2011'
+ [GameLogicServer] the list of heartbeats is = {'Lisa': 'Sequence Number 1  Wed Oct 26 10:30:38 HAEC 2011', 'michel': 'Sequence Number 5  Wed, 26 Oct 2011 08:34:04 GMT'}
+[DEBUG] on messagesReceived: message = Sequence Number 1  Wed Oct 26 10:30:38 HAEC 2011 with routingKey = Lisa.gamelogicserver.presence.heartbeat
+ [LoggingServer] Received 'Lisa.gamelogicserver.join.joinPlayer', 'Lisa,Tidy-City,Instance-1'
+ [GameLogicServer] Received on /instance 'Lisa,Tidy-City,Instance-1' with key = 'Lisa.gamelogicserver.join.joinPlayer'
+ [GameLogicServer] message received header = ['Lisa', 'gamelogicserver', 'join', 'joinPlayer'], body = 'Lisa,Tidy-City,Instance-1'
+[DEBUG] on messagesReceived: message = Lisa,Tidy-City,Instance-1 with routingKey = Lisa.gamelogicserver.join.joinPlayer
+
+
+2/ End of the demonstration
+---------------------------
+
+2.1 On a second shell:
+
+    $ ./termination.sh
+    [Termination] Beginning
+    [Termination] Exiting
+    End of demonstration
+    Stopping the borker...
+    Stopping node 'rabbit@adgeg-laptop' ...
+    ...done.
+    Stopping and halting node 'rabbit@adgeg-laptop' ...
+    ...done.
+
+2.2 Display on the first shell:
+
+    [GameServer] Terminating all game instances
+    [GameServer] Terminating game instance Tidy-City Instance-1
+    [GameServer] Wait for the end of game logic server for Tidy-City Instance-1
+    [GameLogicServer] Forwarding for termination
+    [GameLogicServer] Terminating
+    [GameLogicServer] Stopping gamelogic channel ioloop
+    [GameLogicServer] Stopping worker channel
+    [LoggingServer] Received 'gamelogicserver.all.lifecycle.terminate', 'all the participants must terminate'
+    [LoggingServer] Terminating...
+    [GameLogicServer] Received on /instance 'all the participants must terminate' with key = 'gamelogicserver.all.lifecycle.terminate'
+    [GameLogicServer] message received header = ['gamelogicserver', 'all', 'lifecycle', 'terminate'], body = 'all the participants must terminate'
+    [GameLogicServer] Deleting the virtual host of the game instance  /Tidy-City/Instance-1
+    [DEBUG] on messagesReceived: message = all the participants must terminate with routingKey = gamelogicserver.all.lifecycle.terminate
+    [DEBUG] on messagesReceived: message = all the participants must terminate with routingKey = gamelogicserver.all.lifecycle.terminate
+    Deleting vhost "/Tidy-City/Instance-1" ...
+    ...done.
+    [GameServer] Interrupting main thread
+    [GameServer] Interrupting current thread
+    [GameServer] Exiting
+    totem-laptop.local - [08/Dec/2011 15:36:08] "POST / HTTP/1.0" 200 -
+    [LoggingServer] Process terminated
+    [INFO] AMQP Connection has ended for user michel.
+    [INFO] AMQP Connection has ended for user denis.

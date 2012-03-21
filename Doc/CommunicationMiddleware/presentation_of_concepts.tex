@@ -1,0 +1,542 @@
+% TCM: TOTEM Communication Middleware
+% Copyright: Copyright (C) 2009-2012
+% Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
+% Permission is granted to copy, distribute and/or modify this document
+% under the terms of the GNU Free Documentation License, Version 1.3
+% or any later version published by the Free Software Foundation;
+% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+% A copy of the license is included in the section entitled "GNU
+% Free Documentation License".
+
+\section{Presentation of EBS, AMQP, \textsf{RabbitMQ} and \textsf{Node.js}}
+\label{S_presentation_concepts}
+
+This section presents the communication infrastructure concepts of the
+AMQP specification and the middleware \textsf{RabbitMQ} used for
+event-based notification in the TOTEM project. The other communication
+paradigm used in the TOTEM project is RPC, more precisely by
+bringing into play the XML-RPC standard. Since TOTEM partners are more
+used with XML-RPC, we only present AMQP.
+
+\subsection{Presentation of Event-Based Systems}
+\label{SS_presentation_ebs}
+
+In this section, we briefly introduce the basic concepts and
+terminology of event-based systems. According to the terminology of event-based systems~\cite{ebs}, an
+``event'' is any happening of interest that can be observed from and
+within a computer. Event examples are physical event, timer event,
+etc. A ``notification'' is an object\footnote{The term ``object'' is
+  employed here in its general meaning, not in the sense it possesses
+  in object-oriented software engineering.} that contains data
+describing the event. A ``producer'' is a component\footnote{The term
+  ``component'' is employed here in its general meaning, not in the
+  sense it possesses in component-based software engineering.} that
+publishes notifications. A ``consumer'' is a component that reacts to
+notifications delivered to it by the notification service. A
+``subscription'' describes a set of notifications a consumer is
+interested in.
+
+Figure~\ref{F_models_interaction} compares the model of interaction of
+event-based systems with other well-known architectures, namely RPC,
+callback and anonymous RPC~\cite{ebs}:
+\begin{itemize}
+\item Request/reply: the consumer requests some data from the
+provider whose identity is known by the consumer.
+\item Callback: the consumer registers at a specific provider its
+interest to be notified whenever some condition becomes true; the
+identity of the components is known and must be managed on both sides.
+\item Anonymous request/reply: the consumer does not know the identity
+of provider(s), one request may result in an unknown number of replies.
+\item Event-based: the producers of notifications initiate the
+communication. Producers do not know any consumers. If
+a notification matches a subscription, it is delivered to the
+registered consumers.
+\end{itemize}
+
+\begin{figure}[htbp!]
+\begin{center}
+\begin{tabular}{c|c||p{3cm}|p{3cm}|}
+\multicolumn{2}{c||}{} & \multicolumn{2}{|c|}{Initiator} \\ 
+\multicolumn{2}{c||}{} & \multicolumn{1}{|c|}{Consumer}
+& \multicolumn{1}{|c|}{Provider} \\
+\hline
+\hline
+\multicolumn{1}{c|}{Addressee} & \multicolumn{1}{|c||}{Direct}
+& \multicolumn{1}{|c|}{Request/Reply}
+& \multicolumn{1}{|c|}{Callback}\\
+\cline{2-4}
+\multicolumn{1}{c|}{} & \multicolumn{1}{|c||}{Indirect} & {Anonymous
+Request/Reply} & \multicolumn{1}{|c|}{Event-Based}\\
+\hline 
+\end{tabular}
+\end{center}
+\caption{Models of interaction~\cite{ebs}: ``initiator'' describes
+  whether the consumer or the provider initiates the interaction;
+  ``addressing'' indicates whether the addressee of the interaction is
+  known or unknown. The tradeoff is between the simplicity of
+  request/reply and the flexibility of event-based interaction.}
+\label{F_models_interaction}
+\end{figure}
+
+The generic architecture of a distributed event-based system is
+depicted in Figure~\ref{F_architecture_ebs}. The notification service
+forms an overlay network in the underlying system. The overlay
+consists of event brokers that run as processes on physical
+nodes. Local brokers put the first message into the network. Border
+and inner brokers forward the message to neighboring brokers according
+to filter-based routing tables and routing strategies. Messages are
+sent to local brokers. Local brokers deliver the message to the
+application components.
+
+\begin{figure}[htbp!]
+\begin{center}
+\includegraphics[scale=0.8]{Figures/architecture_ebs}
+\caption{Generic architecture of a distributed event-based system}
+\label{F_architecture_ebs}
+\end{center}
+\end{figure}
+
+Event-based systems are classified according to their notification
+filtering mechanisms. Four categories of notification filtering
+mechanisms exist:
+\begin{itemize}
+\item In channel-based filtering, producers select a channel into
+  which a notification is published, and consumers select a channel
+  and will get all notifications published therein. Channel identifier
+  is only the visible message part to the event-based service. An
+  example of this mechanism is the Corba Event Service.
+\item In subject-based filtering, consumers use string matching for
+  notification selection. Each notification and subscription is
+  defined as a rooted path in a tree of subjects. For instance, a game
+  instance exchange application publishes new events of
+  \textsf{GameInstanceOne} under the subject
+  \textsf{Game.Instance.GameInstanceOne.ActionOne} and consumers
+  subscribe for \textsf{Game.Instance.*} to get all the
+  events that concerns game instances.
+\item In type-based filtering, consumers use path expressions and
+  subtype inclusion to select notifications.
+\item In content-based filtering, filters are evaluated on the whole
+  content of notifications (data and meta-data). Message delivery is
+  based on a query or predicate issued by the subscriber. Available
+  solutions are template matching, extensible filter expressions on
+  name value pairs, XPath expressions on XML, etc.
+\end{itemize}
+
+\noindent Distributed notification routing\footnote{This paragraph is added
+  for the sake of completion since the AMQP standard does not define distribution
+  notification routing functionalities.}:
+\begin{itemize}
+\item Routing is the functionality of matching all notifications with
+  all subscriptions, and of delivering notifications to all clients
+  and neighboring brokers with a matching subscription.
+\item The first strategy is ``flooding'': Brokers forward
+  notifications to all neighboring brokers; Only brokers to which
+  subscribers are connected test on matching subscriptions. The main
+  advantage of flooding is that it guarantees that all the
+  notifications will reach their destination. The main drawback of
+  flooding is that many unnecessary messages are exchanged among
+  brokers.
+\item The other strategy, called ``filter-based'', depends on routing
+  tables which are maintained by brokers. A routing entry is a
+  filter-destination pair $(F, D)$. Entries are updated by sending
+  control messages.
+\end{itemize}
+
+\subsection{Presentation of Advanced Message Queuing Protocol}
+\label{SS_presentation_amqp}
+
+\subsubsection{Introduction to AMQP}
+
+This section is a collection of relevant excerpts from the public Web
+site of the
+Consortium \begin{small}\texttt{https://www.amqp.org}\end{small}.
+
+AMQP is an open standard for messaging middleware. The initial version
+(0.8) was released by the AMQP Working Group as a Published
+Specification in June 2006. In December 2006, V0-9, V0-91 and V0-10
+were also released as a Published Specifications. AMQP1.0 will be
+licensed in the same way as previous versions but no guarantee of
+backwards compatibility can be given prior to version 1.0.
+
+JMS is an API. HTTP is a protocol. AMQP delivers the middleware
+equivalent of HTTP while leaving it up to others to provide
+implementations. JMS does not specify the implementation or the
+wire-level protocol. JMS is not technology agnostic and only
+legitimately supports Java platforms under the terms of its licensing
+(there will be a product which provides a JMS interface, but a
+JMS-like interface cannot legally be provided for non-Java platforms).
+AMQP provides a superset of the semantics required to implement JMS,
+but also enables APIs for C, C++, Python, C\# or any other language on
+Linux, Solaris, Windows, Z/OS, etc. The AMQP Working Group is not
+initially focusing on standardizing an API for AMQP implementations.
+It will be natural for programming environments to create API's onto
+AMQP which are natural for programmers of that environment; an API for
+Java is likely to look like JMS but an API for Python or COBOL may
+look quite different. Despite being written to different API's,
+implementations which are AMQP compliant will inter-operate
+seamlessly; so a Java program could use an AMQP compliant JMS to
+communicate with a .NET program which is using a different API. That's
+an advantage of wire-level protocols.
+
+CORBA/IIOP is a wire-level protocol for remote object invocation. You
+get a handle on an object and call a method. This is different from
+DCOM, where you get a handle on an ``interface'', and ONC/RPC and DCE,
+where you get a handle on a process. All of these are synchronous
+networked calls, and there is no notion of guarantee, or queuing, and
+little notion of QoS. Protocols like these have a place but they are
+incomplete on their own. IIOP also doesn't play nice with firewalls,
+which crop up frequently in real application scenarios.  AMQP is
+conceptually similar to the CORBA Notification Service and CORBA Event
+Service. However, there are few implementations of the Notification or
+Event services in part because of the complexity of the specifications
+and you need a full ORB to run it. This complexity is not amenable to
+wide spread adoption.
+
+\subsubsection{AMQP concepts}
+
+This section is adapted from excerpts of the
+specification~\cite{amqp}. The concepts are depicted in
+Figure~\ref{F_amqp-concepts}. First of all, notice that AMQP is mainly
+one-broker-centered and that the specification ignores distributed
+notification routing. Of course, implementations of the standard are
+not prevented to provide such functionalities. For instance,
+\textsf{RabbitMQ} allows exhange-to-exchange bindings and a ``shovel''
+binding for transferring messages from one node to other nodes in a
+cluster of hosts.
+
+\begin{figure}[htbp!]
+\begin{center}
+\includegraphics[scale=0.7]{Figures/amqp-concepts}
+\caption{AMQP concepts}
+\label{F_amqp-concepts}
+\end{center}
+\end{figure}
+
+The AMQ model consists of a set of components that route and store
+messages within the broker service, plus a set of rules for wiring
+these components together. The AMQ model specifies a modular set of
+components and standard rules for connecting these. There are three
+main types of component, which are connected into processing chains in
+the broker to create the desired functionality:
+\begin{itemize}
+\item The \textit{exchange} receives messages from publishers
+  and routes these to ``message queues'', based on
+  arbitrary criteria, usually message properties or content.
+\item The \textit{message queue} stores messages until they can be
+  safely processed by a consumer (or multiple consumers).
+\item The \textit{binding} defines the relationship between a message
+  queue and an exchange, and provides the message routing criteria.
+\end{itemize}
+Using this model, it is possible to emulate the classic
+message-oriented middleware concepts of store-and-forward queues and
+topic subscriptions.
+
+A virtual host is a data partition within the broker, it is an
+administrative convenience which will prove useful to those wishing to
+provide AMQP as a service on a shared infrastructure. A virtual host
+comprises its own name space, a set of exchanges, message queues, and
+all associated objects. Each connection must be associated with a
+single virtual host. All channels within the connection work with the
+same virtual host. There is no way to communicate with a different
+virtual host on the same connection, nor is there any way to switch to
+a different virtual host without tearing down the connection and
+beginning afresh. The protocol offers no mechanisms for creating or
+configuring virtual hosts ---\textit{i.e.}, this is done in an
+undefined manner within the broker and is entirely
+implementation-dependent. The authentication scheme of the broker is
+shared between all virtual hosts on a broker. However, the
+authorization scheme used may be unique to each virtual
+host. Administrators who need different authentication schemes for
+each virtual host should use separate brokers.
+
+The concept of virtual host is essential to TOTEM since it allows for
+a complete isolation between the different application instances.
+
+\paragraph{Message Queue.} A message queue stores messages in memory or
+on disk, and delivers these in FIFO sequence to one or more
+consumers. Message queues are message storage and distribution
+entities. They are created and maintained by the broker and the broker
+architecture. A message queue has various properties: private or
+shared, durable or temporary, client-named or broker-named, etc.
+
+In the presence of multiple readers from a queue, or client
+transactions, or use of priority fields, or use of message selectors,
+or implementation-specific delivery optimizations, the queue may not
+exhibit true FIFO characteristics. The only way to guarantee FIFO is
+to have just one consumer connected to a queue.
+
+Message queues may be durable, temporary, or auto-deleted. Durable
+message queues last until they are deleted. Temporary message queues
+last until the broker shuts-down. Auto-deleted message queues last
+until they are no longer used.
+
+By selecting the desired properties, one can use a message queue to
+implement conventional middleware entities such as:
+\begin{itemize}
+\item A shared store-and-forward queue, which holds messages and
+  distributes these between consumers on a round-robin basis. Store
+  and forward queues are typically durable and shared between multiple
+  consumers.
+\item A private reply queue, which holds messages and forwards these
+  to a single consumer. Reply queues are typically temporary,
+  broker-named, and private to one consumer.
+\item A private subscription queue, which holds messages collected
+  from various ``subscribed'' sources, and forwards these to a single
+  consumer. Subscription queues are typically temporary, broker-named,
+  and private to one consumer.
+\end{itemize}
+These categories are not formally defined in AMQP: they are examples
+of how message queues can be used.
+
+An acknowledgment is a formal signal from the consumer to a message
+queue that it has successfully processed a message. There are two
+possible acknowledgment models:
+\begin{enumerate}
+\item Automatic, in which the broker removes a content from a message
+  queue as soon as it delivers it to a consumer.
+\item Explicit, in which the consumer must send an \texttt{Ack} method
+  for each message, or batch of messages, that it has processed. The
+  client layers can themselves implement explicit acknowledgments in
+  different ways, \textit{e.g.} as soon as a message is received, or
+  when the application indicates that it has processed it. These
+  differences do not affect AMQP or interoperability.
+\end{enumerate}
+Most of the time, consumers rely on the automatic acknowledgment
+mechanism. Since no specific QoS requirements are expressed, this is
+also our choice for TOTEM.
+
+\paragraph{Exchange.} An exchange accepts messages from a producer
+and routes these to message queues according to pre-arranged
+criteria. These criteria are called ``bindings''. Exchanges are matching
+and routing engines. That is, they inspect messages and using their
+binding tables, decide how to forward these messages to message queues
+or other exchanges. Exchanges never store messages.
+
+A binding is a relationship between a message queue and an exchange.
+The lifespan of bindings depend on the message queues they are defined
+for ---\textit{i.e.}, when a message queue is destroyed, its bindings
+are also destroyed.
+
+AMQP defines a number of standard exchange types, which cover the
+fundamental types of routing needed to do common message
+delivery. Exchange types are named so that applications which create
+their own exchanges can tell the broker what exchange type to
+use. Exchange instances are also named so that applications can
+specify how to bind queues and publish messages.
+
+\paragraph{Routing key and binding key.} In the general case, an
+exchange examines a message's properties, its header fields, and its
+body content, and using this and possibly data from other sources,
+decides how to route the message.  In the majority of simple cases,
+the exchange examines a single key field, which is called the
+``routing key''.  A \textit{routing key} is a virtual address that the
+exchange may use to decide how to route the message.  For
+point-to-point routing, the routing key is usually the name of a
+message queue.  For topic pub-sub routing, the routing key is usually
+the topic hierarchy value.  In more complex cases, the routing key may
+be combined with routing on message header fields and/or its content.
+
+Routing keys are used by producers in messages to indicate the
+``address'' of message consumers. When binding a message queue to an
+exchange, another key is given, called the \textit{binding key}. This
+latter key is the parameter used by the exchange to configure the
+routing protocol implemented by the exchange. Therefore, the routing
+algorithm uses the routing key of a message and the binding key of the
+bound message queues to route the message to consumers attached to
+message queues. Note that most of the time, the terms ``routing key''
+and ``binding key'' are used interchangeably.
+
+\paragraph{Notification filtering mechanisms.} In the implementations
+of the AMQP specification we are aware of, the routing key is the only
+part of the header used for routing, that is the message content is
+not used for routing; then, ``content-based filtering'' is allowed in
+AMQP but for instance not available in the \textsf{\textsf{RabbitMQ}}
+implementation. In addition, messages are arrays of bytes and are not
+objects, in the object oriented acceptation; then, ``type-based
+filtering'' is not part of AMQP. Therefore, the notification filtering
+mechanisms available are ``channel-based filtering'' and
+``subject-based filtering''. The notification filtering mechanisms are
+specified via the exchange types.
+
+\paragraph{Exchange types.} AMQP specify three main types of
+echanges. In the TOTEM project, we use the most powerful type, namely
+the topic exchange type that implements subject-based filtering.
+
+The \textit{direct exchange type} implements a simplistic
+form of subject-based filtering and works as follows:
+\begin{enumerate}
+\item A message queue binds to the exchange using a routing key
+  $K$. Message queues can bind using any valid routing key value, but
+  most often message queues will bind using their own name as routing
+  key.
+\item A publisher sends the exchange a message with the routing key
+  $R$.
+\item The message is passed to the message queue if $K = R$.
+\end{enumerate}
+
+The \textit{fanout exchange type} implements channel-based filtering
+and works as follows:
+\begin{enumerate}
+\item A message queue binds to the exchange with no arguments.
+\item A publisher sends the exchange a message.
+\item The message is passed to the message queue unconditionally.
+\end{enumerate}
+
+The \textit{topic exchange type} works as follows:
+\begin{enumerate}
+\item A message queue binds to the exchange using a binding key $B$ as the
+  routing pattern.
+\item A publisher sends the exchange a message with the routing key
+  $R$.
+\item The message is passed to the message queue if $R \,
+  \textrm{matches} \, B$.
+\end{enumerate}
+The routing key used for a topic exchange must consist of zero or more
+words delimited by dots. Each word may contain the letters
+\texttt{[A--Z]} and \texttt{[a--z]}, and the digits \texttt{[0--9]}.
+The binding key follows the same rules as the routing key with the
+addition of \texttt{*} that matches a single word, and \texttt{\#} that
+matches zero or more words. Thus, the binding key
+\texttt{*.player1.\#} matches the routing keys
+\texttt{gameserver.player1} and \texttt{gameserver.player1.joinAction}
+but not \texttt{player1.gameserver}. This exchange type is stated to
+be optional in the AMQP specification, and is available for instance
+in the \textsf{\textsf{RabbitMQ}} implementation.
+
+\subsubsection{AMQP commands without any confirmations} AMQP can
+dispense with confirmations because it adopts an assertion model for
+all actions. Either they succeed, or entities have an exception that
+closes the channel or connection.
+
+There are no confirmations in AMQP. Success is silent, and failure is
+noisy. When applications need explicit tracking of success and
+failure, they should use transactions.
+
+In the TOTEM project, we do not use transactions.
+
+\subsubsection{AMQP terminology}
+
+The definitions are extracted from the specification~\cite{amqp}:
+\begin{itemize}
+\item \textit{Connection}: A network connection, \textit{e.g.} in our case, a
+  TCP/IP socket connection.
+\item \textit{Channel}: A bi-directional stream of communications between two
+  AMQP peers. Channels are multiplexed so that a single network
+  connection can carry multiple channels.
+\item \textit{Client} and \textit{server}: The initiator of an AMQP
+  connection or channel. AMQP is not symmetrical. Clients produce and
+  consume messages while servers queue and route messages. The server
+  is the process that accepts client connections and implements the
+  AMQP message queuing and routing functions. In this document, we
+  prefer using the terms \textit{publishers} and \textit{consumers}
+  for distinguishing to two roles of clients, and the term
+  \textit{broker} instead of server for not confusing with system
+  architecture concerns.
+\item \textit{Content header} or \textit{header}: A specific type of
+  frame that describes a content's properties.
+\item \textit{Content body} or \textit{body}: A specific type of
+  connection data that contains raw application data. Content body
+  frames are entirely opaque; the server does not examine or modify
+  these in any way.
+\item \textit{Exchange}: The entity within the server which receives
+  messages from producers and optionally routes these to
+  message queues within the server.
+\item \textit{Exchange type}: The algorithm and implementation of a
+  particular model of exchange. In contrast to the ``exchange
+  instance'', which is the entity that receives and routes messages
+  within the server.
+\item \textit{Message queue}: A named entity that holds messages and
+  forwards them to consumers.
+\item \textit{Binding}: An entity that creates a relationship between
+  a message queue and an exchange.
+\item \textit{Routing key}: A virtual address that an exchange may use
+  to decide how to route a specific message.
+\item \textit{Durable}: A server resource that survives a server
+  restart.
+\item \textit{Persistent}: A message that the server holds on reliable
+  disk storage and must not lose after a restart.
+\item \textit{Consumer}: A client application that requests messages
+  from a message queue.
+\item \textit{Producer}: A client application that publishes messages
+  to an exchange.
+\item \textit{Virtual host}: A collection of exchanges, message queues
+  and associated objects. Virtual hosts are independent server domains
+  that share a common authentication and encryption environment.
+\item \textit{Subscription}: Usually a request to receive data from
+  topics; AMQP implements subscriptions as message queues and
+  bindings.
+\end{itemize}
+
+\subsection{Presentation of \textsf{RabbitMQ}}
+\label{SS_presentation_rabbitmq}
+
+\textsf{RabbitMQ}
+(\begin{small}\texttt{http://www.rabbitmq.com}\end{small}) is an open
+source implementation licensed under the Mozilla Public License of the
+AMQP specification, version 0.9.1. It is supported by SpringSource, a
+division of VMware, which is an active contributor to the AMQP
+Consortium. For more details on the conformance to the specification,
+please refer to the following
+URL: \begin{small}\texttt{http://www.rabbitmq.com/specification.html}\end{small}
+Through adapters, AMQP supports XMPP, SMTP, STOMP and HTTP for
+lightweight web messaging. The project is very active: versions 2.0.0,
+2.1.0, 2.2.0, 2.3.0, and 2.4.0 were delivered in August 2010,
+September 2010, October 2010, November 2010, February 2011, and March
+2011, respectively; several dozens of mails are exchanged on the
+mailing list per day. The core of the broker is programmed in Erlang
+and clients exist for many languages (Java, Ruby, Python, .NET, PHP,
+Perl, C/C++, Erlang, Lisp, and Haskell), many operating systems
+(Unix-like OSes, Windows, MacOSX, and OpenVMS), and developers make
+sure that \textsf{RabbitMQ} does work on Amazon EC2 Ubuntu AMIs. The
+documentation on the Web site is plentiful. The project proposes a
+library for Java clients. The community proposes several clients for Python; Pika is
+chosen for being alive (the authors are very reactive on the
+\textsf{RabbitMQ} mailing list), for being the chosen solution for
+implementing a tutorial on AMQP available on the \textsf{RabbitMQ} Web
+site, for being the chosen solution for the excerpts of code in the
+book~\cite{rabbitmq} and for its mailing list being the mailing list
+of \textsf{RabbitMQ}.
+
+\textsf{RabbitMQ} architecture allows for the extension of the broker
+functionalities with a plug-in mechanism: for instance, a
+management~/~monitoring API over HTTP, along with a browser-based UI;
+a plug-in that shovels messages from a queue on one broker to an
+exchange on another broker; authentication~/~authorization plug-ins
+(LDAP and SSL). For the complete list of supported and experimental
+plug-ins, please refer to the following
+URL: \begin{small}\texttt{http://\-www.\-rabbitmq.\-com/\-plugins.html}\end{small}. In
+addition, \textsf{RabbitMQ} is complemented with non AMQP
+functionalities, for example clustering for better scalability.
+
+\subsection{Presentation of \textsf{Node.js}}
+\label{SS_presentation_nodejs}
+
+\textsf{Node.js} (\begin{small}\texttt{http://www.nodejs.org}\end{small})
+is a JavaScript platform for easily building fast, scalable network 
+applications. It uses an event-driven, non-blocking I/O model which fits the
+requirements of data-intensive real-time applications that run across 
+distributed devices. It is licensed under the MIT License. 
+\textsf{Node.js} has a native support of the WebSocket protocol, which could be 
+a nice-to-have feature for next versions of the communication middleware.
+However, for the needs of Master and Spectator JavaScript applications, 
+performances of AJAX requests are sufficient.
+Several points have motivated the use of \textsf{Node.js} to enable 
+communication between JavaScript Web applications and the RabbitMQ broker:
+
+\begin{itemize}
+\item Implementing a RabbitMQ plugin to enable communication with JavaScript 
+  applications is questionable. Indeed, a defective plugin can possibly corrupt 
+  the behaviour of the broker. In addition, maintenance of a plugin is quite 
+  expensive, as a new version of the plugin has to be built for each new 
+  version of the RabbitMQ broker.
+\item Node.js has an AMQP library, which is quite similar to the Python one
+    (Pika). Hence, even developers with no skills in JavaScript or in Web 
+    development will easily be able to maintain, and possibly to
+    add new features to the library.
+\item Building a proxy in JavaScript, instead of using PHP or Ruby, has the
+    advantage of using the same language on both clients and proxy sides.
+    In TOTEM, avoiding the use of another language, in addition to Java, Python 
+    and JavaScript facilitates the understanding of the source code.
+\end{itemize}
+
+\endinput

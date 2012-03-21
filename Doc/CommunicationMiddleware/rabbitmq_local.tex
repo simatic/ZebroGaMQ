@@ -1,0 +1,362 @@
+% TCM: TOTEM Communication Middleware
+% Copyright: Copyright (C) 2009-2012
+% Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
+% Permission is granted to copy, distribute and/or modify this document
+% under the terms of the GNU Free Documentation License, Version 1.3
+% or any later version published by the Free Software Foundation;
+% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+% A copy of the license is included in the section entitled "GNU
+% Free Documentation License".
+
+\section{Installation of RabbitMQ}
+\label{S_installation_rabbitmq_local}
+
+In this section, we provide the procedure for installing
+\textsf{RabbitMQ}: the broker, the Java client for Android phones, the
+Python client for the web framework, and the JavaScript client for the
+Browser. Similar instructions are included in a separate section,
+namely Section~\ref{SS_ec2_configure_instance}, for installing
+\textsf{RabbitMQ} on Amazon EC2 cloud.
+
+\subsection{RabbitMQ broker on desktop computers}
+
+In this section, we install the software from a regular archive so
+that we will execute \textsf{RabbitMQ} broker as a non-\texttt{root}
+user. The configuration of the environment
+variables \begin{small}\texttt{RABBITMQ\_MNESIA\_BASE}\end{small}
+and \begin{small}\texttt{RABBITMQ\_LOG\_BASE}\end{small} is important
+to allow executing the broker as a non-\texttt{root} user. This is
+done as follows.
+\begin{enumerate}
+\item The instructions we provide are extracted from the ``install''
+  Web page at this
+  URL: \begin{small}\texttt{http://www.rabbitmq.com/\-install.html}\end{small}. Refer to this Web page when necessary.
+\begin{itemize}
+\item At first, install Erlang and Python 2.6:
+\begin{itemize}
+\item On GNU/Linux, Debian distribution, check the versions that are
+  installed, executing the following commands:
+\begin{shellcmd}
+\$ erl
+Erlang R13B03 (erts-5.7.4) [source] [smp:2:2] [rq:2] [async-threads:0] [hipe] [kernel-poll:false]
+
+Eshell V5.7.4  (abort with ^G)
+...
+\$ python --version
+Python 2.6.6
+\end{shellcmd}
+\item Or execute the following commands as the user \textsf{root} or
+  as a \textsf{sudouser}:
+\begin{shellcmd}
+apt-get install erlang
+apt-get install python
+\end{shellcmd}
+\end{itemize}
+\item Next, install \textsf{RabbitMQ} version~2.7.1 from the ``Package
+  for generic Unix systems'' (file
+  \textsf{rabbitmq-server-generic-unix-2.7.1.tar.gz}) or from the
+  ``Windows Bundle'' (file
+  \textsf{rabbitmq-server-windows-2.7.1.zip}). In the following, adapt
+  the commands if you are running a Windows operationg system (cf.~the
+  Web
+  page \begin{small}\texttt{http://\-www.\-rabbitmq.\-com/\-install.\-html\#\-windows}\end{small}).
+\begin{itemize}
+\item On GNU/Linux, Debian distribution, execute the following commands:
+\begin{shellcmd}
+wget http://www.rabbitmq.com/releases/rabbitmq-server/ \textbackslash
+     v2.7.1/rabbitmq-server-generic-unix-2.7.1.tar.gz
+tar xfz rabbitmq-server-generic-unix-2.7.1.tar.gz
+\end{shellcmd}
+\end{itemize}
+\end{itemize}
+On Unix-like operating systems, the broker of \textsf{RabbitMQ},
+called the server in \textsf{RabbitMQ} terminology, is now installed
+in the directory
+\textsf{\textsc{\$\{yourdirectory\}}/rabbitmq\_server-2.7.1}.  The
+commands of \textsf{RabbitMQ} (\textsf{rabbitmq-server} to launch the
+broker and \textsf{rabbitmqctl} to control the broker) are available
+in the directory
+\textsf{\textsc{\$\{yourdirectory\}}/rabbitmq\_server-2.7.1/sbin}.
+
+\item
+
+\begin{enumerate}
+\item On Unix-like operating systems, in order to add the
+  \textsf{RabbitMQ} commands to the shell path, and to configure the
+  location of the database and the log files, add the following
+  commands to the shell script that is executed when opening a shell
+  connection, for instance in the file \textsf{\string~/.bashrc}:
+\begin{shellcmd}
+PATH=\${PATH}:\textsc{\$\{yourdirectory\}}/rabbitmq\_server-2.7.1/sbin
+export RABBITMQ\_MNESIA\_BASE=\textsc{\$\{yourdirectory\}}/rabbitmq\_server-2.7.1/mnesia
+export RABBITMQ\_LOG\_BASE=\textsc{\$\{yourdirectory\}}/rabbitmq\_server-2.7.1/log
+\end{shellcmd}
+Note that we assume that you are now going to create the directories
+\textsf{\textsc{\$\{yourdirectory\}}/rabbitmq\_server-2.7.1/mnesia}
+and \textsf{\textsc{\$\{yourdirectory\}}/rabbitmq\_server-2.7.1/log}.
+
+\item On Windows systems, follow the instructions in \begin{small}\texttt{http://\-www.\-rabbitmq.\-com/\-install.\-html\#\-windows}\end{small}, that is:
+\begin{itemize}
+\item Set \textsf{\textsc{erlang\_home}} environment variable to where
+  you actually put your Erlang installation,
+  e.g. \textsf{C:\textbackslash{}Program
+    Files\textbackslash{}erl5.7.4} (full path). The \textsf{RabbitMQ}
+  batch files expect to execute
+  \textsf{\textsc{\%erlang\_home}\%\textbackslash{}bin\textbackslash{}erl.exe}.
+\item Create a system environment variable
+  (e.g. \textsf{\textsc{rabbitmq\_server}}) for
+  \textsf{C:\textbackslash{}Program
+    Files\textbackslash{}RabbitMQ\textbackslash{}rabbitmq\_server-2.7.1}.
+  Adjust this if you put \textsf{rabbitmq\_server-2.7.1} elsewhere.
+\item Append the literal string
+  \texttt{;\textsc{\%rabbitmq\_server}\%\textbackslash{}sbin} to your
+  system path (as known as \texttt{\%PATH\%}).
+\end{itemize}
+Note: On Windows systems, it is not necessary to create and set the
+variables \texttt{\textsc{rabbitmq\_mnesia\_base}} and
+\texttt{\textsc{rabbitmq\_log\_base}}.
+\end{enumerate}
+
+\item
+On Unix-like and Windows operating systems, your \textsf{RabbitMQ}
+installation can be tested by launching the broker as follows:
+\begin{shellcmd}
+\$ rabbitmq-server -detached \# execute in the background
+Activating RabbitMQ plugins ...
+0 plugins activated:
+\$ rabbitmqctl status
+Status of node rabbit@rabbit ...
+[{running\_applications,[{rabbit,"RabbitMQ","2.7.1"},
+                        {mnesia,"MNESIA  CXC 138 12","4.4.14"},
+                        {os\_mon,"CPO  CXC 138 46","2.2.5"},
+                        {sasl,"SASL  CXC 138 11","2.1.9.2"},
+                        {stdlib,"ERTS  CXC 138 10","1.17"},
+                        {kernel,"ERTS  CXC 138 10","2.14"}]},
+ {nodes,[{disc,[rabbit@rabbit]}]},
+ {running\_nodes,[rabbit@rabbit]}]
+...done.
+\$ rabbitmqctl stop
+Stopping and halting node rabbit@rabbit ...
+...done.
+\$ rabbitmqctl status
+Status of node rabbit@rabbit ...
+Error: unable to connect to node rabbit@rabbit: nodedown
+diagnostics:
+- nodes and their ports on rabbit: [{rabbitmqctl2776,45667}]
+- current node: rabbitmqctl2776@rabbit
+- current node home dir: /home/bitnami
+- current node cookie hash: 58UmUjslvHMdJuJyRDcEag==
+\end{shellcmd}
+\end{enumerate}
+
+\subsection{RabbitMQ producers and consumers on J2SE applications,
+  dedicated RabbitMQ Java client library}
+\label{S_rabbitmq_android_phones}
+
+The library for Java producers and consumers of
+\textsf{RabbitMQ}, called clients in \textsf{RabbitMQ} terminology, is 
+downloaded using Maven. To test the library with your environment, you can do the following:
+\begin{itemize}
+\item At first, install Sun JDK 1.6 and Maven 2:
+\begin{itemize}
+\item On GNU/Linux, Debian distribution, check the versions that are
+  installed, executing the following commands:
+\begin{shellcmd}
+\$ java -version
+java version "1.6.0_24"
+...
+\$ javac -version
+javac 1.6.0_24
+\$ mvn -version
+Apache Maven 2.2.1 (rdebian-4)
+Java version: 1.6.0_24
+Java home: /usr/lib/jvm/java-6-sun-1.6.0.24/jre
+\end{shellcmd}
+\item Or execute the following commands as the user \textsf{root} or
+  as a \textsf{sudoer}:
+\begin{shellcmd}
+apt-get install sun-java6-jdk
+apt-get install maven2
+\end{shellcmd}
+\end{itemize}
+\item Download the directory  \begin{small}\texttt{Totem.CommunicationMiddleware/Sources/TutorialExamples/J2SE/Step1}\end{small}
+from the TOTEM Redmine Subversion repository.
+\item Launch the RabbitMQ broker, and the J2SE consumers and producers using the script \textsf{run.sh}.
+\end{itemize}
+
+\subsection{RabbitMQ producers and consumers on desktop computers,
+  Python RabbitMQ client library named Pika}
+
+To limit the number of commands requiring \texttt{root} privileges, we
+propose to not install the Python packages using the \texttt{pip} or
+\texttt{easy\_install} utility tools. But, of course, you can prefer
+performing this installation differently using Python utility
+tools. In addition, we only provide the commands for Unix-like
+operating systems.
+
+\begin{enumerate}
+\item Install the software Pika, version 0.9.5 by executing the following commands
+\begin{shellcmd}
+\$ cd \textsc{\$\{yourdirectory\}}
+\$ wget http://pypi.python.org/packages/source/p/pika/pika-0.9.5.tar.gz
+\$ tar xfz pika-0.9.5.tar.gz
+\end{shellcmd}
+The Python packages Pika is installed in the directory
+\textsf{\textsc{\$\{yourdirectory\}}/pika-v0.9.5}.  Insert this
+package in the path of Python by adding the directories in the shell
+variable \textsf{PYTHONPATH}:
+\begin{shellcmd}
+export PYTHONPATH=\$PYTHONPATH:\textsc{\$\{yourdirectory\}}/pika-v0.9.5
+\end{shellcmd}
+\item Check that Pika is correctly installed by trying the following
+  Python commands that demonstrate that the Pika package can be
+  imported in a Python script:
+\begin{shellcmd}
+\$ python
+Python 2.6.5 (r265:79063, Apr 16 2010, 13:09:56) 
+[GCC 4.4.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import pika
+>>> quit()
+\end{shellcmd}
+\end{enumerate}
+
+To test the library with your environment, you can do the following:
+\begin{itemize}
+\item Download the
+  directory \begin{small}\texttt{Totem.CommunicationMiddleware/Sources/TutorialExamples/Pika/Step5}\end{small}
+  from the TOTEM Redmine Subversion repository.
+\item Start the \textsf{RabbitMQ} server with the following command:
+\begin{shellcmd}
+\$ rabbitmq-server
+Activating RabbitMQ plugins ...
+0 plugins activated:
+...
+\end{shellcmd}
+\item Check that there is no exhange named \textsf{topic\_logs} by
+  executing the following commands:
+\begin{shellcmd}
+\$ rabbitmqctl list\_exchanges
+Listing exchanges ...
+amq.direct	direct
+amq.topic	topic
+amq.rabbitmq.log	topic
+amq.fanout	fanout
+amq.headers	headers
+	direct
+amq.match	headers
+...done.
+\$ rabbitmqctl list\_bindings
+Listing bindings ...
+...done.
+\end{shellcmd}
+\item Launch the consumers and the producers using the script
+  \texttt{run.sh}.
+\end{itemize}
+
+
+\subsection{RabbitMQ JavaScript producers and consumers using
+JavaScript AMQP library}
+\label{javascript-node.js}
+
+The library for Javascript AMQP producers and consumers works with
+\textsf{Node.js}, which is an event-driven I/O server-side JavaScript
+environment. Here follows an installation procedure for Unix-like
+operating systems which should be performed on the server side:
+
+\begin{enumerate}
+\item Install \textsf{Node.js}:
+
+\begin{itemize}
+\item The prerequisites to build \textsf{Node.js} from source are:
+\begin{itemize}
+\item \textsf{python}: version~2.4 or higher. The build tools distributed with 
+\textsf{Node.js} run on python.
+\item \textsf{libssl-dev}: If you plan to use SSL/TLS encryption in
+  your networking, you need this library. \texttt{libssl} is the
+  library used in the \texttt{openssl} tool.
+\end{itemize}
+\item To download and build \textsf{Node.js}, version~0.4.10 execute the 
+following commands:
+
+\begin{shellcmd}
+\$ mkdir \textasciitilde/node.js
+\$ cd 	\textasciitilde/node.js
+\$ wget http://nodejs.org/dist/node-v0.4.10.tar.gz
+\$ tar xfz node-v0.4.10.tar.gz
+\$ rm node-v0.4.10.tar.gz
+\$ cd node-v0.4.10
+\$ ./configure --prefix=\$HOME/node.js/node-v0.4.10
+\$ make
+\$ make install
+\$ echo "export PATH=\$HOME/node.js/node-v0.4.10/bin:\$PATH" >> \textasciitilde/.bashrc
+\$ echo "export NODE_PATH=\$HOME/node.js/node-v0.4.10:\$HOME/\textbackslash
+  node.js/node-v0.4.10/lib/node_modules" >> \textasciitilde/.bashrc
+\$ source \textasciitilde/.bashrc
+\end{shellcmd}
+\item Check that \textsf{node.js} is properly installed by trying the following
+command:
+\begin{shellcmd}
+\$ node -v
+v0.4.10
+\end{shellcmd}
+\end{itemize}
+
+\item Install \textsf{npm}, the package manager for installing additional 
+\textsf{Node.js} libraries:
+\begin{itemize}
+\item If the \textsf{curl} command is not present, you should first install it:
+\begin{shellcmd}
+\$ sudo apt-get install curl
+\end{shellcmd}
+\item Then, install \textsf{npm}:
+\begin{shellcmd}
+\$ curl http://npmjs.org/install.sh | sh
+\end{shellcmd}
+\end{itemize}
+
+\item Install \textsf{node-amqp} \textit{(version 0.1.0)}, an AMQP client for \textsf{Node.js} by 
+executing the following command:
+\begin{shellcmd}
+\$ npm install -g amqp@0.1.0
+\end{shellcmd}
+
+\item Install \textsf{node-mxlrpc}, an XMLRPC client for \textsf{Node.js} by 
+executing the following command:
+\begin{shellcmd}
+\$ npm install -g xmlrpc
+\end{shellcmd}
+\end{enumerate}
+
+To test the AMQP library with your environment, you can do the following:
+\begin{itemize}
+\item Download the
+  directory \begin{small}\texttt{Totem.CommunicationMiddleware/Sources/TutorialExamples/Javascript}\end{small}
+  from the TOTEM Redmine Subversion repository.
+\item Enter the \begin{small}\texttt{Step1}\end{small} folder, and launch 
+the consumer and the producer using \texttt{run.sh}.\bigskip 
+\item At the end of the execution of the script \texttt{run.sh} ,
+  check that the output looks like this one:
+\begin{shellcmd}
+[...]
+Starting node rabbit@rabbit ...
+...done.
+Producer connected to broker.
+queue declared.
+message published.
+Listing queues ...
+hello_queue	false	false
+...done.
+Consumer connected to broker.
+Message received: Hello world!
+Stopping and halting node rabbit@rabbit ...
+...done.
+END OF HELLOWORLD TUTORIAL TEST
+\end{shellcmd}
+\note{Warning:}{ Using the script to launch the consumer and the
+  producer will delete every queues and exchanges located on your
+  broker. If you don't want to do so, please refer to the
+  \texttt{readme.txt} file.}
+\end{itemize}
+
+\endinput
