@@ -25,9 +25,9 @@ package net.totem.gamelogic;
 
 public class GameLogicState {
 	
-	public static final String PLAYER 		= "PLAYER";
-	public static final String GAME_MASTER 	= "GAME_MASTER";
-	public static final String SPECTATOR 	= "SPECTATOR";
+	public static final String PLAYER 		= "Player";
+	public static final String GAME_MASTER 	= "Master";
+	public static final String SPECTATOR 	= "Spectator";
 	
 	
 	public String 	login;

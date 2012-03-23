@@ -26,12 +26,14 @@
   <modelVersion>4.0.0</modelVersion>
   
   <groupId>net.totem</groupId>
-  <artifactId>gamelogic-client</artifactId>
-  <name>TOTEM Client Game Logic</name>
+  <artifactId>gamelogic-integration-application</artifactId>
+  <name>TOTEM Application Game Logic</name>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   
-  <description>TOTEM Client Game Logic</description>
+  <description>
+    Example application demonstrating the integration of the technologies on a J2SE environment.
+  </description>
   
   <licenses>
     <license>
@@ -87,7 +89,7 @@
       <dependency>
 	<groupId>com.rabbitmq</groupId>
 	<artifactId>amqp-client</artifactId>
-	<version>2.7.1</version>
+	<version>2.7.0</version>
       </dependency>
       <dependency>
 	<groupId>org.apache.commons</groupId>
@@ -96,13 +98,28 @@
       </dependency>
       <!-- rabbitmq totem lib -->
       <dependency>
-	<groupId>eu.telecomsudparis.rabbitmq</groupId>
-	<artifactId>totemlib</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<groupId>net.totem</groupId>
+	<artifactId>gamelogic-client</artifactId>
+	<version>1.0-SNAPSHOT</version>
+      </dependency>
+      <!-- xmlrpc -->
+      <dependency>
+	<groupId>xmlrpc</groupId>
+	<artifactId>xmlrpc</artifactId>
+	<version>2.0.1</version>
+      </dependency>
+      <dependency>
+	<groupId>ws-commons-util</groupId>
+	<artifactId>ws-commons-util</artifactId>
+	<version>1.0.1</version>
+      </dependency>
+      <dependency>
+	<groupId>commons-codec</groupId>
+	<artifactId>commons-codec</artifactId>
+	<version>1.4</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
-
 
   <dependencies>
     <dependency>
@@ -112,6 +129,22 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-io</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xmlrpc</groupId>
+      <artifactId>xmlrpc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ws-commons-util</groupId>
+      <artifactId>ws-commons-util</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+    </dependency>
+    <dependency>
+	<groupId>net.totem</groupId>
+	<artifactId>gamelogic-client</artifactId>
     </dependency>
   </dependencies>
 
@@ -131,7 +164,7 @@
         <artifactId>maven-source-plugin</artifactId>
 	<configuration>
 	  <archive>
-	    <manifestFile>src/main/resources/META-INF/totem-rabbitmq-library.mf</manifestFile>
+	    <manifestFile>src/main/resources/META-INF/application.mf</manifestFile>
 	  </archive>
 	</configuration>
         <executions>
@@ -158,7 +191,7 @@
 	<artifactId>maven-jar-plugin</artifactId>
 	<configuration>
 	  <archive>
-	    <manifestFile>src/main/resources/META-INF/totem-rabbitmq-library.mf</manifestFile>
+	    <manifestFile>src/main/resources/META-INF/application.mf</manifestFile>
 	  </archive>
 	</configuration>
       </plugin>
@@ -251,5 +284,4 @@
       </plugin>
     </plugins>
   </reporting>
-
 </project>

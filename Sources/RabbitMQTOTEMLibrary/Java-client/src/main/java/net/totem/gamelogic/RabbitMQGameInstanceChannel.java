@@ -45,7 +45,7 @@ class RabbitMQGameInstanceChannel {
 
 	protected boolean initCommunicationWithBroker(final GameLogicState state){
 		boolean communicationOK = false;
-		Util.println(" [Master " + state.login
+		Util.println(" ["+state.role+ " " + state.login
 				+ "] initCommunicationWithBroker for "+getClass().getSimpleName()+".");
 		for (int i = 0, max = Integer.valueOf(Util.getRabbitMQProperties()
 				.getProperty("maxRetry")); i < max; i++) {
@@ -66,7 +66,7 @@ class RabbitMQGameInstanceChannel {
 					break;
 				} catch (PossibleAuthenticationFailureException e) {
 					// This exception may appear with correct authentication parameters...
-					Util.println(" [Master " + state.login
+					Util.println(" ["+state.role+ " " + state.login
 							+ "] Fail during authentication with broker for "+getClass().getSimpleName()+": "
 							+ e.getMessage());
 					e.printStackTrace();
@@ -86,7 +86,7 @@ class RabbitMQGameInstanceChannel {
 		// update state's attribute
 		updateNumberOfRetries(retryNumber, state);
 		if(retryNumber == maxRetryNumber - 1){
-			Util.println(" [Master " + state.login+ "]: "+getClass().getSimpleName()+" stop : too many retries.");
+			Util.println(" ["+state.role+ " " + state.login+ "]: "+getClass().getSimpleName()+" stop : too many retries.");
 			state.connectionExit();
 		} else {
 			try {

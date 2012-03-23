@@ -82,7 +82,7 @@ class WorkerChannel(object):
                                 routing_key=observationKey)
         logging.debug("GameLogicServer] First queue bound on for " + login)
         observationKey = "*.all.*.*"
-        logging.debug("GameLogicServer] Binding key for broadcasts is " + spectatorKey)
+        logging.debug("GameLogicServer] Binding key for broadcasts is " + observationKey)
         self.channel.queue_bind(exchange=RabbitMQConfiguration().getRabbitMQProperty("gameLogicServerExchangeName"),
                                 queue=login,
                                 routing_key=observationKey)
