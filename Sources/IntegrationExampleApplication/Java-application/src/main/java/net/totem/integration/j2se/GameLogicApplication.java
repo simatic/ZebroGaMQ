@@ -156,8 +156,7 @@ public class GameLogicApplication {
 			public void run() {
 				while (!state.hasConnectionExited()) {
 					try {
-						state.channelsManager.publishToGameLogicServer(state,
-								PresenceAction.ASK_PARTICIPANTS_LIST, " ");
+						state.channelsManager.publishToGameLogicServer(state, PresenceAction.ASK_PARTICIPANTS_LIST, " ");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

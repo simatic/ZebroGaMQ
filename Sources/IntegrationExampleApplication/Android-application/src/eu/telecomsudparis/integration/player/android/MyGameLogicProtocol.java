@@ -25,12 +25,12 @@ package eu.telecomsudparis.integration.player.android;
 
 import java.io.IOException;
 
+import net.totem.gamelogic.GameLogicState;
 import net.totem.gamelogic.Util;
-import net.totem.gamelogic.player.PlayerState;
 
 public class MyGameLogicProtocol{
 
-	public static Object myFirstAction(PlayerState state,
+	public static Object myFirstAction(GameLogicState state,
 			String[] header, String body) {
 		Util.println(" [Player " + state.login + "] " + body);
 		try {
@@ -44,13 +44,13 @@ public class MyGameLogicProtocol{
 		return null;
 	}
 
-	public static Object mySecondAction(PlayerState state,
+	public static Object mySecondAction(GameLogicState state,
 			String[] header, String body) {
 		Util.println(" [Player " + state.login + "] react to mySecondAction");
 		return null;
 	}
 
-	public static Object myFourthAction(PlayerState state,
+	public static Object myFourthAction(GameLogicState state,
 			String[] header, String body) {
 		Util.println(" [Player " + state.login + "] " + body);
 		return null;

@@ -23,14 +23,13 @@
 
 package eu.telecomsudparis.integration.player.android;
 
-
 import java.io.IOException;
 
+import net.totem.gamelogic.ChannelsManager;
+import net.totem.gamelogic.GameLogicState;
+import net.totem.gamelogic.JoinAction;
+import net.totem.gamelogic.PresenceAction;
 import net.totem.gamelogic.Util;
-import net.totem.gamelogic.player.ChannelsManager;
-import net.totem.gamelogic.player.JoinAction;
-import net.totem.gamelogic.player.PlayerState;
-import net.totem.gamelogic.player.PresenceAction;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -41,7 +40,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 
-class PlayerTask extends AsyncTask<Void, Integer, Integer> {
+class GameLogicTask extends AsyncTask<Void, Integer, Integer> {
 
 	private static final int RESULT_OK			= 0;
 	private static final int RESULT_ERROR		= 1;
@@ -49,16 +48,16 @@ class PlayerTask extends AsyncTask<Void, Integer, Integer> {
 	private static final int COMPUTING_ANSWER	= 20;
 	
 
-	private PlayerState			state;
-	private PlayerApplication 	activity;
+	private GameLogicState		state;
+	private GameLogicApplication 	activity;
 	private ProgressDialog 		dialog;
 
 	
-	public PlayerTask(PlayerApplication activity){
+	public GameLogicTask(GameLogicApplication activity){
 		this.activity = activity;
-		state = new PlayerState();
+		state = new GameLogicState();
 		state.login = activity.playerName;
-		state.password = PlayerApplication.DEFAULT_PWD;
+		state.password = GameLogicApplication.DEFAULT_PWD;
 		state.gameName = "Tidy-City";
 		state.gameInstanceName = "Instance-1";
 	}
@@ -140,7 +139,7 @@ class PlayerTask extends AsyncTask<Void, Integer, Integer> {
 	
 	private boolean executeXMLRPCLogin(){
 		boolean res = false;
-		if(state.login.equals(PlayerApplication.INSTANCE_CREATOR_NAME)){
+		if(state.login.equals(GameLogicApplication.INSTANCE_CREATOR_NAME)){
 			res = XMLRPCLogin.createAndJoinGameInstance(state.login, state.password, state.gameName, state.gameInstanceName);
 		}else{
 			res = XMLRPCLogin.joinGameInstance(state.login, state.password, state.gameName, state.gameInstanceName);
@@ -152,16 +151,8 @@ class PlayerTask extends AsyncTask<Void, Integer, Integer> {
 		try {
 			// Instantiate the channelsManager
 			state.channelsManager = ChannelsManager.getInstance(state, MyListOfGameLogicActions.ListOfActionsMaps);
-			state.channelsManager.publishToGameLogicServer(
-					state,
-					JoinAction.JOIN_PLAYER,
-					state.login
-					+ Util.getRabbitMQProperties().getProperty(
-					"bodySeparator")
-					+ state.gameName
-					+ Util.getRabbitMQProperties().getProperty(
-					"bodySeparator")
-					+ state.gameInstanceName);
+			String content = state.login + "," + state.gameName + "," + state.gameInstanceName;
+			state.channelsManager.publishToGameLogicServer(state, JoinAction.JOIN, content);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -173,8 +164,7 @@ class PlayerTask extends AsyncTask<Void, Integer, Integer> {
 			public void run() {
 				while (!state.hasConnectionExited()) {
 					try {
-						state.channelsManager.publishToGameLogicServer(state,
-								PresenceAction.ASK_PARTICIPANTS_LIST, " ");
+						state.channelsManager.publishToGameLogicServer(state, PresenceAction.ASK_PARTICIPANTS_LIST, " ");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

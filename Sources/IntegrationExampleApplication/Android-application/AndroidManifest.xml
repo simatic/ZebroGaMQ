@@ -4,7 +4,7 @@
       android:versionName="1.0"
       package="eu.telecomsudparis.integration.player.android">
     <application android:label="@string/app_name">
-        <activity android:name="PlayerApplication"
+        <activity android:name=".GameLogicApplication"
                   android:label="@string/app_name"
                   android:screenOrientation="portrait">
             <intent-filter>

@@ -39,7 +39,7 @@ import android.view.MenuItem;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class PlayerApplication extends Activity implements Log {
+public class GameLogicApplication extends Activity implements Log {
 	
 	final static 	String		INSTANCE_CREATOR_NAME 	= "PLAYER_1";
 	final static 	String		INSTANCE_JOINER_NAME 	= "PLAYER_2";
@@ -49,7 +49,7 @@ public class PlayerApplication extends Activity implements Log {
 	private 		TextView 				myTextView;
 	private 		ScrollView 				scroller;
 	private 		MessageDisplayHandler 	handler;
-	private 		PlayerTask				playerTask;
+	private 		GameLogicTask				playerTask;
 	
 	String			playerName;
 
@@ -150,7 +150,7 @@ public class PlayerApplication extends Activity implements Log {
 			// set the name of the Player
 			playerName = createInstance ? INSTANCE_CREATOR_NAME : INSTANCE_JOINER_NAME;
 			// execute the player task
-			playerTask = new PlayerTask(PlayerApplication.this);
+			playerTask = new GameLogicTask(GameLogicApplication.this);
 			playerTask.execute();
 		}else{
 			println("Properties have not been load properly.");

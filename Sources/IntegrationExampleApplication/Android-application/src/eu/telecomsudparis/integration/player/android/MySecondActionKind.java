@@ -28,20 +28,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.totem.gamelogic.ActionInvocationException;
+import net.totem.gamelogic.GameLogicActionInterface;
+import net.totem.gamelogic.GameLogicState;
 import net.totem.gamelogic.Util;
-import net.totem.gamelogic.player.PlayerActionInterface;
-import net.totem.gamelogic.player.PlayerState;
 
-public enum MySecondActionKind implements PlayerActionInterface {
+public enum MySecondActionKind implements GameLogicActionInterface {
 	MY_FOURTH_ACTION("myFourthAction") {
-		public Object execute(PlayerState state, String[] header,
+		public Object execute(GameLogicState state, String[] header,
 				String body) throws ActionInvocationException {
 			return MyGameLogicProtocol.myFourthAction(state, header,
 					body);
 		}
 	},
 	MY_FIFTH_ACTION("myFitfhAction") {
-		public Object execute(PlayerState state, String[] header,
+		public Object execute(GameLogicState state, String[] header,
 				String body) throws ActionInvocationException {
 			return null;
 		}

@@ -28,50 +28,57 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.totem.gamelogic.ActionInvocationException;
+import net.totem.gamelogic.GameLogicActionInterface;
+import net.totem.gamelogic.GameLogicState;
 import net.totem.gamelogic.Util;
-import net.totem.gamelogic.player.ConsumeChannel;
-import net.totem.gamelogic.player.PlayerActionInterface;
-import net.totem.gamelogic.player.PlayerState;
 
-public enum RawActionKind implements
-	PlayerActionInterface {
-	RAW_ACTION(ConsumeChannel.RAW_ACTION_NAME) {
-		public Object execute(PlayerState state, String[] header,
+public enum MyFirstActionKind implements
+	GameLogicActionInterface {
+	MY_FIRST_ACTION("myFirstAction") {
+		public Object execute(GameLogicState state, String[] header,
 				String body) throws ActionInvocationException {
-			//TODO Add your suitable behavior on the reception of raw messages.
-			// header[0] = sender
-			// header[1] = recipient
-			// header[2] = action kind
-			// header[3] = action name
-			Util.println("RAW MESSAGE RECEIVED >> = "+body);
+			return MyGameLogicProtocol.myFirstAction(state, header,
+					body);
+		}
+	},
+	MY_SECOND_ACTION("mySecondAction") {
+		public Object execute(GameLogicState state, String[] header,
+				String body) throws ActionInvocationException {
+			return MyGameLogicProtocol.mySecondAction(state, header,
+					body);
+		}
+	},
+	MY_THIRD_ACTION("myThirdAction") {
+		public Object execute(GameLogicState state, String[] header,
+				String body) throws ActionInvocationException {
 			return null;
 		}
 	};
 
-	public final static int KIND_NUMBER = 10;
+	public final static int KIND_NUMBER = 100;
 	public final static int LOWER_ACTION_NUMBER = 0;
 	public final static int UPPER_ACTION_NUMBER = 1000;
 	
 	// Ignore the code below. Just make sure it is present in all your enums.
 	// The copy and paste is due to a limitation of Java enums (no inheritance).
 
-	private final static Map<String, RawActionKind> privateActionMap = new HashMap<String, RawActionKind>();
-	public final static Map<String, RawActionKind> actionMap = Collections
+	private final static Map<String, MyFirstActionKind> privateActionMap = new HashMap<String, MyFirstActionKind>();
+	public final static Map<String, MyFirstActionKind> actionMap = Collections
 			.unmodifiableMap(privateActionMap);
 
 	private final String codeKind;
-	public final String nameKind = ConsumeChannel.RAW_ACTION_KIND;
+	public final String nameKind = "myFirstActionKind";
 	private final String codeAction;
 	private final String nameAction;
 
 	static {
-		for (RawActionKind gra : RawActionKind
+		for (MyFirstActionKind gra : MyFirstActionKind
 				.values()) {
 			privateActionMap.put(gra.toString(), gra);
 		}
 	}
 
-	private RawActionKind(String nameAction) {
+	private MyFirstActionKind(String nameAction) {
 		this.codeKind = String.valueOf(KIND_NUMBER);
 		this.codeAction = String.valueOf(LOWER_ACTION_NUMBER + ordinal());
 		this.nameAction = nameAction;
