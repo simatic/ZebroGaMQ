@@ -23,16 +23,8 @@
 
 function JoinAction () {}
 
-JoinAction.prototype.joinMasterOK = function (state, publisher, consumer, message){
-        println("Master has joined","Message received from "+publisher+": "+message);
-};
-
-JoinAction.prototype.joinPlayerOK = function (state, publisher, consumer, message){
-        println("Player has joined","Message received from "+publisher+": "+message);
-};
-
-JoinAction.prototype.joinSpectatorOK = function (state, publisher, consumer, message){
-        println("Spectator has joined","Message received from "+publisher+": "+message);
+JoinAction.prototype.joinOK = function (state, publisher, consumer, message){
+        println("Join message","Message received from "+publisher+": "+message);
 };
 
 

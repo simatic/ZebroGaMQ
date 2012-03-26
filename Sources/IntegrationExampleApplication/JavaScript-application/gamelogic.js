@@ -117,7 +117,7 @@ function onCreateConnection (session) {
 
 
 /**
- * Callback function triggered by gameMasterState.connectionExit().
+ * Callback function triggered by gameLogicState.connectionExit().
  **/
 function onExitConnection(){
   // stop the sending of messages to ask participants list
@@ -131,13 +131,12 @@ function onExitConnection(){
 function startParticipantsListTask (){
     // send periodically a message to ask participants list.
     participantsListTask = setInterval(function() {
-        publishToGameLogicServer(gameMasterState, "presence.askParticipantsList");
+        publishToGameLogicServer(gameLogicState, "presence.askParticipantsList");
     }, PARTICIPANTS_LIST_TASK_PERIOD);
 }
 
 
 $(document).ready(function() {
-    
     // first screen
     showConnect();
                                            
@@ -158,11 +157,10 @@ $(document).ready(function() {
         return false;
     });
     
-    
     // when the user clicks the join button
     $("#joinButton").click(function () {
        // instantiate spectatorState with specific heartbeat and maxRetry values (optional)
-        gameLogicState = new State("PLAYER_B", DEFAULT_PWD , "Tidy-City", "Instance-1", heartbeat=0, maxRetry=100);
+        gameLogicState = new State("PLAYER_B", DEFAULT_PWD , "Tidy-City", "Instance-1", heartbeat=10000, maxRetry=100);
         gameLogicState.observationKey = "*.*.*.*";
         // register its own actions
         gameLogicState.listOfActions.myFirstActionKind = new MyFirstActionKind();
