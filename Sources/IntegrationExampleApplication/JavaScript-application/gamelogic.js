@@ -108,8 +108,10 @@ function onCreateConnection (session) {
   showMessagesArea();
   // start the gameLogicState (consumeLoop, heartbeatTask...)
   gameLogicState.start();
-  // start the participant list task
-  startParticipantsListTask();
+  if(gameLogicState.role == "Master"){
+    // start the participant list task
+    startParticipantsListTask();
+  }
   // publish a join message
   var content =  gameLogicState.login+",Tidy-City,Instance-1";
   publishToGameLogicServer(gameLogicState, "join.join", content);
@@ -144,6 +146,7 @@ $(document).ready(function() {
     $("#createButton").click(function () {
         // instantiate gameLogicState
         gameLogicState = new State("PLAYER_A", DEFAULT_PWD, "Tidy-City", "Instance-1");
+        gameLogicState.role = "Master";
         // register its own actions
         gameLogicState.listOfActions.myFirstActionKind = new MyFirstActionKind();
         // creation and joining of game instance 
@@ -160,12 +163,13 @@ $(document).ready(function() {
     // when the user clicks the join button
     $("#joinButton").click(function () {
        // instantiate spectatorState with specific heartbeat and maxRetry values (optional)
-        gameLogicState = new State("PLAYER_B", DEFAULT_PWD , "Tidy-City", "Instance-1", heartbeat=10000, maxRetry=100);
+        gameLogicState = new State("PLAYER_B", DEFAULT_PWD , "Tidy-City", "Instance-1", heartbeat=15000, maxRetry=100);
+        gameLogicState.role = "Spectator";
         // register its own actions
         gameLogicState.listOfActions.myFirstActionKind = new MyFirstActionKind();
         // joining of game instance
         joinGameInstance(   gameLogicState.login, gameLogicState.password, 
-                            gameLogicState.gameName, gameLogicState.instanceName, /*observationKey = null*/"*.*.*.*",
+                            gameLogicState.gameName, gameLogicState.instanceName, observationKey = "*.*.*.*",
                             function(session){
                                 onCreateConnection(session);
                             });

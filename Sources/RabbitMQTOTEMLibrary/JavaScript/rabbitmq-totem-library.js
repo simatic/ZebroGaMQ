@@ -21,11 +21,15 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
+MASTER      = "Master";
+PLAYER      = "Player";
+SPECTATOR   = "Spectator";
+
 var DEFAULT_HEARTBEAT_TASK_PERIOD = 5000, //ms
     CONNECTION_TO_BROKER_CLOSED_MESSAGE = "[ERROR] AMQP_CONNECTION_FORCED_CLOSED", // message sent by proxy on forced closed of AMQP connection
-    DEFAULT_MAX_RETRY = 60; //Number of seconds before stoping the reconnection routine
+    DEFAULT_MAX_RETRY = 60, //Number of seconds before stoping the reconnection routine
+    hearbeatTask;
 
-var hearbeatTask;
 
 /**
  * Create a state, required to store in game informations and to publish messages.
@@ -42,6 +46,8 @@ function State(login, password, gameName, instanceName, heartbeat, maxRetry){
     this.password = password;
     this.gameName = gameName;
     this.instanceName = instanceName;
+    // by default
+    this.role = PLAYER;
     if (typeof heartbeat == "number"){
         this.heartbeat = heartbeat;
     }else{
