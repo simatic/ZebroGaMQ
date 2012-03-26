@@ -48,9 +48,9 @@ class GameLogicTask extends AsyncTask<Void, Integer, Integer> {
 	private static final int COMPUTING_ANSWER	= 20;
 	
 
-	private GameLogicState		state;
+	private GameLogicState			state;
 	private GameLogicApplication 	activity;
-	private ProgressDialog 		dialog;
+	private ProgressDialog 			dialog;
 
 	
 	public GameLogicTask(GameLogicApplication activity){

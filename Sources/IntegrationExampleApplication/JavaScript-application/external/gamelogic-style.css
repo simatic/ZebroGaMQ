@@ -21,7 +21,7 @@ table {
   border-spacing: 0
 }
 
-#connect, #loading, #ended{
+#loading, #ended{
   position: fixed;
   top: 0;
   left: 0;
@@ -30,10 +30,10 @@ table {
   padding: 1em;
 }
 
-#connect, #loading, #ended { z-index: 10000000; }
+#loading, #ended { z-index: 10000000; }
 
 
-#connect fieldset, #loading p, #ended p  {
+#loading p, #ended p  {
   font-family: DejaVu Sans Mono, fixed; 
   width: 35em;
   border: 0;
@@ -55,7 +55,7 @@ table {
   overflow: hidden;
 }
 
-/* not very important info */
+/* not important info */
 .error td { color: #933; }
 .queue, .exchange { color: #cd5; }
 
@@ -84,7 +84,7 @@ table {
   margin: 0 2em 0 0;
 }
 
-#endConnectionButton{
+#listInstancesButton, #terminateInstanceButton, #endConnectionButton{
   float: right;
   font-family: DejaVu Sans Mono, fixed; 
   font-size: 14pt;

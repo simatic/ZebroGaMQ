@@ -24,19 +24,19 @@
 /*  Inspired from client.js of the node chat demo
     available here: https://github.com/ry/node_chat */
 
-var DEFAULT_PWD = "hs78dfPPgz";
+var gameLogicState;
 
-var spectatorState;
-
+var PARTICIPANTS_LIST_TASK_PERIOD = 15000, //ms
+    DEFAULT_PWD = "hs78dfPPgz",
+    participantsListTask;
+    
 function showConnect () {
   $("#connect").show();
   $("#log").hide();
   $("#toolbar").hide();
   $("#ended").hide();
   $("#loading").hide();
-  $("#nickInput").focus();
 }
-
 
 function showMessagesArea () {
   $("#connect").hide();
@@ -44,8 +44,8 @@ function showMessagesArea () {
   $("#ended").hide();
   $("#log").empty();
   $("#log").show();
-  $("#spectatorName").empty();
-  $("#spectatorName").append(spectatorState.login);
+  $("#userName").empty();
+  $("#userName").append(gameLogicState.login);
   $("#exchangeName").empty();
   $("#queueName").empty();
   $("#toolbar").show();
@@ -81,12 +81,13 @@ function println (action, text) {
   
   // to handle message style
   messageElement.addClass("message");
-  
+
   var content;
   content = '<tr>' +
             '  <td class="queue">' + action + '</td>' +
             '  <td class="msg-text">' + text + '</td>' +
-            '</tr>';  
+            '</tr>';    
+  
   messageElement.html(content);
 
   //the log is the stream that we view
@@ -105,10 +106,13 @@ function onCreateConnection (session) {
   }
   // update the UI to the text area where messages are displayed
   showMessagesArea();
-  // start the spectatorState (consumeLoop...)
-  spectatorState.start();
+  // start the gameLogicState (consumeLoop, heartbeatTask...)
+  gameLogicState.start();
+  // start the participant list task
+  startParticipantsListTask();
   // publish a join message
-  publishToGameLogicServer(spectatorState, "join.joinSpectator", spectatorState.login+",Tidy-City,Instance-1,*.*.*.*");
+  var content =  gameLogicState.login+",Tidy-City,Instance-1";
+  publishToGameLogicServer(gameLogicState, "join.join", content);
 }
 
 
@@ -116,24 +120,36 @@ function onCreateConnection (session) {
  * Callback function triggered by gameMasterState.connectionExit().
  **/
 function onExitConnection(){
+  // stop the sending of messages to ask participants list
+  if(participantsListTask){
+      clearInterval(participantsListTask);
+  }
   // update the display to show the end screen
   showEnd(); 
+}
+
+function startParticipantsListTask (){
+    // send periodically a message to ask participants list.
+    participantsListTask = setInterval(function() {
+        publishToGameLogicServer(gameMasterState, "presence.askParticipantsList");
+    }, PARTICIPANTS_LIST_TASK_PERIOD);
 }
 
 
 $(document).ready(function() {
     
-    // when the user clicks the join button
-    $("#connectButton").click(function () {
-        var nick = $("#nickInput").attr("value");
-        // instantiate spectatorState with specific heartbeat and maxRetry values (optional)
-        spectatorState = new State(nick, DEFAULT_PWD , "Tidy-City", "Instance-1", heartbeat=0, maxRetry=100);
-        spectatorState.observationKey = "*.*.*.*";
+    // first screen
+    showConnect();
+                                           
+    // when the user clicks the create and join button
+    $("#createButton").click(function () {
+        // instantiate gameLogicState
+        gameLogicState = new State("PLAYER_A", DEFAULT_PWD, "Tidy-City", "Instance-1");
         // register its own actions
-        spectatorState.listOfActions.myFirstActionKind = new MyFirstActionKind();
-         //make the connect request to the server
-        joinSpectatorGameInstance(  spectatorState.login, spectatorState.password, 
-                                    spectatorState.gameName, spectatorState.instanceName,spectatorState.observationKey, 
+        gameLogicState.listOfActions.myFirstActionKind = new MyFirstActionKind();
+        // creation and joining of game instance 
+        createAndJoinGameInstance( gameLogicState.login, gameLogicState.password, 
+                                    gameLogicState.gameName, gameLogicState.instanceName, 
                                     function(session){
                                         onCreateConnection(session);
                                     });
@@ -141,20 +157,53 @@ $(document).ready(function() {
         showLoad();
         return false;
     });
-        
-        
-    // when the user clicks on the end connection button
-    $("#endConnectionButton").click(function () {
-        spectatorState.connectionExit();
+    
+    
+    // when the user clicks the join button
+    $("#joinButton").click(function () {
+       // instantiate spectatorState with specific heartbeat and maxRetry values (optional)
+        gameLogicState = new State("PLAYER_B", DEFAULT_PWD , "Tidy-City", "Instance-1", heartbeat=0, maxRetry=100);
+        gameLogicState.observationKey = "*.*.*.*";
+        // register its own actions
+        gameLogicState.listOfActions.myFirstActionKind = new MyFirstActionKind();
+        // joining of game instance
+        joinGameInstance(   gameLogicState.login, gameLogicState.password, 
+                            gameLogicState.gameName, gameLogicState.instanceName,gameLogicState.observationKey, 
+                            function(session){
+                                onCreateConnection(session);
+                            });
+        //lock the UI while waiting for a response
+        showLoad();
         return false;
     });
     
-    // first screen displayed to spectator
-    showConnect();
+    // when the user clicks on the end connection button
+    $("#endConnectionButton").click(function () {
+        gameLogicState.connectionExit();
+        return false;
+    });
+    
+    // when the user clicks on the list instances button
+    $("#listInstancesButton").click(function () {
+        // XML-RPC termination instance request
+        listGameInstances(gameLogicState.gameName, function(data){
+            println("Game Instances",data);
+        });
+        return false;
+    });
+    
+    // when the user clicks on the terminate instance button
+    $("#terminateInstanceButton").click(function () {
+        if(gameLogicState.exiting === false){
+            // XML-RPC termination instance request
+            terminateGameInstance(gameLogicState.gameName, gameLogicState.instanceName);
+        }
+        return false;
+    });
 });
 
 
 // If we can, notify the proxy that we're going away to end the amqp connection
 $(window).unload(function () {
-    spectatorState.connectionExit();
+    gameLogicState.connectionExit();
 });

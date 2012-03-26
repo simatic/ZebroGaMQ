@@ -78,8 +78,7 @@ function startProxy (){
         
         // start the proxy
         fu.listen(Number(NODE_PROXY_PORT), NODE_PROXY_HOST);
-        sys.puts("URL of Master application: http://" + (NODE_PROXY_HOST || "127.0.0.1") + ":" + NODE_PROXY_PORT.toString() + "/Master");
-        sys.puts("URL of Spectator application: http://" + (NODE_PROXY_HOST || "127.0.0.1") + ":" + NODE_PROXY_PORT.toString() + "/Spectator");
+        sys.puts("URL of JavaScript application: http://" + (NODE_PROXY_HOST || "127.0.0.1") + ":" + NODE_PROXY_PORT.toString() + "/JavaScript-application");
         
         // load files required by clients applications
         loadGenericFiles();
@@ -173,7 +172,7 @@ function handleGetMessageRequest (userName, message, routingKey) {
 }
 
 
-fu.get("/xmlrpcmasterlogin", function (req, res) {
+fu.get("/xmlrpc-create-and-join-instance", function (req, res) {
   var login = qs.parse(url.parse(req.url).query).login;
   var password = qs.parse(url.parse(req.url).query).password;
   var gameName = qs.parse(url.parse(req.url).query).gameName;
@@ -183,9 +182,9 @@ fu.get("/xmlrpcmasterlogin", function (req, res) {
   if (login && password && gameName && instanceName) {
       var client = xmlrpc.createClient({ host: GAMESERVER_HOST, port: GAMESERVER_PORT});
       // Sends a method call to the XML-RPC server
-      client.methodCall("createGameInstance", [login, password, gameName, instanceName], function (error, value) {
+      client.methodCall("createAndJoinGameInstance", [login, password, gameName, instanceName], function (error, value) {
           // Results of the method response
-          console.log("Response for master "+login+"'s game instance creation request: " + value);
+          console.log("Response for "+login+"'s game instance creation request: " + value);
           if(value === true){
               // store the response for proper handling on result of AMQP createConnection
               createAmqpConnectionResponses[login] = res;
@@ -202,7 +201,7 @@ fu.get("/xmlrpcmasterlogin", function (req, res) {
 });
 
 
-fu.get("/xmlrpcspectatorlogin", function (req, res) {
+fu.get("/xmlrpc-join-instance", function (req, res) {
   var login = qs.parse(url.parse(req.url).query).login;
   var password = qs.parse(url.parse(req.url).query).password;
   var gameName = qs.parse(url.parse(req.url).query).gameName;
@@ -210,12 +209,19 @@ fu.get("/xmlrpcspectatorlogin", function (req, res) {
   var observationKey = qs.parse(url.parse(req.url).query).observationKey;
   
   // if params are correct
-  if (login && password && gameName && instanceName && observationKey) {
+  if (login && password && gameName && instanceName) {
       var client = xmlrpc.createClient({ host: GAMESERVER_HOST, port: GAMESERVER_PORT});
+      var params;
+      // test if application has used the observationKey param
+      if(observationKey){
+          params = [login, password, gameName, instanceName, observationKey];
+      }else{
+          params = [login, password, gameName, instanceName];
+      }   
       // Sends a method call to the XML-RPC server
-      client.methodCall("joinSpectatorGameInstance", [login, password, gameName, instanceName, observationKey], function (error, value) {
+      client.methodCall("joinGameInstance", params, function (error, value) {
           // Results of the method response
-          console.log("Response for spectator "+login+"'s game instance creation request: " + value);
+          console.log("Response for "+login+"'s game instance creation request: " + value);
           if(value === true){
               // store the response for proper handling on result of AMQP createConnection
               createAmqpConnectionResponses[login] = res;
@@ -232,7 +238,7 @@ fu.get("/xmlrpcspectatorlogin", function (req, res) {
 });
 
 
-fu.get("/xmlrpcterminateinstance", function (req, res) {
+fu.get("/xmlrpc-terminate-instance", function (req, res) {
   var gameName = qs.parse(url.parse(req.url).query).gameName;
   var instanceName = qs.parse(url.parse(req.url).query).instanceName;
   
@@ -255,7 +261,7 @@ fu.get("/xmlrpcterminateinstance", function (req, res) {
 });
 
 
-fu.get("/xmlrpclistinstances", function (req, res) {
+fu.get("/xmlrpc-list-instances", function (req, res) {
   var gameName = qs.parse(url.parse(req.url).query).gameName;
   
   // if param is correct
@@ -265,7 +271,7 @@ fu.get("/xmlrpclistinstances", function (req, res) {
       client.methodCall("listGameInstances", [gameName], function (error, value) {
           if(error){
               console.log("Cannot list game instances for "+gameName);
-              res.simpleJSON(400, {error: "XML-RPC lits game instances failed."});
+              res.simpleJSON(400, {error: "XML-RPC list game instances failed."});
           }else{
               console.log("Game instances for "+gameName+": "+value);
               res.simpleJSON(200,value);

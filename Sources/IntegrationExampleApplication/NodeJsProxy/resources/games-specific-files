@@ -1,8 +1,4 @@
-/Master                     ../MasterApplicationJavascript/master.html
-/master.js                  ../MasterApplicationJavascript/master.js
-/my-master-actions.js       ../MasterApplicationJavascript/my-master-actions.js
-/master-style.css           ../MasterApplicationJavascript/external/master-style.css
-/Spectator                  ../SpectatorApplicationJavascript/spectator.html
-/spectator.js               ../SpectatorApplicationJavascript/spectator.js
-/my-spectator-actions.js    ../SpectatorApplicationJavascript/my-spectator-actions.js
-/spectator-style.css        ../SpectatorApplicationJavascript/external/spectator-style.css
+/JavaScript-application     ../JavaScript-application/gamelogic.html
+/gamelogic.js               ../JavaScript-application/gamelogic.js
+/my-gamelogic-actions.js    ../JavaScript-application/my-gamelogic-actions.js
+/gamelogic-style.css        ../JavaScript-application/external/gamelogic-style.css

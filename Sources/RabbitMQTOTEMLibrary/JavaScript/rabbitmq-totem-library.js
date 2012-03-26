@@ -28,8 +28,7 @@ var DEFAULT_HEARTBEAT_TASK_PERIOD = 5000, //ms
 var hearbeatTask;
 
 /**
- * Create a state, required by Master and Spectator, to store
- * in game informations.
+ * Create a state, required to store in game informations and to publish messages.
  * 
  * @param   login       the ID of the user
  * @param   password    the password of the user
@@ -237,7 +236,7 @@ function startHeartbeatTask (state){
 function listGameInstances (gameName, callback) {
     return $.ajax({ cache: false,
                type: "GET",
-               url: "/xmlrpclistinstances",
+               url: "/xmlrpc-list-instances",
                dataType: "json",
                data: { gameName: gameName},
                error: function (xhr, ajaxOptions, thrownError){
@@ -262,10 +261,10 @@ function listGameInstances (gameName, callback) {
  * 
  * @return  the jQuery function matching with the createInstance request.
  **/
-function createGameInstance (login, password, gameName, instanceName, callback) {
+function createAndJoinGameInstance (login, password, gameName, instanceName, callback) {
     return $.ajax({ cache: false,
                type: "GET",
-               url: "/xmlrpcmasterlogin",
+               url: "/xmlrpc-create-and-join-instance",
                dataType: "json",
                data: {  login: login ,
                         password: password,
@@ -284,21 +283,21 @@ function createGameInstance (login, password, gameName, instanceName, callback) 
 
 
 
-/** Make a spectator join a game instance.
+/** Join an available game instance.
  *
  * @param   login           the login of the spectator.
  * @param   password        the password of the spectator.
  * @param   gameName        the name of the game for which instance should be joined.
  * @param   instanceName    the name of the instance to join.
- * @param   observationKey  the observation key of the spectator.
+ * @param   observationKey  the observation key (optional).
  * @param   callback        the function to execute if the request succeeds.
  * 
  * @return  the jQuery function matching with the joinSpectator request.
  **/
-function joinSpectatorGameInstance (login, password, gameName, instanceName, observationKey, callback) {
+function joinGameInstance (login, password, gameName, instanceName, observationKey, callback) {
     return $.ajax({ cache: false,
                type: "GET",
-               url: "/xmlrpcspectatorlogin",
+               url: "/xmlrpc-join-instance",
                dataType: "json",
                data: {  login: login ,
                         password: password ,
@@ -329,7 +328,7 @@ function joinSpectatorGameInstance (login, password, gameName, instanceName, obs
 function terminateGameInstance (gameName, instanceName, callback) {
     return $.ajax({ cache: false,
                type: "GET",
-               url: "/xmlrpcterminateinstance",
+               url: "/xmlrpc-terminate-instance",
                dataType: "json",
                data: {  gameName: gameName ,
                         instanceName: instanceName},

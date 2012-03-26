@@ -21,25 +21,21 @@ Developer(s): Denis Conan, Gabriel Adgeg-->
 
 <html>
   <head>
-    <link rel="stylesheet" href="spectator-style.css" type="text/css"/>
+    <link rel="stylesheet" href="gamelogic-style.css" type="text/css"/>
     <script src="jquery-1.6.2.min.js" type="text/javascript"></script>
     <script src="rabbitmq-totem-library.js" type="text/javascript"></script>
     <script src="rabbitmq-totem-actions.js" type="text/javascript"></script>
-    <script src="my-spectator-actions.js" type="text/javascript"></script>
-    <script src="spectator.js" type="text/javascript"></script>
+    <script src="my-gamelogic-actions.js" type="text/javascript"></script>
+    <script src="gamelogic.js" type="text/javascript"></script>
   </head>
-  <title>Spectator application</title>
+  <title>Javascript application</title>
   <body>
     <div id="app">
       <div id="connect">
         <form action="#">
           <fieldset> 
-            <p>
-              Enter a name for the spectator:
-            </p>
-            <label for="nick">Name</label>
-            <input id="nickInput" class="text"type="text" name="nick" value=""/>
-            <input id="connectButton" class="button" type="submit" name="" value="Join"/>
+            <input id="createButton" class="button" type="submit" name="" value="Create and Join instance"/>
+            <input id="joinButton" class="button" type="submit" name="" value="Join instance"/>
           </fieldset>
         </form>
       </div>
@@ -52,9 +48,11 @@ Developer(s): Denis Conan, Gabriel Adgeg-->
       </div>
       <div id="toolbar">
         <ul id="status">
-          <li>spectator name: <span id="spectatorName"></span></li>
+          <li>spectator name: <span id="userName"></span></li>
         </ul>
         <input id="endConnectionButton" class="button" type="submit" name="" value="End connection"/>
+        <input id="terminateInstanceButton" class="button" type="submit" name="" value="Terminate instance"/>
+        <input id="listInstancesButton" class="button" type="submit" name="" value="List instances"/>
       </div>
   </body>
 </html>
