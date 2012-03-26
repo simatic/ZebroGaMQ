@@ -21,7 +21,7 @@ table {
   border-spacing: 0
 }
 
-#loading, #ended{
+#connect, #loading, #ended{
   position: fixed;
   top: 0;
   left: 0;
@@ -30,10 +30,10 @@ table {
   padding: 1em;
 }
 
-#loading, #ended { z-index: 10000000; }
+#connect, #loading, #ended { z-index: 10000000; }
 
 
-#loading p, #ended p  {
+#connect fieldset, #loading p, #ended p  {
   font-family: DejaVu Sans Mono, fixed; 
   width: 35em;
   border: 0;

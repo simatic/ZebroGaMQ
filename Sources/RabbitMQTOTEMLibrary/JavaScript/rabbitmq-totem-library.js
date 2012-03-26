@@ -289,21 +289,24 @@ function createAndJoinGameInstance (login, password, gameName, instanceName, cal
  * @param   password        the password of the spectator.
  * @param   gameName        the name of the game for which instance should be joined.
  * @param   instanceName    the name of the instance to join.
- * @param   observationKey  the observation key (optional).
+ * @param   observationKey  the observation key (can be set to null).
  * @param   callback        the function to execute if the request succeeds.
  * 
  * @return  the jQuery function matching with the joinSpectator request.
  **/
 function joinGameInstance (login, password, gameName, instanceName, observationKey, callback) {
+    var params = {  login: login ,
+                    password: password ,
+                    gameName: gameName ,
+                    instanceName: instanceName};
+    if(observationKey !== null){
+        params.observationKey = observationKey;
+    } 
     return $.ajax({ cache: false,
                type: "GET",
                url: "/xmlrpc-join-instance",
                dataType: "json",
-               data: {  login: login ,
-                        password: password ,
-                        gameName: gameName ,
-                        instanceName: instanceName ,
-                        observationKey: observationKey},
+               data: params,
                error: function (xhr, ajaxOptions, thrownError){
                   // convert the response to JSON 
                   jsonValue = jQuery.parseJSON( xhr.responseText );

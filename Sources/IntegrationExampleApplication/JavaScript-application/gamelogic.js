@@ -161,12 +161,11 @@ $(document).ready(function() {
     $("#joinButton").click(function () {
        // instantiate spectatorState with specific heartbeat and maxRetry values (optional)
         gameLogicState = new State("PLAYER_B", DEFAULT_PWD , "Tidy-City", "Instance-1", heartbeat=10000, maxRetry=100);
-        gameLogicState.observationKey = "*.*.*.*";
         // register its own actions
         gameLogicState.listOfActions.myFirstActionKind = new MyFirstActionKind();
         // joining of game instance
         joinGameInstance(   gameLogicState.login, gameLogicState.password, 
-                            gameLogicState.gameName, gameLogicState.instanceName,gameLogicState.observationKey, 
+                            gameLogicState.gameName, gameLogicState.instanceName, /*observationKey = null*/"*.*.*.*",
                             function(session){
                                 onCreateConnection(session);
                             });
