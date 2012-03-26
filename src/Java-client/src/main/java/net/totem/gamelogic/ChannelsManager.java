@@ -99,7 +99,7 @@ public class ChannelsManager {
 					"RabbitMQGameInstanceChannel tries to create"
 							+ " null game name");
 		}
-		if (state.gameInstanceName == null) {
+		if (state.instanceName == null) {
 			throw new IllegalStateException(
 					"RabbitMQGameInstanceChannel tries to create"
 							+ " null game instance name");
@@ -108,7 +108,7 @@ public class ChannelsManager {
 				"virtualHostSeparator")
 				+ state.gameName
 				+ Util.getRabbitMQProperties().getProperty(
-						"virtualHostSeparator") + state.gameInstanceName;
+						"virtualHostSeparator") + state.instanceName;
 		state.exchangeName = Util.getRabbitMQProperties().getProperty(
 				"gameLogicExchangeName");
 		if (state.exchangeName == null) {

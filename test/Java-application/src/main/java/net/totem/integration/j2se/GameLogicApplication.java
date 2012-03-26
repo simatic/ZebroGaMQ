@@ -53,7 +53,7 @@ public class GameLogicApplication {
 			state.password = argv[1];
 			state.role = argv[2];
 			state.gameName = argv[3];
-			state.gameInstanceName = argv[4];
+			state.instanceName = argv[4];
 			if(argv.length == 6){
 				state.observationKey = argv[5];
 				if ((Util.getContentKeyAt(state.observationKey, "\\.", 0) == null)
@@ -125,14 +125,14 @@ public class GameLogicApplication {
 	private static boolean executeXMLRPCLogin(){
 		boolean res = false;
 		if(state.role.equals(GameLogicState.GAME_MASTER)){
-			Util.println("["+state.role+" " +state.login +"] creating instance "+state.gameName+"/"+state.gameInstanceName);
-			res = XMLRPCLogin.createAndJoinGameInstance(state.login, state.password, state.gameName, state.gameInstanceName);
+			Util.println("["+state.role+" " +state.login +"] creating instance "+state.gameName+"/"+state.instanceName);
+			res = XMLRPCLogin.createAndJoinGameInstance(state.login, state.password, state.gameName, state.instanceName);
 		}else if (state.observationKey != null){
-			Util.println("["+state.role+" " +state.login +"] joining instance "+state.gameName+"/"+state.gameInstanceName+" with observation key "+state.observationKey);
-			res = XMLRPCLogin.joinGameInstance(state.login, state.password, state.gameName, state.gameInstanceName, state.observationKey);
+			Util.println("["+state.role+" " +state.login +"] joining instance "+state.gameName+"/"+state.instanceName+" with observation key "+state.observationKey);
+			res = XMLRPCLogin.joinGameInstance(state.login, state.password, state.gameName, state.instanceName, state.observationKey);
 		}else{
-			Util.println("["+state.role+" " +state.login +"] joining instance "+state.gameName+"/"+state.gameInstanceName);
-			res = XMLRPCLogin.joinGameInstance(state.login, state.password, state.gameName, state.gameInstanceName);
+			Util.println("["+state.role+" " +state.login +"] joining instance "+state.gameName+"/"+state.instanceName);
+			res = XMLRPCLogin.joinGameInstance(state.login, state.password, state.gameName, state.instanceName);
 		}
 		return res;
 	}
@@ -143,7 +143,7 @@ public class GameLogicApplication {
 			// Instantiate the channelsManager
 			state.channelsManager = ChannelsManager.getInstance(state, MyListOfGameLogicActions.ListOfActionsMaps);
 			// Publish a Join message
-			String content = state.login+"," + state.gameName+","+ state.gameInstanceName;
+			String content = state.login+"," + state.gameName+","+ state.instanceName;
 			state.channelsManager.publishToGameLogicServer(state, JoinAction.JOIN, content);
 		} catch (IOException e) {
 			e.printStackTrace();

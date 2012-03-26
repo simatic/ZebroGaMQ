@@ -34,7 +34,7 @@ public class GameLogicState {
 	public String 	password;
 	public String	role;
 	public String 	gameName;
-	public String 	gameInstanceName;
+	public String 	instanceName;
 	public String 	virtualHost;
 	public String 	exchangeName;
 	public String 	observationKey;

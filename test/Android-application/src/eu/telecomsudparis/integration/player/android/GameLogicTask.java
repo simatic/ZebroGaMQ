@@ -59,7 +59,7 @@ class GameLogicTask extends AsyncTask<Void, Integer, Integer> {
 		state.login = activity.playerName;
 		state.password = GameLogicApplication.DEFAULT_PWD;
 		state.gameName = "Tidy-City";
-		state.gameInstanceName = "Instance-1";
+		state.instanceName = "Instance-1";
 	}
 
 	
@@ -141,9 +141,9 @@ class GameLogicTask extends AsyncTask<Void, Integer, Integer> {
 	private boolean executeXMLRPCLogin(){
 		boolean res = false;
 		if(state.login.equals(GameLogicApplication.INSTANCE_CREATOR_NAME)){
-			res = XMLRPCLogin.createAndJoinGameInstance(state.login, state.password, state.gameName, state.gameInstanceName);
+			res = XMLRPCLogin.createAndJoinGameInstance(state.login, state.password, state.gameName, state.instanceName);
 		}else{
-			res = XMLRPCLogin.joinGameInstance(state.login, state.password, state.gameName, state.gameInstanceName);
+			res = XMLRPCLogin.joinGameInstance(state.login, state.password, state.gameName, state.instanceName);
 		}
 		return res;
 	}
@@ -152,7 +152,7 @@ class GameLogicTask extends AsyncTask<Void, Integer, Integer> {
 		try {
 			// Instantiate the channelsManager
 			state.channelsManager = ChannelsManager.getInstance(state, MyListOfGameLogicActions.ListOfActionsMaps);
-			String content = state.login + "," + state.gameName + "," + state.gameInstanceName;
+			String content = state.login + "," + state.gameName + "," + state.instanceName;
 			state.channelsManager.publishToGameLogicServer(state, JoinAction.JOIN, content);
 		} catch (IOException e) {
 			e.printStackTrace();

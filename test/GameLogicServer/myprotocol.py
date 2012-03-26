@@ -32,7 +32,15 @@ the publication of messages IS NOT thread-safe.
 
 import logging
 
+
 def myFirstAction(state, header, body):
+    """
+    header array contains relevant information about the message:
+    - header[0] = sender
+    - header[1] = recipient
+	- header[2] = action kind
+	- header[3] = action name
+    """
     logging.info("GameLogicServer] React to myFirstAction message")
     state.gamelogicchannel.publishToAll(state, "mySecondActionKind.myFourthAction", "Game logic says Go!")
 
