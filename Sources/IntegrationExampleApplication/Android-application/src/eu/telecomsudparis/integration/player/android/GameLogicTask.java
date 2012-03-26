@@ -99,7 +99,7 @@ class GameLogicTask extends AsyncTask<Void, Integer, Integer> {
 		switch (values[0])
 		{
 		case COMPUTING_CALL:
-			dialog.setMessage("XML-RPC call...");
+			dialog.setMessage("Login to GameServer...");
 			break;
 		case COMPUTING_ANSWER:
 			dialog.setMessage("Creating connection to GameLogicServer...");
@@ -113,6 +113,7 @@ class GameLogicTask extends AsyncTask<Void, Integer, Integer> {
 		publishProgress(COMPUTING_CALL);
 		boolean loggedIn = executeXMLRPCLogin();
 		if(loggedIn){
+			publishProgress(COMPUTING_ANSWER);
 			initChannelsManager();
 			// launch the participant list thread
 			startParticipantListThread();

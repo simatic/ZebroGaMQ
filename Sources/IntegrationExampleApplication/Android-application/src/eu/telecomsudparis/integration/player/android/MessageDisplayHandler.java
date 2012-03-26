@@ -23,7 +23,6 @@
 
 package eu.telecomsudparis.integration.player.android;
 
-
 import android.os.Handler;
 import android.os.Message;
 
@@ -31,14 +30,14 @@ public class MessageDisplayHandler extends Handler {
 
 	public final static int PRINT_STRING_WHAT = 0;
 
-	private final PlayerApplication testHandlerActivity;
+	private final GameLogicApplication testHandlerActivity;
 
-	private MessageDisplayHandler(PlayerApplication testHandlerActivity) {
+	private MessageDisplayHandler(GameLogicApplication testHandlerActivity) {
 		this.testHandlerActivity = testHandlerActivity;
 	}
 
 	public static MessageDisplayHandler getInstance(
-			PlayerApplication testHandlerActivity) {
+			GameLogicApplication testHandlerActivity) {
 		return new MessageDisplayHandler(testHandlerActivity);
 	}
 
