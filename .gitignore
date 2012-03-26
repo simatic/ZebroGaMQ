@@ -1,6 +1,4 @@
-# Ignore all pyc files
+# Ignore following files
 *.pyc
-
-# Ignore all properties files
-*.properties
+*.class
 
