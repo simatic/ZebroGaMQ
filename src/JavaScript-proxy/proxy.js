@@ -24,7 +24,7 @@
 /*  Inspired from server.js of the node chat demo
     available here: https://github.com/ry/node_chat */
 
-JAVASCRIPT_SRC_DIRECTORY = "../../src/JavaScript-client/";
+JAVASCRIPT_SRC_DIRECTORY = "../JavaScript-client/";
 FIRST_REQUEST_TIMEOUT = 500; // in ms
 FIRST_REQUEST_NUMBER_OF_TRIES = 10;
 BROADCAST_KEY = "all";

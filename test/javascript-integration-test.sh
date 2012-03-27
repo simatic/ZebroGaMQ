@@ -35,8 +35,10 @@ rabbitmqctl start_app
 (cd ../src/Python-server; ./run.sh)
 sleep 2
 
+echo ""
+
 # launch the Node.js proxy
-(cd NodeJsProxy; ./run.sh)
+(cd ../src/JavaScript-proxy; ./run.sh)
 sleep 1
 
 echo ""
