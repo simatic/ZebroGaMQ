@@ -45,7 +45,7 @@ class RabbitMQConfiguration(Singleton):
     def __init__(self):
         if self._alreadyInitialized == False:
             try:
-                configurationFile = open('conf/rabbitmq.properties', 'r')
+                configurationFile = open('rabbitmq.properties', 'r')
             except IOError:
                 logging.error("Cannot open rabbitmq.properties file.")
                 sys.exit()

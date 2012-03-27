@@ -36,7 +36,12 @@ rabbitmqctl start_app
 #(cd ../src/Python-server; ./run.sh)
 #sleep 2
 
-python ../src/Python-server/net/totem/gameserver/gameserver.py&
+#python ../src/Python-server/net/totem/gameserver/gameserver.py&
+#GAMESERVER_PID=$!
+#echo $GAMESERVER_PID >> ../src/Python-server/temp_pid.txt
+#sleep 2
+
+(cd ../src/Python-server; python net/totem/gameserver/gameserver.py&)
 GAMESERVER_PID=$!
 echo $GAMESERVER_PID >> ../src/Python-server/temp_pid.txt
 sleep 2

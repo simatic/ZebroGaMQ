@@ -47,7 +47,7 @@ def setLogger():
 if __name__ == '__main__':
     setLogger()
     logging.info("GameServer] Game server started, identifier")
-    port = int(XMLRPCConfiguration().getXMLRPCProperty("gameServerXMLRPCPort"))
+    port = int(XMLRPCConfiguration("/home/adgeg/Sources/git/TCM-Release/test/conf").getXMLRPCProperty("gameServerXMLRPCPort"))
     logging.info("GameServer] Listening on port "+str(port))
     server = None
     server = SimpleXMLRPCServer((XMLRPCConfiguration().getXMLRPCProperty("gameServerXMLRPCHost"),

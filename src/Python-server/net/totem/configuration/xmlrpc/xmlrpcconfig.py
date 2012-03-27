@@ -23,6 +23,7 @@
 
 import re
 import sys
+import logging
 
 class Singleton(object):
 
@@ -31,7 +32,7 @@ class Singleton(object):
 
     def __new__(self, *args, **kw):
         if self._instance is None:
-            self._instance = super(Singleton, self).__new__(self, *args, **kw)
+            self._instance = super(Singleton, self).__new__(self)
             self._alreadyInitialized = False
         return self._instance
 
@@ -39,10 +40,14 @@ class XMLRPCConfiguration(Singleton):
 
     __configurationProperties = {}
 
-    def __init__(self):
+    def __init__(self, confDir=None):
         if self._alreadyInitialized == False:
             try:
-                configurationFile = open('conf/xmlrpc.properties', 'r')
+                if(confDir is None):
+                    configurationFile = open('xmlrpc.properties', 'r')
+                else:
+                    logging.info("Configuration files directory: "+confDir)
+                    configurationFile = open(confDir+'/xmlrpc.properties', 'r')
             except IOError:
                 logging.error("Cannot open xmlrpc.properties file.")
                 sys.exit()
