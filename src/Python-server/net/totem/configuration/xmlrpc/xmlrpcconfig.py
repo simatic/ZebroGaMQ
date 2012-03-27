@@ -46,8 +46,8 @@ class XMLRPCConfiguration(Singleton):
                 if(confDir is None):
                     configurationFile = open('xmlrpc.properties', 'r')
                 else:
-                    logging.info("Configuration files directory: "+confDir)
-                    configurationFile = open(confDir+'/xmlrpc.properties', 'r')
+                    logging.debug("Configuration files directory: "+confDir)
+                    configurationFile = open(confDir+'xmlrpc.properties', 'r')
             except IOError:
                 logging.error("Cannot open xmlrpc.properties file.")
                 sys.exit()

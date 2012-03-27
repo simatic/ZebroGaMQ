@@ -25,8 +25,6 @@ import re
 import sys
 import logging
 
-#CONFIGURATION_FILES_DIRECTORY = 
-
 class Singleton(object):
 
     _alreadyInitialized = None
@@ -34,7 +32,7 @@ class Singleton(object):
 
     def __new__(self, *args, **kw):
         if self._instance is None:
-            self._instance = super(Singleton, self).__new__(self, *args, **kw)
+            self._instance = super(Singleton, self).__new__(self)
             self._alreadyInitialized = False
         return self._instance
 
@@ -42,10 +40,14 @@ class RabbitMQConfiguration(Singleton):
 
     __configurationProperties = {}
 
-    def __init__(self):
+    def __init__(self, confDir=None):
         if self._alreadyInitialized == False:
             try:
-                configurationFile = open('rabbitmq.properties', 'r')
+                if(confDir is None):
+                    configurationFile = open('rabbitmq.properties', 'r')
+                else:
+                    logging.debug("Configuration files directory: "+confDir)
+                    configurationFile = open(confDir+'rabbitmq.properties', 'r')
             except IOError:
                 logging.error("Cannot open rabbitmq.properties file.")
                 sys.exit()

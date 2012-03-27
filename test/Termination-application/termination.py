@@ -25,12 +25,14 @@ import xmlrpclib
 import sys
 from net.totem.configuration.xmlrpc.xmlrpcconfig import XMLRPCConfiguration
 
+confDir = "../conf/"
+
 if __name__ == '__main__':
     print " [Termination] Beginning"
     proxy = xmlrpclib.ServerProxy("http://"
-                                  + XMLRPCConfiguration().getXMLRPCProperty("gameServerXMLRPCHost")
+                                  + XMLRPCConfiguration(confDir).getXMLRPCProperty("gameServerXMLRPCHost")
                                   + ":"
-                                  + XMLRPCConfiguration().getXMLRPCProperty("gameServerXMLRPCPort")
+                                  + XMLRPCConfiguration(confDir).getXMLRPCProperty("gameServerXMLRPCPort")
                                   + "/")
     try:
         proxy.terminate()

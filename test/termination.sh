@@ -30,7 +30,7 @@ PYTHONPATH=$PYTHONPATH:$PWD/../src/Python-server/:$PWD/Termination-application
 sleep 2
 
 # kill game server
-gameserver_pid=$(cat ../src/Python-server/temp_pid.txt 2> /dev/null)
+gameserver_pid=$(cat conf/gameserver_temp_pid.txt 2> /dev/null)
 kill $gameserver_pid 2> /dev/null
 
 # kill node proxy
@@ -38,7 +38,7 @@ node_pid=$(cat ../src/JavaScript-proxy/temp_pid.txt 2> /dev/null)
 kill $node_pid 2> /dev/null
 
 # remove temp files
-rm ../src/Python-server/temp_pid.txt ../src/JavaScript-proxy/temp_pid.txt 2> /dev/null
+rm conf/gameserver_temp_pid.txt ../src/JavaScript-proxy/temp_pid.txt 2> /dev/null
 
 # stop RabbitMQ broker => stop all the clients
 echo " End of demonstration"

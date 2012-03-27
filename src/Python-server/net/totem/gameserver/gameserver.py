@@ -21,6 +21,7 @@
  Developer(s): Denis Conan, Gabriel Adgeg
 """
 
+import sys
 import logging
 from SimpleXMLRPCServer import SimpleXMLRPCServer
 from net.totem.configuration.xmlrpc.xmlrpcconfig import XMLRPCConfiguration
@@ -28,9 +29,11 @@ from net.totem.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguratio
 import gameserverprotocol
 
 global server
+confDir = None
+
 
 def setLogger():
-    loggingLevel = RabbitMQConfiguration().getRabbitMQProperty("loggingLevel")
+    loggingLevel = RabbitMQConfiguration(confDir).getRabbitMQProperty("loggingLevel")
     if(loggingLevel == "DEBUG"):
         logging.basicConfig(format='[%(levelname)s - %(message)s', level=logging.DEBUG)
     elif(loggingLevel == "INFO"):
@@ -45,9 +48,12 @@ def setLogger():
         logging.basicConfig(format='[%(levelname)s - %(message)s')
 
 if __name__ == '__main__':
+    # if confDir is used in params
+    if len(sys.argv) == 2:
+        confDir = sys.argv[1]
     setLogger()
     logging.info("GameServer] Game server started, identifier")
-    port = int(XMLRPCConfiguration("/home/adgeg/Sources/git/TCM-Release/test/conf").getXMLRPCProperty("gameServerXMLRPCPort"))
+    port = int(XMLRPCConfiguration(confDir).getXMLRPCProperty("gameServerXMLRPCPort"))
     logging.info("GameServer] Listening on port "+str(port))
     server = None
     server = SimpleXMLRPCServer((XMLRPCConfiguration().getXMLRPCProperty("gameServerXMLRPCHost"),
