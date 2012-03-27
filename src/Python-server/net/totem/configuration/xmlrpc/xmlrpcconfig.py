@@ -22,6 +22,7 @@
 """
 
 import re
+import sys
 
 class Singleton(object):
 
@@ -41,8 +42,9 @@ class XMLRPCConfiguration(Singleton):
     def __init__(self):
         if self._alreadyInitialized == False:
             try:
-                configurationFile = open('xmlrpc.properties', 'r')
+                configurationFile = open('conf/xmlrpc.properties', 'r')
             except IOError:
+                logging.error("Cannot open xmlrpc.properties file.")
                 sys.exit()
             for line in configurationFile:
                 property = re.split(r'\s*', line)

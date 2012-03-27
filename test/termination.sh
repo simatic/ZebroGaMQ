@@ -21,9 +21,12 @@
 #
 # Developer(s): Denis Conan, Gabriel Adgeg
 
+PYTHONPATH=$PYTHONPATH:$PWD/../src/Python-server/:$PWD/Termination-application
 
 # terminate
-(cd Termination-application; ./run.sh)
+#(cd Termination-application; ./run.sh)
+#sleep 2
+python Termination-application/termination.py&
 sleep 2
 
 # kill game server

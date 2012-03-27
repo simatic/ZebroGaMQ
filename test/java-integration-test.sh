@@ -21,6 +21,7 @@
 #
 # Developer(s): Denis Conan, Gabriel Adgeg
 
+PYTHONPATH=$PYTHONPATH:$PWD/Python-gamelogicserver/:$PWD/../src/Python-server/
 
 # stop and re-launch the RabbitMQ broker
 rabbitmqctl stop
@@ -32,7 +33,12 @@ rabbitmqctl reset
 rabbitmqctl start_app
 
 # launch the Game Server
-(cd ../src/Python-server; ./run.sh)
+#(cd ../src/Python-server; ./run.sh)
+#sleep 2
+
+python ../src/Python-server/net/totem/gameserver/gameserver.py&
+GAMESERVER_PID=$!
+echo $GAMESERVER_PID >> ../src/Python-server/temp_pid.txt
 sleep 2
 
 # launch the Game Master Application

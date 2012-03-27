@@ -22,6 +22,10 @@
 """
 
 import re
+import sys
+import logging
+
+#CONFIGURATION_FILES_DIRECTORY = 
 
 class Singleton(object):
 
@@ -41,8 +45,9 @@ class RabbitMQConfiguration(Singleton):
     def __init__(self):
         if self._alreadyInitialized == False:
             try:
-                configurationFile = open('rabbitmq.properties', 'r')
+                configurationFile = open('conf/rabbitmq.properties', 'r')
             except IOError:
+                logging.error("Cannot open rabbitmq.properties file.")
                 sys.exit()
             for line in configurationFile:
                 property = re.split(r'\s*', line)
