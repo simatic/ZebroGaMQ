@@ -1,4 +1,4 @@
-""""
+"""
  TCM: TOTEM Communication Middleware
  Copyright: Copyright (C) 2009-2012
  Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
@@ -22,7 +22,14 @@
 """
 
 
-__all__ = [
-           'gamelogic',
-           'configuration',
-           ]
+from net.totem.gamelogicserver.gamelogicactionenumtype import GameLogicActionEnumeration
+from myprotocol import myFirstAction, mySecondAction
+
+def doNothing(state, header, body):
+    pass
+
+MyFirstActionKind = GameLogicActionEnumeration("myFirstActionKind", 100, 0, 1000,
+    [("myFirstAction", myFirstAction),
+     ("mySecondAction", mySecondAction),
+     ("myThirdAction",doNothing)
+     ])

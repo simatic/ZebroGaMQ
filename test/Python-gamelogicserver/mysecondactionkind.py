@@ -21,7 +21,7 @@
  Developer(s): Denis Conan, Gabriel Adgeg
 """
 
-from net.totem.gamelogic.gamelogicactionenumtype import GameLogicActionEnumeration
+from net.totem.gamelogicserver.gamelogicactionenumtype import GameLogicActionEnumeration
 from myprotocol import myFourthAction, myFitfhAction
 
 def doNothing(state, header, body):

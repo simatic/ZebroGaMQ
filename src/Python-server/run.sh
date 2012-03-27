@@ -21,8 +21,8 @@
 #
 # Developer(s): Denis Conan, Gabriel Adgeg
 
-PYTHONPATH=$PYTHONPATH:$PWD/../../src/Python/:../GameLogicServer/:$PWD
+PYTHONPATH=$PYTHONPATH:$PWD/../../test/Python-gamelogicserver/:$PWD
 
-python2.6 gameserver.py&
+python net/totem/gameserver/gameserver.py&
 GAMESERVER_PID=$!
 echo $GAMESERVER_PID >> temp_pid.txt

@@ -22,14 +22,11 @@
 """
 
 
-from net.totem.gamelogic.gamelogicactionenumtype import GameLogicActionEnumeration
-from myprotocol import myFirstAction, mySecondAction
+from net.totem.gamelogicserver.listofactionsenumtype import ListOfActionsEnumeration
+from myfirstactionkind import  MyFirstActionKind
+from mysecondactionkind import  MySecondActionKind
 
-def doNothing(state, header, body):
-    pass
-
-MyFirstActionKind = GameLogicActionEnumeration("myFirstActionKind", 100, 0, 1000,
-    [("myFirstAction", myFirstAction),
-     ("mySecondAction", mySecondAction),
-     ("myThirdAction",doNothing)
+MyListOfActions = ListOfActionsEnumeration("MyListOfActions",
+    [("myFirstActionKind", MyFirstActionKind),
+     ("mySecondActionKind", MySecondActionKind)
      ])

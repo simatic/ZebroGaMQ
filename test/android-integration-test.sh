@@ -21,7 +21,6 @@
 #
 # Developer(s): Denis Conan, Gabriel Adgeg
 
-PYTHONPATH=$PYTHONPATH:$PWD/GameServer
 
 # stop and re-launch the RabbitMQ broker
 rabbitmqctl stop
@@ -33,7 +32,7 @@ rabbitmqctl reset
 rabbitmqctl start_app
 
 # launch the Game Server
-(cd GameServer; ./run.sh)
+(cd ../src/Python-server; ./run.sh)
 sleep 1
 
 echo ""

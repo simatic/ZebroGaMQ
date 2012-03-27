@@ -22,8 +22,6 @@
 # Developer(s): Denis Conan, Gabriel Adgeg
 
 
-PYTHONPATH=$PYTHONPATH:$PWD/GameServer
-
 # stop and re-launch the RabbitMQ broker
 rabbitmqctl stop
 sleep 2
@@ -34,7 +32,7 @@ rabbitmqctl reset
 rabbitmqctl start_app
 
 # launch the Game Server
-(cd GameServer; ./run.sh)
+(cd ../src/Python-server; ./run.sh)
 sleep 2
 
 # launch the Game Master Application
@@ -49,30 +47,8 @@ sleep 3
 (cd Java-application; ./run.sh "lisa" "blum" "Player" "Tidy-City" "Instance-1")
 sleep 3
 
-# list users and users' permissions
-rabbitmqctl list_users -p /Tidy-City/Instance-1
-# list queues to check reception and acknowledgments
-rabbitmqctl list_queues -p /Tidy-City/Instance-1 messages messages_ready messages_unacknowledged
-
-echo "''''''"
-echo "''''''" When you are ready to terminate, press a key
-echo "''''''"
-
-read x
-
-# terminate
-(cd Termination-application; ./run.sh)
-sleep 2
-
-# kill game server
-gameserver_pid=$(cat GameServer/temp_pid.txt)
-kill $gameserver_pid
-
-# remove temp file
-rm GameServer/temp_pid.txt
-
-# stop RabbitMQ broker => stop all the clients
-echo " END OF EXAMPLE APPLICATION"
-echo " GOING TO FORCE THE TERMINATION BY STOPPING BROKER"
-rabbitmqctl stop_app
-rabbitmqctl stop
+echo ""
+echo ""
+echo "Execute the termination script to stop the demonstration."
+echo ""
+echo ""

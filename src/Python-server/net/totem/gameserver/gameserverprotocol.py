@@ -26,10 +26,10 @@ import thread
 import logging
 from multiprocessing import Process
 from net.totem.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
-from net.totem.gamelogic.creategamelogicserver import createGameLogicServer
-from net.totem.gamelogic.createloggingserver import createLoggingServer
-from net.totem.gamelogic.gamelogicvhost import set_permissions_vhost_participant
-from net.totem.gamelogic.gameinstancemanagementdata import GameInstanceManagementData
+from net.totem.gamelogicserver.creategamelogicserver import createGameLogicServer
+from net.totem.gamelogicserver.createloggingserver import createLoggingServer
+from net.totem.gamelogicserver.gamelogicvhost import set_permissions_vhost_participant
+from net.totem.gamelogicserver.gameinstancemanagementdata import GameInstanceManagementData
 
 gameInstanceManagementDataDict = {}
 

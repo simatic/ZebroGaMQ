@@ -21,6 +21,6 @@
 #
 # Developer(s): Denis Conan, Gabriel Adgeg
 
-PYTHONPATH=$PYTHONPATH:$PWD/../../src/Python/:$PWD/../GameServer:$PWD/../LoggingServer:$PWD
+PYTHONPATH=$PYTHONPATH:$PWD/../../src/Python-server/:$PWD
 
 python termination.py&
