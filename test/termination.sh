@@ -24,8 +24,6 @@
 PYTHONPATH=$PYTHONPATH:$PWD/../src/Python-server/:$PWD/Termination-application
 
 # terminate
-#(cd Termination-application; ./run.sh)
-#sleep 2
 (cd Termination-application; python termination.py&)
 sleep 2
 

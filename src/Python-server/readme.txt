@@ -25,4 +25,4 @@ applications.
 
 Prerequisites:
 - RabbitMQ Server version 2.7.1: http://www.rabbitmq.com/server.html
-- RabbitMQ Java Client for Python named Pika version 0.9.5 http://pika.github.com
+- RabbitMQ Client for Python named Pika version 0.9.5 http://pika.github.com
