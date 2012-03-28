@@ -23,7 +23,6 @@
 
 import re
 import sys
-import logging
 
 class Singleton(object):
 
@@ -46,11 +45,13 @@ class XMLRPCConfiguration(Singleton):
                 if(confDir is None):
                     configurationFile = open('xmlrpc.properties', 'r')
                 else:
-                    logging.debug("Configuration files directory: "+confDir)
                     configurationFile = open(confDir+'xmlrpc.properties', 'r')
             except IOError:
-                logging.error("Cannot open xmlrpc.properties file.")
-                sys.exit()
+                if(confDir is None):
+                    msg = "Cannot open xmlrpc.properties file."
+                else:
+                    msg = "Cannot open "+confDir+"xmlrpc.properties file."
+                sys.exit(msg)
             for line in configurationFile:
                 property = re.split(r'\s*', line)
                 self.__configurationProperties.setdefault(property[0], property[1])

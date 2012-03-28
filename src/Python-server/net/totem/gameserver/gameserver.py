@@ -34,7 +34,6 @@ confDir = None
 
 def setLogger():
     loggingLevel = RabbitMQConfiguration(confDir).getRabbitMQProperty("loggingLevel")
-    print "loggingLevel = ", loggingLevel
     if(loggingLevel == "DEBUG"):
         logging.basicConfig(format='[%(levelname)s - %(message)s', level=logging.DEBUG)
     elif(loggingLevel == "INFO"):
@@ -53,10 +52,9 @@ if __name__ == '__main__':
     if len(sys.argv) == 2:
         confDir = sys.argv[1]
     setLogger()
-    print "OKKKK - conf dir = ",confDir
-    logging.debug("GameServer] Game server started, identifier")
+    logging.info("GameServer] Game server started")
     port = int(XMLRPCConfiguration(confDir).getXMLRPCProperty("gameServerXMLRPCPort"))
-    logging.info("GameServer] Listening on port "+str(port))
+    logging.debug("GameServer] Listening on port "+str(port))
     server = None
     server = SimpleXMLRPCServer((XMLRPCConfiguration().getXMLRPCProperty("gameServerXMLRPCHost"),
                                  port))

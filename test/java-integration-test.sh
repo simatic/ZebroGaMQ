@@ -25,33 +25,31 @@ PYTHONPATH=$PYTHONPATH:$PWD/Python-gamelogicserver/:$PWD/../src/Python-server/
 CONFIGURATION_FILES_DIRECTORY="../../test/conf/"
 
 # stop and re-launch the RabbitMQ broker
-#rabbitmqctl stop
-#sleep 2
-#rabbitmq-server -detached
-#sleep 2
-#rabbitmqctl stop_app
-#rabbitmqctl reset
-#rabbitmqctl start_app
+rabbitmqctl stop
+sleep 2
+rabbitmq-server -detached
+sleep 2
+rabbitmqctl stop_app
+rabbitmqctl reset
+rabbitmqctl start_app
 
 # launch the Game Server
-cd ../src/Python-server; python net/totem/gameserver/gameserver.py $CONFIGURATION_FILES_DIRECTORY &
+(cd ../src/Python-server; python net/totem/gameserver/gameserver.py $CONFIGURATION_FILES_DIRECTORY) &
 GAMESERVER_PID=$!
-echo " GAMESERVER_PID = "$GAMESERVER_PID
-cd - > /dev/null
 echo $GAMESERVER_PID >> conf/gameserver_temp_pid.txt
 sleep 2
 
 # launch the Game Master Application
-#(cd Java-application; ./run.sh "michel" "simatic" "Master" "Tidy-City" "Instance-1")
-#sleep 2
+(cd Java-application; ./run.sh "michel" "simatic" "Master" "Tidy-City" "Instance-1")
+sleep 2
 
 # launch the Spectator Application
-#(cd Java-application; ./run.sh "denis" "conan" "Spectator" "Tidy-City" "Instance-1" "*.*.*.*")
-#sleep 3
+(cd Java-application; ./run.sh "denis" "conan" "Spectator" "Tidy-City" "Instance-1" "*.*.*.*")
+sleep 3
 
 # launch the Player Application
-#(cd Java-application; ./run.sh "lisa" "blum" "Player" "Tidy-City" "Instance-1")
-#sleep 3
+(cd Java-application; ./run.sh "lisa" "blum" "Player" "Tidy-City" "Instance-1")
+sleep 3
 
 echo ""
 echo ""

@@ -23,7 +23,6 @@
 
 import re
 import sys
-import logging
 
 class Singleton(object):
 
@@ -46,11 +45,13 @@ class RabbitMQConfiguration(Singleton):
                 if(confDir is None):
                     configurationFile = open('rabbitmq.properties', 'r')
                 else:
-                    logging.debug("Configuration files directory: "+confDir)
                     configurationFile = open(confDir+'rabbitmq.properties', 'r')
             except IOError:
-                logging.error("Cannot open rabbitmq.properties file.")
-                sys.exit()
+                if(confDir is None):
+                    msg = "Cannot open rabbitmq.properties file."
+                else:
+                    msg = "Cannot open "+confDir+"rabbitmq.properties file." 
+                sys.exit(msg)
             for line in configurationFile:
                 property = re.split(r'\s*', line)
                 self.__configurationProperties.setdefault(property[0], property[1])
