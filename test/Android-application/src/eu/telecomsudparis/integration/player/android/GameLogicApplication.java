@@ -44,6 +44,7 @@ public class GameLogicApplication extends Activity implements Log {
 	final static 	String		INSTANCE_CREATOR_NAME 	= "PLAYER_1";
 	final static 	String		INSTANCE_JOINER_NAME 	= "PLAYER_2";
 	final static 	String		DEFAULT_PWD 			= "ufGf64";
+	final static	String		CLASS_NAME				= GameLogicApplication.class.getSimpleName();
 	
 	private 		TextView 				connectionTextView;
 	private 		TextView 				myTextView;
@@ -169,7 +170,7 @@ public class GameLogicApplication extends Activity implements Log {
 		b.putByteArray(null, msg.getBytes());
 		message.setData(b);
 		handler.sendMessage(message);
-		android.util.Log.i(getClass().getSimpleName(), msg);
+		android.util.Log.i(CLASS_NAME, msg);
 	}
 	
 	

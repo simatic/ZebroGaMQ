@@ -94,7 +94,7 @@ public class GameLogicApplication {
 		if (in == null) {
 			Util.println("RabbitMQ configuration file \""
 					+ rabbitMQConfigFileName + "\" not found");
-			System.exit(1);
+			throw new RuntimeException();
 		}
 		try {
 			rabbitMQProperties.load(in);
@@ -109,7 +109,7 @@ public class GameLogicApplication {
 		if (in == null) {
 			Util.println("XMLRPC configuration file \"" + xmlrpcConfigFileName
 					+ "\" not found");
-			System.exit(1);
+			throw new RuntimeException();
 		}
 		try {
 			xmlrpcProperties.load(in);

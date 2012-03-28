@@ -34,7 +34,7 @@ public class XMLRPCLogin {
 		} else if (!(answer instanceof Boolean)) {
 			Util.println("The procedure didn't return a boolean.");
 			return res;
-		} else if (((Boolean) answer) == Boolean.TRUE) {
+		} else if (((Boolean) answer).equals(Boolean.TRUE)) {
 			Util.println("XMLRPC call createAndJoinGameInstance has succeded for " +login + 
 						" in "+ gameName + "/" + gameInstanceName);
 			res = true;
@@ -53,7 +53,7 @@ public class XMLRPCLogin {
 		} else if (!(answer instanceof Boolean)) {
 			Util.println("The procedure didn't return a boolean.");
 			return res;
-		} else if (((Boolean) answer) == Boolean.TRUE) {
+		} else if (((Boolean) answer).equals(Boolean.TRUE)) {
 			Util.println("XMLRPC call joinGameInstance has succeded for " +login + 
 						" in "+ gameName + "/" + gameInstanceName);
 			res = true;
@@ -72,7 +72,7 @@ public class XMLRPCLogin {
 		} else if (!(answer instanceof Boolean)) {
 			Util.println("The procedure didn't return a boolean.");
 			return res;
-		} else if (((Boolean) answer) == Boolean.TRUE) {
+		} else if (((Boolean) answer).equals(Boolean.TRUE)) {
 			Util.println("XMLRPC call joinGameInstance has succeded for " +login + 
 						" in "+ gameName + "/" + gameInstanceName);
 			res = true;
@@ -110,7 +110,7 @@ public class XMLRPCLogin {
 		} else if (!(answer instanceof Boolean)) {
 			Util.println("The procedure didn't return a boolean.");
 			return res;
-		} else if (((Boolean) answer) == Boolean.TRUE) {
+		} else if (((Boolean) answer).equals(Boolean.TRUE)) {
 			Util.println("XMLRPC call to terminateGameInstance "+ gameName + "/" + gameInstanceName+" has succeded.");
 			res = true;
 		}
@@ -128,7 +128,7 @@ public class XMLRPCLogin {
 		} else if (!(answer instanceof Boolean)) {
 			Util.println("The procedure didn't return a boolean.");
 			return res;
-		} else if (((Boolean) answer) == Boolean.TRUE) {
+		} else if (((Boolean) answer).equals(Boolean.TRUE)) {
 			Util.println("XMLRPC call to terminate has succeeded ");
 			res = true;
 		}

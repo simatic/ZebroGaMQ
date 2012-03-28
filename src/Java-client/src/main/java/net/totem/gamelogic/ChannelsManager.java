@@ -219,7 +219,6 @@ public class ChannelsManager {
 	 * and specify the action that should be triggered by recipients on 
 	 * the reception of this message.
 	 * 
-	 * @param 	consumer 	the login of the recipient
 	 * @param 	state		the GameLogicState of the game logic
 	 * @param 	action		the action to trigger on the recipient side
 	 * @param 	message		the message 
@@ -240,7 +239,6 @@ public class ChannelsManager {
 	 * and specify the action that should be triggered by recipients on 
 	 * the reception of this message.
 	 * 
-	 * @param 	consumer 	the login of the recipient
 	 * @param 	state		the GameLogicState of the game logic
 	 * @param 	action		the name of the action to trigger on the recipient side
 	 * @param 	message		the message 
@@ -260,7 +258,6 @@ public class ChannelsManager {
 	 * Publish a message to the Game Logic server, and specify the action 
 	 * that it should triggered on the reception of this message.
 	 * 
-	 * @param 	consumer 	the login of the recipient
 	 * @param 	state		the GameLogicState of the game logic 
 	 * @param 	action		the action to trigger on the recipient side
 	 * @param 	message		the message 
@@ -280,7 +277,6 @@ public class ChannelsManager {
 	 * Publish a message to the Game Logic server, and specify the action 
 	 * that it should triggered on the reception of this message.
 	 * 
-	 * @param 	consumer 	the login of the recipient
 	 * @param 	state		the GameLogicState of the game logic 
 	 * @param 	action		the name of the action to trigger on the recipient side
 	 * @param 	message		the message 
