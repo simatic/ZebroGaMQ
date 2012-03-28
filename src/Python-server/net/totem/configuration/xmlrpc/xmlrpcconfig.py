@@ -39,19 +39,12 @@ class XMLRPCConfiguration(Singleton):
 
     __configurationProperties = {}
 
-    def __init__(self, confDir=None):
+    def __init__(self, confDir="resources/"):
         if self._alreadyInitialized == False:
             try:
-                if(confDir is None):
-                    configurationFile = open('xmlrpc.properties', 'r')
-                else:
-                    configurationFile = open(confDir+'xmlrpc.properties', 'r')
+                configurationFile = open(confDir+'xmlrpc.properties', 'r')
             except IOError:
-                if(confDir is None):
-                    msg = "Cannot open xmlrpc.properties file."
-                else:
-                    msg = "Cannot open "+confDir+"xmlrpc.properties file."
-                sys.exit(msg)
+                sys.exit("Cannot open "+confDir+"xmlrpc.properties file.")
             for line in configurationFile:
                 property = re.split(r'\s*', line)
                 self.__configurationProperties.setdefault(property[0], property[1])

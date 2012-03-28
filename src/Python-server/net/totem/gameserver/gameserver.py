@@ -29,7 +29,7 @@ from net.totem.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguratio
 import gameserverprotocol
 
 global server
-confDir = None
+confDir = "resources/"
 
 
 def setLogger():

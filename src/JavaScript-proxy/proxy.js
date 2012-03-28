@@ -24,7 +24,8 @@
 /*  Inspired from server.js of the node chat demo
     available here: https://github.com/ry/node_chat */
 
-JAVASCRIPT_SRC_DIRECTORY = "../JavaScript-client/";
+RESOURCES_DIRECTORY = "resources/";
+JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY = "../JavaScript-client/";
 FIRST_REQUEST_TIMEOUT = 500; // in ms
 FIRST_REQUEST_NUMBER_OF_TRIES = 10;
 BROADCAST_KEY = "all";
@@ -54,6 +55,16 @@ var NODE_PROXY_HOST,
 exports.forwardMessage = forwardMessage;
 exports.amqpConnectionCreation = amqpConnectionCreation;
 
+
+// read command line arguments
+if(process.argv[2]){
+    RESOURCES_DIRECTORY = process.argv[2];
+}
+
+if(process.argv[3]){
+    JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY = process.argv[3];
+}
+
 startProxy();
 
 /**
@@ -61,15 +72,15 @@ startProxy();
  * Once it is done, start the proxy. 
  **/
 function startProxy (){
-     readFile("resources/config.properties", function (err, data) {
+     readFile(RESOURCES_DIRECTORY+"xmlrpc.properties", function (err, data) {
         if (err) throw err;
         // retrieve properties
         var res = qs.parse(data.toString(), sep='\n', eq=' ');
-        NODE_PROXY_HOST = res.nodeProxyHost ? trim(res.nodeProxyHost) : "localhost";
-        NODE_PROXY_PORT = res.nodeProxyPort ? trim(res.nodeProxyPort) : 8001;
-        GAMESERVER_HOST = res.gameServerHost ? trim(res.gameServerHost) : "localhost";
-        GAMESERVER_PORT = res.gameServerPort ? trim(res.gameServerPort) : 8888;
-        readFile("resources/rabbitmq.properties", function (err, data) {
+        NODE_PROXY_HOST = res.javascriptProxyHost ? trim(res.javascriptProxyHost) : "localhost";
+        NODE_PROXY_PORT = res.javascriptProxyPort ? trim(res.javascriptProxyPort) : 8001;
+        GAMESERVER_HOST = res.gameServerXMLRPCHost ? trim(res.gameServerXMLRPCHost) : "localhost";
+        GAMESERVER_PORT = res.gameServerXMLRPCPort ? trim(res.gameServerXMLRPCPort) : 8888;
+        readFile(RESOURCES_DIRECTORY+"rabbitmq.properties", function (err, data) {
             if (err) throw err;
             var res = qs.parse(data.toString(), sep='\n', eq=' ');
             GAME_LOGIC_USER_NAME = res.gameLogicUserName ? trim(res.gameLogicUserName) : "gamelogicserver";
@@ -86,13 +97,13 @@ function startProxy (){
 }
 
 function loadGenericFiles(){
-    fu.get("/rabbitmq-totem-library.js", fu.staticHandler(JAVASCRIPT_SRC_DIRECTORY+"rabbitmq-totem-library.js"));
-    fu.get("/rabbitmq-totem-actions.js", fu.staticHandler(JAVASCRIPT_SRC_DIRECTORY+"rabbitmq-totem-actions.js"));
-    fu.get("/jquery-1.6.2.min.js", fu.staticHandler(JAVASCRIPT_SRC_DIRECTORY+"external/jquery-1.6.2.min.js"));
+    fu.get("/rabbitmq-totem-library.js", fu.staticHandler(JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY+"rabbitmq-totem-library.js"));
+    fu.get("/rabbitmq-totem-actions.js", fu.staticHandler(JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY+"rabbitmq-totem-actions.js"));
+    fu.get("/jquery-1.6.2.min.js", fu.staticHandler(JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY+"external/jquery-1.6.2.min.js"));
 }
 
 function loadGamesSpecificFiles(){
-    readFile("resources/games-specific-files", function (err, data) {
+    readFile(RESOURCES_DIRECTORY+"javascript-games-specific-files", function (err, data) {
         if (err) throw err;
         var res = qs.parse(data.toString(), sep='\n', eq=' ');
         for(var prop in res){

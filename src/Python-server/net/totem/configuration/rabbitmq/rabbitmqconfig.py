@@ -39,19 +39,12 @@ class RabbitMQConfiguration(Singleton):
 
     __configurationProperties = {}
 
-    def __init__(self, confDir=None):
+    def __init__(self, confDir="resources/"):
         if self._alreadyInitialized == False:
             try:
-                if(confDir is None):
-                    configurationFile = open('rabbitmq.properties', 'r')
-                else:
-                    configurationFile = open(confDir+'rabbitmq.properties', 'r')
+                configurationFile = open(confDir+'rabbitmq.properties', 'r')
             except IOError:
-                if(confDir is None):
-                    msg = "Cannot open rabbitmq.properties file."
-                else:
-                    msg = "Cannot open "+confDir+"rabbitmq.properties file." 
-                sys.exit(msg)
+                sys.exit("Cannot open "+confDir+"rabbitmq.properties file.")
             for line in configurationFile:
                 property = re.split(r'\s*', line)
                 self.__configurationProperties.setdefault(property[0], property[1])

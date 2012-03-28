@@ -51,10 +51,10 @@ function loadRabbitMQProperties (){
     readFile("resources/rabbitmq.properties", function (err, data) {
         if (err) throw err;
         var res = qs.parse(data.toString(), sep='\n', eq=' ');
-        BROKER_HOST = res.gameLogicBrokerHost ? trim(res.gameLogicBrokerHost) : "localhost";
-        BROKER_PORT = res.gameLogicBrokerPort ? trim(res.gameLogicBrokerPort) : 5672;
-        GAME_LOGIC_EXCHANGE_NAME = res.gameLogicExchangeName ? trim(res.gameLogicExchangeName) : "GameInstance";
-        GAME_LOGIC_USER_NAME = res.gameLogicUserName ? trim(res.gameLogicUserName) : "gamelogicserver";
+        BROKER_HOST = res.gameLogicServerBrokerHost ? trim(res.gameLogicServerBrokerHost) : "localhost";
+        BROKER_PORT = res.gameLogicServerBrokerPort ? trim(res.gameLogicServerBrokerPort) : 5672;
+        GAME_LOGIC_EXCHANGE_NAME = res.gameLogicServerExchangeName ? trim(res.gameLogicServerExchangeName) : "GameInstance";
+        GAME_LOGIC_USER_NAME = res.gameLogicServerUserName ? trim(res.gameLogicServerUserName) : "gamelogicserver";
     });
 }
 
