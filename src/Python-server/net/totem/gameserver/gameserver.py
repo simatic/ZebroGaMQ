@@ -34,6 +34,7 @@ confDir = None
 
 def setLogger():
     loggingLevel = RabbitMQConfiguration(confDir).getRabbitMQProperty("loggingLevel")
+    print "loggingLevel = ", loggingLevel
     if(loggingLevel == "DEBUG"):
         logging.basicConfig(format='[%(levelname)s - %(message)s', level=logging.DEBUG)
     elif(loggingLevel == "INFO"):
@@ -45,14 +46,15 @@ def setLogger():
     elif(loggingLevel == "CRITICAL"):
         logging.basicConfig(format='[%(levelname)s - %(message)s', level=logging.CRITICAL)
     else:
-        logging.basicConfig(format='[%(levelname)s - %(message)s')
+        logging.basicConfig(format='[%(levelname)s - %(message)s',  level=logging.INFO)
 
 if __name__ == '__main__':
     # if confDir is used in params
     if len(sys.argv) == 2:
         confDir = sys.argv[1]
     setLogger()
-    logging.info("GameServer] Game server started, identifier")
+    print "OKKKK - conf dir = ",confDir
+    logging.debug("GameServer] Game server started, identifier")
     port = int(XMLRPCConfiguration(confDir).getXMLRPCProperty("gameServerXMLRPCPort"))
     logging.info("GameServer] Listening on port "+str(port))
     server = None

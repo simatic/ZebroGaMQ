@@ -34,27 +34,12 @@ CONFIGURATION_FILES_DIRECTORY="../../test/conf/"
 #rabbitmqctl start_app
 
 # launch the Game Server
-#(cd ../src/Python-server; ./run.sh)
-#sleep 2
-
-#python ../src/Python-server/net/totem/gameserver/gameserver.py "thhih" "iij"&
-#GAMESERVER_PID=$!
-#echo $GAMESERVER_PID >> ../src/Python-server/temp_pid.txt
-#sleep 2
-
-
-
-(cd ../src/Python-server; python net/totem/gameserver/gameserver.py $CONFIGURATION_FILES_DIRECTORY ) &
+cd ../src/Python-server; python net/totem/gameserver/gameserver.py $CONFIGURATION_FILES_DIRECTORY &
 GAMESERVER_PID=$!
 echo " GAMESERVER_PID = "$GAMESERVER_PID
+cd - > /dev/null
 echo $GAMESERVER_PID >> conf/gameserver_temp_pid.txt
-
-#GAMESERVER_PID=$!
-#echo " GAMESERVER_PID = "$GAMESERVER_PID
-#echo $GAMESERVER_PID >> conf/gameserver_temp_pid.txt
-#echo $GAMESERVER_PID >> ../../test/conf/gameserver_temp_pid.txt
-
-#sleep 2
+sleep 2
 
 # launch the Game Master Application
 #(cd Java-application; ./run.sh "michel" "simatic" "Master" "Tidy-City" "Instance-1")
