@@ -25,9 +25,12 @@ import xmlrpclib
 import sys
 from net.totem.configuration.xmlrpc.xmlrpcconfig import XMLRPCConfiguration
 
-confDir = "../conf/"
+confDir = "../resources/"
 
 if __name__ == '__main__':
+    # if confDir is used in params
+    if len(sys.argv) == 2:
+        confDir = sys.argv[1]
     print " [Termination] Beginning"
     proxy = xmlrpclib.ServerProxy("http://"
                                   + XMLRPCConfiguration(confDir).getXMLRPCProperty("gameServerXMLRPCHost")

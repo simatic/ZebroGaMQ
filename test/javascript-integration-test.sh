@@ -22,7 +22,7 @@
 # Developer(s): Denis Conan, Gabriel Adgeg
 
 PYTHONPATH=$PYTHONPATH:$PWD/Python-gamelogicserver/:$PWD/../src/Python-server/
-CONFIGURATION_FILES_DIRECTORY="../../test/conf/"
+CONFIGURATION_FILES_DIRECTORY="../../test/resources/"
 JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY="../JavaScript-client/"
 
 # stop and re-launch the RabbitMQ broker
@@ -37,15 +37,15 @@ rabbitmqctl start_app
 # launch the Game Server
 (cd ../src/Python-server; python net/totem/gameserver/gameserver.py $CONFIGURATION_FILES_DIRECTORY) &
 GAMESERVER_PID=$!
-echo $GAMESERVER_PID >> conf/gameserver_temp_pid.txt
+echo $GAMESERVER_PID >> resources/gameserver_temp_pid.txt
 sleep 2
 
 echo ""
 
-# launch the Node.js proxy
+# launch the JavaScript proxy
 (cd ../src/JavaScript-proxy; node proxy.js $CONFIGURATION_FILES_DIRECTORY $JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY) &
 JAVASCRIPT_PROXY_PID=$!
-echo $JAVASCRIPT_PROXY_PID >> conf/javascript_proxy_temp_pid.txt
+echo $JAVASCRIPT_PROXY_PID >> resources/javascript_proxy_temp_pid.txt
 sleep 1
 
 echo ""

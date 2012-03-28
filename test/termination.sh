@@ -22,21 +22,22 @@
 # Developer(s): Denis Conan, Gabriel Adgeg
 
 PYTHONPATH=$PYTHONPATH:$PWD/../src/Python-server/:$PWD/Termination-application
+CONFIGURATION_FILES_DIRECTORY="../resources/"
 
 # terminate
-(cd Termination-application; python termination.py&)
+(cd Termination-application; python termination.py $CONFIGURATION_FILES_DIRECTORY) &
 sleep 2
 
 # kill game server
-GAMESERVER_PID=$(cat conf/gameserver_temp_pid.txt 2> /dev/null)
+GAMESERVER_PID=$(cat resources/gameserver_temp_pid.txt 2> /dev/null)
 kill $GAMESERVER_PID 2> /dev/null
 
 # kill javascript proxy
-JAVASCRIPT_PROXY_PID=$(cat conf/javascript_proxy_temp_pid.txt 2> /dev/null)
+JAVASCRIPT_PROXY_PID=$(cat resources/javascript_proxy_temp_pid.txt 2> /dev/null)
 kill $JAVASCRIPT_PROXY_PID 2> /dev/null
 
 # remove temp files
-rm conf/gameserver_temp_pid.txt conf/javascript_proxy_temp_pid.txt 2> /dev/null
+rm resources/gameserver_temp_pid.txt resources/javascript_proxy_temp_pid.txt 2> /dev/null
 
 # stop RabbitMQ broker => stop all the clients
 echo " End of demonstration"

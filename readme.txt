@@ -61,5 +61,3 @@ The Sources directory includes:
   the Java Android and JavaScript client applications.
 - All the applications using those API that compose the communication 
   middleware, from the server to the client applications.
-- A set of tutorials, to test the installation of the prerequisite software used
-  by the middleware and its client applications.

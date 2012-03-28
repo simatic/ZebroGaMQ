@@ -55,13 +55,9 @@ public class HeartbeatChannel extends PublishChannel{
 		if(heartbeatPeriod != 0){
 			new Thread() {
 				public void run() {
-					int sequenceNumber = 1;
 					while (!state.hasConnectionExited()) {
 						try {
-							publishToGameLogicServer(state,
-									PresenceAction.HEARTBEAT,
-									("Sequence Number "+sequenceNumber+"  "+new Date()).toString());
-							sequenceNumber ++;
+							publishToGameLogicServer(state,PresenceAction.HEARTBEAT,new Date().toString());
 						} catch (IOException e) {
 							e.printStackTrace();
 						}

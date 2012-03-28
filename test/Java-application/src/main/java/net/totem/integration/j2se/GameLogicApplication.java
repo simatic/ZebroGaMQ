@@ -60,7 +60,7 @@ public class GameLogicApplication {
 						|| (Util.getContentKeyAt(state.observationKey, "\\.", 1) == null)
 						|| (Util.getContentKeyAt(state.observationKey, "\\.", 2) == null)
 						|| (Util.getContentKeyAt(state.observationKey, "\\.", 3) == null)) {
-					Util.println(" [Specatator] Please, "
+					Util.println("["+state.role+"] Please, "
 							+ "<observation key game play> "
 							+ "must conform to the syntax "
 							+ "<part1>.<part2>.<part3>.<part4>");

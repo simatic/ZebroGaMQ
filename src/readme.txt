@@ -21,12 +21,15 @@ Developer(s): Denis Conan, Gabriel Adgeg
 
 This directory structure contains the code written for using RabbitMQ in the
 TOTEM project:
-- Java:
-  Maven projects for the API: common parts, and the different roles (game
-  master, player, and spectator)
-- Python:
-  Some code for developing game instance logic.
-- JavaScript:
-  Libraries required by Master and Spectator applications in JavaScript
-  to communicate with the NodeJsProxy, and hence with the Game Server and the 
-  RabbitMQ broker, during the loggin phase and the in-game phase. 
+- Java-client:
+  Maven project for the API of player applications.
+- JavaScript-client:
+  Libraries required by JavaScript applications to communicate with the 
+  JavaScript proxy.
+- JavaScript-proxy:
+  Node.js process used by JavaScript applications to communicate with the 
+  GameServer during the loggin phase, and the with RabbitMQ broker during 
+  the in-game phase.
+- Python-server:
+  PyDev project for the GameServer and for the GameLogicServer.
+
