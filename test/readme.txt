@@ -19,36 +19,6 @@ USA
 
 Developer(s): Denis Conan, Gabriel Adgeg
 
-
-Prerequisites
-=============
-
-   A/ For the server side (mandatory)
-   ----------------------------------
-   - Erlang ≥ R13B03,
-   – RabbitMQ Server ≥ 2.7.1,
-   – Python ≥ 2.6,
-   – Pika version ≥ 0.9.5
-
-   B/ For Android applications
-   ---------------------------
-   - ADT plugin for Eclipse ≥ 12.0.0
-   - Android SDK API level ≥ 7
-
-   C/ For JavaScript applications
-   ------------------------------
-   – Node.js ≥ 0.4.10,
-   - NPM ≥ 1.0.106,
-   - AMQP library (to install with NPM) = 0.1.0,
-   - XMLRPC library (to install with NPM) ≥ 0.8.1, 
-
-   D/ For Java applications
-   ------------------------
-   – Java ≥ 1.5,
-   – Maven ≥ 2.2.1,
-   - For Windows operating systems, Cygwin
-
-
 Demonstration
 =============
 
