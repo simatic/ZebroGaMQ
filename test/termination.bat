@@ -22,17 +22,17 @@ rem
 rem Developer(s): Denis Conan, Gabriel Adgeg
 
 setlocal
-set PYTHONPATH=%PYTHONPATH%;%cd%\GameServer
+set PYTHONPATH=%PYTHONPATH%;%cd%\Termination-application\;%cd%\..\src\Python-server\
 
 rem terminate
 cd Termination-application
-call run.bat
+call python termination.py
 rem sleep 1 second
 ping 127.0.0.1 -n 1 > NUL
 
 rem stop RabbitMQ broker => stop all the clients
-echo END OF EXAMPLE APPLICATION
-echo GOING TO FORCE THE TERMINATION BY STOPPING BROKER
+echo End of demonstration
+echo Stopping the broker...
 call rabbitmqctl stop_app
 call rabbitmqctl stop
 

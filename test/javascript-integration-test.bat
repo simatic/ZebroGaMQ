@@ -24,6 +24,7 @@ rem Developer(s): Denis Conan, Gabriel Adgeg
 setlocal
 set PYTHONPATH=%PYTHONPATH%;%cd%\Python-gamelogicserver\;%cd%\..\src\Python-server\
 set CONFIGURATION_FILES_DIRECTORY=..\..\test\resources\
+set JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY=..\JavaScript-client\
 
 rem stop and re-launch the RabbitMQ broker
 call rabbitmqctl stop
@@ -36,6 +37,8 @@ call rabbitmqctl stop_app
 call rabbitmqctl reset
 call rabbitmqctl start_app
 
+rem working directory
+set PWD=%~dp0
 
 rem launch the Game Server
 cd ..\src\Python-server
@@ -43,14 +46,19 @@ start python net\totem\gameserver\gameserver.py %CONFIGURATION_FILES_DIRECTORY%
 rem sleep 1 second
 ping 127.0.0.1 -n 1 > NUL
 
+rem launch the JavaScript proxy
+cd %PWD%../src/JavaScript-proxy
+start node proxy.js %CONFIGURATION_FILES_DIRECTORY% %JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY%
+rem sleep 1 second
+ping 127.0.0.1 -n 1 > NUL
+
 echo Instructions for the sequel of the demonstration:
-echo 1- Start the Android-application on a first Android Device.
-echo 2- Press the menu button, and click on Create Instance.
-echo 3- Start the Android-application on a second Android Device.
-echo 4- Press the menu button, and click on Join Instance.
+echo 1/ Start a first JavaScript application on your Web browser, and create an instance
+echo 2/ Start a second JavaScript application on your Web browser, and join the instance
+echo 3/ (Optional) Start the Android-application on an Android Device,
+echo     press the menu button, and click on "Join Instance".
 echo Finally, to properly stop the demonstration,
 echo execute the termination.bat script located in the current directory,
-echo and close the python.exe shell.
-
+echo and close both python.exe and node.exe shells.
 
 endlocal

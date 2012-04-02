@@ -36,21 +36,35 @@ call rabbitmqctl stop_app
 call rabbitmqctl reset
 call rabbitmqctl start_app
 
+rem working directory
+set PWD=%~dp0
 
 rem launch the Game Server
 cd ..\src\Python-server
 start python net\totem\gameserver\gameserver.py %CONFIGURATION_FILES_DIRECTORY%
-rem sleep 1 second
-ping 127.0.0.1 -n 1 > NUL
+rem sleep 2 second
+ping 127.0.0.1 -n 2 > NUL
 
-echo Instructions for the sequel of the demonstration:
-echo 1- Start the Android-application on a first Android Device.
-echo 2- Press the menu button, and click on Create Instance.
-echo 3- Start the Android-application on a second Android Device.
-echo 4- Press the menu button, and click on Join Instance.
-echo Finally, to properly stop the demonstration,
+rem launch the Game Master Application
+cd %PWD%/Java-application
+start sh run.sh "michel" "simatic" "Master" "Tidy-City" "Instance-1"
+rem sleep 2 second
+ping 127.0.0.1 -n 2 > NUL
+
+rem launch the Spectator Application
+start sh run.sh "denis" "conan" "Spectator" "Tidy-City" "Instance-1" "*.*.*.*"
+rem sleep 2 second
+ping 127.0.0.1 -n 2 > NUL
+
+rem launch the Player Application
+start sh run.sh "lisa" "blum" "Player" "Tidy-City" "Instance-1"
+rem sleep 2 second
+ping 127.0.0.1 -n 2 > NUL
+
+cd %PWD%
+
+echo To properly stop the demonstration,
 echo execute the termination.bat script located in the current directory,
-echo and close the python.exe shell.
-
+echo and close the python.exe and the three java shells.
 
 endlocal
