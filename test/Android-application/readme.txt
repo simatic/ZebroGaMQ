@@ -28,30 +28,28 @@ Execution
 =========
 
 Here are the instructions for the sequel of the demonstration:
-1/ Open a shell, go to the directory 
-   TOTEM.CommunicationMiddleware/Sources/IntegrationExampleApplication, start
+1/ Open a shell, go to the directory test/, start
    the demonstration typing:
-   - $ ./run_with_android_phones.sh (on Unix-like operating systems)
-   - $ run_with_android_phones.bat (on Windows operating systems)
+   - $ ./android-integration-test.sh (on Unix-like operating systems)
+   - $ android-integration-test.bat (on Windows operating systems)
 2/ Adapt the addresses of the Game server and of the RabbitMQ broker to 
    your local configurations in the files:
    - res/raw/rabbitmq.properties
    - res/raw/xmlrpc.properties
-3/ Start the PlayerMasterApplication on a first Android device (or emulator).
+3/ Start the Android-application on a first Android device (or emulator).
 4/ Press the menu button, and click on "Create Instance".
-5/ Start the PlayerMasterApplication on a second Android Device (or emulator).
+5/ Start the Android-application on a second Android Device (or emulator).
 6/ Press the menu button, and click on "Join Instance".
-7/ Finally, press a key to properly stop the demonstration.
+7/ Finally, execute the termination script to properly stop the demonstration.
 
 
 TOTEM API
 =========
 
-The TOTEM API is located in two jars into the lib directory:
-- gamelogic-common-0.1-SNAPSHOT.jar
-- gameplayer-0.1-SNAPSHOT.jar
+The TOTEM API is located into the lib directory:
+- gamelogic-client-1.0-SNAPSHOT.jar
 
-Otherwise, all the jars located in the lib directory are needed by the 
+However, all the jars located in the lib directory are needed by the 
 communication middleware to use both XML-RPC and AMQP protocols.
 
 Indeed, you must import this whole directory in your own Android projects 

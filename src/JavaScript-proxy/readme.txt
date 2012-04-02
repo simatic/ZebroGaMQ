@@ -87,16 +87,13 @@ II. Execution
   Setting IP addresses
   --------------------
 
-  In the files resources/config.properties & resources/rabbitmq.properties,
+  In the files resources/xmlrpc.properties & resources/rabbitmq.properties,
   set the IP addresses that you use for:
   - the GameServer,
   - the NodeJsProxy,
   - the RabbitMQ broker.
 
   By default, the all the addresses are set to localhost.
-
-  The script of the example application is 
-  ../run_with_master_and_spectator_javascript_applications.sh, not ../run.sh.
 
 
   Using NodeJsProxy for several games
@@ -114,7 +111,7 @@ II. Execution
   all the required files for the Javascript applications.
 
   Please refer to the imports located in the file 
-  ../MasterApplicationJavascript/master.html for a better understanding of the 
+  ../../test/Javascript-application/gamelogic.html for a better understanding of the 
   games-specific-files configuration file.
 
   

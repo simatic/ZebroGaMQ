@@ -19,5 +19,8 @@ USA
 
 Developer(s): Denis Conan, Gabriel Adgeg
 
+This is the JavaScript application for using XML-RPC and RabbitMQ through a 
+JavaScript proxy.
 
-Please refer to ../NodeJsProxy/readme.txt.
+Please refer directly to ../../src/JavaScript-proxy/readme.txt for
+more details on how to install and how to use the JavaScript proxy.

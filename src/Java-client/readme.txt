@@ -20,15 +20,13 @@ USA
 Developer(s): Denis Conan, Gabriel Adgeg
 
 
+This is the TOTEM Library for using RabbitMQ in Java Client applications.
+
 Prerequisites:
-- RabbitMQ Server version 2.3.1: http://www.rabbitmq.com/server.html
-- RabbitMQ Java Client for Android version 2.2.0: http://www.rabbitmq.com/java-client.html
+- RabbitMQ Server version 2.7.1: http://www.rabbitmq.com/server.html
 - Maven version >= 2.2.1: http://maven.apache.org/download.html
 - Java JRE >= 1.5: http://www.oracle.com/technetwork/java/javase/downloads/index-jdk5-jsp-142662.html
 
 To compile, launch the following command:
 $ mvn install
-
-Make sure that you have compiled first the Java-client located in
-the directory src/.
 
