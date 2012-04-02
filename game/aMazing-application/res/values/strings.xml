@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, HellpMapViewActivity!</string>
+    <string name="app_name">aMazing</string>
+    <string name="API_KEY">07ggP0s3tCZFwMoXkFpljHLfrjd_e1qximwJ8Qg</string>
+	<color  name="gray">#af888888</color>
+        
+</resources>
