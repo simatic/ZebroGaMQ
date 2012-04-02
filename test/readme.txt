@@ -23,26 +23,31 @@ Developer(s): Denis Conan, Gabriel Adgeg
 Prerequisites
 =============
 
-1/ Softwares
-------------
+   A/ For the server side (mandatory)
+   ----------------------------------
+   - Erlang ≥ R13B03,
+   – RabbitMQ Server ≥ 2.7.1,
+   – Python ≥ 2.6,
+   – Pika version ≥ 0.9.5
 
-– RabbitMQ Server version 2.7.1,
-– Pika version ≥ 0.9.5,
-– Node.js ≥ 0.4.10,
-– Java ≥ 1.5,
-– Python ≥ 2.6
+   B/ For Android applications
+   ---------------------------
+   - ADT plugin for Eclipse ≥ 12.0.0
+   - Android SDK API level ≥ 7
 
-2/ Installation procedure
--------------------------
+   C/ For JavaScript applications
+   ------------------------------
+   – Node.js ≥ 0.4.10,
+   - NPM ≥ 1.0.106,
+   - AMQP library (to install with NPM) = 0.1.0,
+   - XMLRPC library (to install with NPM) ≥ 0.8.1, 
 
-Please refer to the "Presentation of the TOTEM Communication Infrastructure"
-document located in the SVN repository at the following location:
-Sandbox/TSP-MARGE-Communication/Writings/CommunicationMiddleware/document.pdf:
-- The appendix A.1 describes the installation procedure for the RabbitMQ broker
-  on desktop computers,
-- The appendix A.3 describes the installation procedure for Pika, and
-- The appendix A.4 describes the installation procedure for Node.js and its
-  required libraries.
+   D/ For Java applications
+   ------------------------
+   – Java ≥ 1.5,
+   – Maven ≥ 2.2.1,
+   - For Windows operating systems, Cygwin
+
 
 Demonstration
 =============

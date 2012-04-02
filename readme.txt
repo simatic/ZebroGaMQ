@@ -27,7 +27,8 @@ Features
 --------
 
 The TOTEM Communication Middleware provides an easy and reliable way to 
-publish and consume messages. A prototypical game involves:
+publish and consume messages in the context of mobile multiplayer games. 
+A prototypical game involves:
 - A Python server
 - Android applications
 - Java J2SE applications
@@ -39,25 +40,16 @@ messages, the middleware will handle for you the loss of network
 connection inherent to mobile networks.
 
 
-Doc directory
+src directory
 -------------
 
-The Doc directory includes:
-- The document "Presentation of the Communication Middleware", which presents
-  the communication middleware, from its use cases and its requirements to its 
-  concepts, its architecture and even its installation procedure. A tutorial 
-  is also presented in this document to ease the use of the middleware and of 
-  its clients applications.
-- The installation procedure of prerequisite software on Windows environments,
-  since the "Presentation of the Communication Middleware" mostly focuses on 
-  Unix-like operating systems.
+The API used by the communication middleware for the Python server and for
+the Java Android and JavaScript client applications.
 
+test directory
+--------------
 
-Sources
--------
-
-The Sources directory includes:
-- The API used by the communication middleware for the Python server and for
-  the Java Android and JavaScript client applications.
-- All the applications using those API that compose the communication 
-  middleware, from the server to the client applications.
+All the applications using those API that compose the communication 
+middleware, from the server to the client applications.
+Scripts are present to execute integration tests using those applications.
+They can be launched on both Unix and Windows environments.
