@@ -44,13 +44,12 @@ rem sleep 1 second
 ping 127.0.0.1 -n 1 > NUL
 
 echo Instructions for the sequel of the demonstration:
-echo 1- Start the Android-application on a first Android Device.
-echo 2- Press the menu button, and click on Create Instance.
-echo 3- Start the Android-application on a second Android Device.
-echo 4- Press the menu button, and click on Join Instance.
+echo 1- Start the aMazing-application on a first Android Device.
+echo 2- Press the start button, type an name for the instance click on Create Instance.
+echo 3- Start the aMazing-application on a second Android Device.
+echo 4- Press the start button, type exactly the same instance name and click on Join Instance.
 echo Finally, to properly stop the demonstration,
 echo execute the termination.bat script located in the current directory,
 echo and close the python.exe shell.
-
 
 endlocal
