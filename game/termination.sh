@@ -32,12 +32,8 @@ sleep 2
 GAMESERVER_PID=$(cat resources/gameserver_temp_pid.txt 2> /dev/null)
 kill $GAMESERVER_PID 2> /dev/null
 
-# kill javascript proxy
-JAVASCRIPT_PROXY_PID=$(cat resources/javascript_proxy_temp_pid.txt 2> /dev/null)
-kill $JAVASCRIPT_PROXY_PID 2> /dev/null
-
 # remove temp files
-rm resources/gameserver_temp_pid.txt resources/javascript_proxy_temp_pid.txt 2> /dev/null
+rm resources/gameserver_temp_pid.txt 2> /dev/null
 
 # stop RabbitMQ broker => stop all the clients
 echo " End of demonstration"

@@ -130,12 +130,12 @@ def createNewGameData():
 
 #Only call this function if it was made sure that the item is still in the list. 
 def drawItem(itemId, latE6, lngE6):
+    global mapGoals
     #Check if it is a goal or an item
     if itemId  in mapGoals:
         #Goal
         #Draw the item towards the player.
         #first check the distance6
-        global mapGoals
         item = mapGoals[itemId]
         distance = gpsCoordinatesToDistance((latE6/ float(10**6)),(lngE6/ float(10**6)),(item.lat/ float(10**6)),(item.lng/ float(10**6)))
         #TODO check if this should be set to a different value! 

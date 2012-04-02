@@ -177,6 +177,7 @@ def handleGPSCoordinatesDuringViolation(player, otherPlayer, gpsList, othergpsLi
             proximityViolationP2 = False
 
 def handleGPSCoordinates(player, otherPlayer, gpsList, othergpsList, lastCorrectPosition, state, body, mazeCorners):
+    global updateCrownClaimFlag
     forwardList = []
     proximityViolationList = []
     proximityOke = True
@@ -277,7 +278,6 @@ def handleGPSCoordinates(player, otherPlayer, gpsList, othergpsList, lastCorrect
         messageP2 = messageP2[0:-1]
         state.gamelogicchannel.publish("PLAYER_1", state, "amazingActionKind.updateCrownClaims", messageP1)
         state.gamelogicchannel.publish("PLAYER_2", state, "amazingActionKind.updateCrownClaims", messageP2)
-        global updateCrownClaimFlag
         updateCrownClaimFlag = False
          
         """
@@ -557,6 +557,8 @@ def drawItem(state, header, body):
                     state.gamelogicchannel.publish("PLAYER_2", state, "amazingActionKind.updateCrownClaims", messageP2)
                                 
 def freePass(state, header, body):
+    global proximityViolationP1
+    global proximityViolationP2
     if header[0] == 'PLAYER_1':
         player = 1
         checkList = gpsListP2
@@ -596,11 +598,9 @@ def freePass(state, header, body):
                 #We tell the player everything is fine and the violation is reset.
                 del gameSession.playerItems[player-1][usedItemID]
                 if player == 1:
-                    global proximityViolationP1
                     proximityViolationP1= False
                     state.gamelogicchannel.publish("PLAYER_"+repr(player), state, "amazingActionKind.freePass", body)
                 else:
-                    global proximityViolationP2
                     proximityViolationP2 = False
                     state.gamelogicchannel.publish("PLAYER_"+repr(player), state, "amazingActionKind.freePass", body)
                     

@@ -1,4 +1,4 @@
-from net.totem.gamelogic.gamelogicactionenumtype import GameLogicActionEnumeration
+from net.totem.gamelogicserver.gamelogicactionenumtype import GameLogicActionEnumeration
 from myprotocol import computeGPSCoordinates, playerIsReady, itemRequest, playerLocationAccurate, teleportItem, drawItem, freePass, breakMaze, binoculars, rocket
 
 

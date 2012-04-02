@@ -1,4 +1,4 @@
-from net.totem.gamelogic.gamelogicstate import GameLogicState
+from net.totem.gamelogicserver.gamelogicstate import GameLogicState
 
 class MyState(GameLogicState):
 	mynewstatevariable = None

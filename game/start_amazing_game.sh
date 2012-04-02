@@ -21,8 +21,8 @@
 #
 # Developer(s): Denis Conan, Gabriel Adgeg
 
-PYTHONPATH=$PYTHONPATH:$PWD/Python-gamelogicserver/:$PWD/../src/Python-server/
-CONFIGURATION_FILES_DIRECTORY="../../test/resources/"
+PYTHONPATH=$PYTHONPATH:$PWD/aMazing-gamelogicserver/:$PWD/../src/Python-server/
+CONFIGURATION_FILES_DIRECTORY="../../game/resources/"
 
 # stop and re-launch the RabbitMQ broker
 rabbitmqctl stop
@@ -40,11 +40,10 @@ echo $GAMESERVER_PID >> resources/gameserver_temp_pid.txt
 sleep 1
 
 echo ""
-echo "Instructions for the sequel of the demonstration:"
-echo "1/ Start the Android-application on a first Android Device"
-echo "2/ Press the menu button, and click on \"Create Instance\"."
-echo "3/ Start the Android-application on a second Android Device"
-echo "4/ Press the menu button, and click on \"Join Instance\"."
+echo "1/ Start the aMazing-application on a first Android Device"
+echo "2/ Press the start button, type an name for the instance click on \"Create Instance\"."
+echo "3/ Start the aMazing-application on a second Android Device"
+echo "4/ Press the start button, type exactly the same instance name and click on \"Join Instance\"."
 echo ""
 echo "Finally, execute the termination script to stop the demonstration."
 echo ""
