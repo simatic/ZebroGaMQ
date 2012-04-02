@@ -1,16 +1,12 @@
 package eu.totem.communication;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 
+import net.totem.gamelogic.ChannelsManager;
+import net.totem.gamelogic.GameLogicState;
+import net.totem.gamelogic.JoinAction;
 import net.totem.gamelogic.Util;
-import net.totem.gamelogic.player.ChannelsManager;
-import net.totem.gamelogic.player.JoinAction;
-import net.totem.gamelogic.player.PlayerState;
-
-import org.xmlrpc.android.XMLRPCClient;
-import org.xmlrpc.android.XMLRPCException;
 
 import com.google.android.maps.GeoPoint;
 
@@ -36,12 +32,17 @@ public class PlayerTask extends AsyncTask<Void, Integer, Integer> {
 	private static final int COMPUTING_CALL = 10;
 	private static final int COMPUTING_ANSWER = 20;
 
-	private PlayerState state;
+	private GameLogicState state;
 	private GameActivity activity;
 	private ProgressDialog dialog;
 
 	public PlayerTask(GameActivity activity) {
 		this.activity = activity;
+		state = new GameLogicState();
+		state.login = activity.playerName;
+		state.password = GameActivity.DEFAULT_PWD;
+		state.gameName = "aMazing";
+		state.instanceName = GameSession.instanceName;
 	}
 
 	@Override
@@ -106,19 +107,20 @@ public class PlayerTask extends AsyncTask<Void, Integer, Integer> {
 		}
 	}
 
+	
 	@Override
 	protected Integer doInBackground(Void... params) {
 		publishProgress(COMPUTING_CALL);
-		Object answer = executeXMLRPCCall();
-		publishProgress(COMPUTING_ANSWER);
-		boolean res = computeXMLRPCAnswer(answer);
-		if (res) {
+		boolean loggedIn = executeXMLRPCLogin();
+		if(loggedIn){
+			publishProgress(COMPUTING_ANSWER);
+			initChannelsManager();
 			return RESULT_OK;
-		} else {
+		}else{
 			return RESULT_ERROR;
 		}
 	}
-
+	
 	static class Dialog {
 		public static void showMessage(Context context, String msg) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -128,88 +130,30 @@ public class PlayerTask extends AsyncTask<Void, Integer, Integer> {
 			alert.show();
 		}
 	}
-
-	private Object executeXMLRPCCall() {
-		Object answer = null;
-		URI uri = URI.create("http://"
-				+ Util.getXMLRPCProperties()
-						.getProperty("gameServerXMLRPCHost")
-				+ ":"
-				+ Util.getXMLRPCProperties()
-						.getProperty("gameServerXMLRPCPort"));
-		XMLRPCClient client = new XMLRPCClient(uri);
-		state = new PlayerState();
-		state.login = activity.playerName;
-		state.password = GameActivity.DEFAULT_PWD;
-		state.gameName = "aMazing";
-		state.gameInstanceName = GameSession.instanceName;
-		int maxRetry = Integer.valueOf(Util.getXMLRPCProperties().getProperty(
-				"maxRetry"));
-		// switch the request depending on the player name
-		String request = state.login
-				.equals(GameActivity.INSTANCE_CREATOR_NAME) ? "createGameInstance"
-				: "joinPlayerGameInstance";
-		for (int i = 0; i < maxRetry; i++) {
-			if (!state.hasConnectionExited()) {
-				try {
-					answer = client.call(request, state.login, state.password,
-							state.gameName, state.gameInstanceName);
-					break;
-				} catch (XMLRPCException e) {
-					e.printStackTrace();
-				}
-				// sleep 1 second before retrying
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return answer;
-	}
-
-	private boolean computeXMLRPCAnswer(Object answer) {
+	
+	
+	private boolean executeXMLRPCLogin(){
 		boolean res = false;
-		if (answer == null) {
-			Util.println("The server didn't return XML.");
-			return res;
-		} else if (!(answer instanceof Boolean)) {
-			Util.println("The procedure didn't return a boolean.");
-			return res;
-		} else if (((Boolean) answer) == Boolean.TRUE) {
-			Util.println("XMLRPC call has succeeded for player " + state.login
-					+ " in " + state.gameName + "/" + state.gameInstanceName);
-			try {
-				// Instantiate the channelsManager
-				state.channelsManager = ChannelsManager.getInstance(state,
-						MyListOfGameLogicActions.ListOfActionsMaps);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			try {
-				state.channelsManager.publishToGameLogicServer(
-						state,
-						JoinAction.JOIN_PLAYER,
-						state.login
-								+ Util.getRabbitMQProperties().getProperty(
-										"bodySeparator")
-								+ state.gameName
-								+ Util.getRabbitMQProperties().getProperty(
-										"bodySeparator")
-								+ state.gameInstanceName);
-				res = true;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return res;
-		} else {
-			Util.println("XMLRPC call has failed for player " + state.login
-					+ " in " + state.gameName + "/" + state.gameInstanceName);
-			Util.println(" [Player " + state.login + "] Exiting ");
-			return false;
+		if(state.login.equals(GameActivity.INSTANCE_CREATOR_NAME)){
+			res = XMLRPCLogin.createAndJoinGameInstance(state.login, state.password, state.gameName, state.instanceName);
+		}else{
+			res = XMLRPCLogin.joinGameInstance(state.login, state.password, state.gameName, state.instanceName);
+		}
+		return res;
+	}
+	
+	
+	private void initChannelsManager(){
+		try {
+			// Instantiate the channelsManager
+			state.channelsManager = ChannelsManager.getInstance(state, MyListOfGameLogicActions.ListOfActionsMaps);
+			String content = state.login + "," + state.gameName + "," + state.instanceName;
+			state.channelsManager.publishToGameLogicServer(state, JoinAction.JOIN, content);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
+
 
 	// The use of runOnUiThread is here to avoid the handler mechanism
 	// for the communication between this thread and UI thread.

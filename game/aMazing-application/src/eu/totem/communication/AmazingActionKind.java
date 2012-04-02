@@ -6,103 +6,103 @@ import java.util.Map;
 
 
 import net.totem.gamelogic.ActionInvocationException;
+import net.totem.gamelogic.GameLogicActionInterface;
+import net.totem.gamelogic.GameLogicState;
 import net.totem.gamelogic.Util;
-import net.totem.gamelogic.player.PlayerActionInterface;
-import net.totem.gamelogic.player.PlayerState;
 
-public enum AmazingActionKind implements PlayerActionInterface {
+public enum AmazingActionKind implements GameLogicActionInterface {
 	SEND_GPS_COORDINATES("sendGPSCoordinates") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.handleP2Data(body);
 		}
 	},
 	PROXIMITY_VIOLATION("proximityViolation") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.proximityViolation(body);
 		}
 	},
 	PROXIMITY_VIOLATION_CORRECTED("proximityViolationCorrected") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.proximityViolationCorrected(body);
 		}
 	},
 	PLAYER_READY("playerReady") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.playerReady();
 		}
 	},
 	LOCATION_IS_ACCURATE("locationIsAccurate") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.start(body);
 		}
 	},
 	ITEM_REQUEST("itemRequest") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return null;
 		}
 	},
 	ITEM_UPDATE("itemUpdate") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.itemUpdate(body);
 		}
 	},
 	UPDATE_CROWN_CLAIMS("updateCrownClaims") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.updateCrownClaims(body);
 		}
 	},
 	FINISH_GAME("finishGame") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.displayWinner(body);
 		}
 	},
 	TELEPORT_ITEM("teleportItem") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.teleportItem(body);
 		}
 	},
 	DRAW_ITEM("drawItem") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.drawItem(body);
 		}
 	},
 	FREE_PASS("freePass") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.freePass(body);
 		}
 	},
 	BREAK_MAZE("breakMaze") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.breakMaze(body);
 		}
 	},
 	BINOCULARS("binoculars") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.binoculars(body);
 		}
 	},
 	ROCKET("rocket") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.rocket(body);
 		}
 	},
 	EXPAND_CROWNS("expandCrowns") {
-		public Object execute(PlayerState state, String[] header, String body)
+		public Object execute(GameLogicState state, String[] header, String body)
 				throws ActionInvocationException {
 			return MyGameLogicProtocol.expandCrowns(body);
 		}

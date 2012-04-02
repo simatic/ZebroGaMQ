@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import net.totem.gamelogic.player.PlayerActionInterface;
+import net.totem.gamelogic.GameLogicActionInterface;
 
 public enum MyListOfGameLogicActions {
 	AMAZING_ACTION_KIND(AmazingActionKind.actionMap);
@@ -13,10 +13,10 @@ public enum MyListOfGameLogicActions {
 	// Ignore the code below. Just make sure it is present in all your enums.
 	// The copy and paste is due to a limitation of Java enums (no inheritance).
 
-	private Map<String, ? extends PlayerActionInterface> actionMap;
-	private static List<Map<String, ? extends PlayerActionInterface>> privateListOfActionsMaps = new Vector<Map<String, ? extends PlayerActionInterface>>();
+	private Map<String, ? extends GameLogicActionInterface> actionMap;
+	private static List<Map<String, ? extends GameLogicActionInterface>> privateListOfActionsMaps = new Vector<Map<String, ? extends GameLogicActionInterface>>();
 	
-	public final static List<Map<String, ? extends PlayerActionInterface>> ListOfActionsMaps = Collections.unmodifiableList(privateListOfActionsMaps);
+	public final static List<Map<String, ? extends GameLogicActionInterface>> ListOfActionsMaps = Collections.unmodifiableList(privateListOfActionsMaps);
 
 	static {
 		for (MyListOfGameLogicActions am : MyListOfGameLogicActions.values()) {
@@ -25,7 +25,7 @@ public enum MyListOfGameLogicActions {
 	}
 
 	private MyListOfGameLogicActions(
-			Map<String, ? extends PlayerActionInterface> map) {
+			Map<String, ? extends GameLogicActionInterface> map) {
 		actionMap = map;
 	}
 }

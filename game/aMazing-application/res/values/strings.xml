@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, HellpMapViewActivity!</string>
     <string name="app_name">aMazing</string>
-    <string name="API_KEY">07ggP0s3tCZFwMoXkFpljHLfrjd_e1qximwJ8Qg</string>
+    <string name="API_KEY">REPLACE_WITH_YOUR_GOOGLE_MAP_API_KEY</string>
 	<color  name="gray">#af888888</color>
         
 </resources>

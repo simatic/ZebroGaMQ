@@ -5,18 +5,13 @@ import java.util.ArrayList;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
 
 public class GameItemOverlay extends ItemizedOverlay<Item> {
 
 	private ArrayList<Item> mOverlays = new ArrayList<Item>();
-
-	private MapView mv = null;
 
 	private Handler handler;
 
@@ -26,7 +21,6 @@ public class GameItemOverlay extends ItemizedOverlay<Item> {
 			MapView mapView) {
 		super(boundCenter(defaultMarker));
 		this.handler = handler;
-		this.mv = mapView;
 		itemOverlayHandler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
