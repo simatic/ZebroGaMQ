@@ -41,6 +41,7 @@ Prerequisites
 To run the tests
 ----------------
 
+### For Android applications
 Unix/Mac:
 
     cd test
@@ -50,3 +51,25 @@ Windows:
 
     cd test
     android-integration-test.bat
+
+### For JavaScript applications
+Unix/Mac:
+
+    cd test
+    ./javascript-integration-test.sh
+
+Windows:
+
+    cd test
+    javascript-integration-test.bat
+
+### For Java applications
+Unix/Mac:
+
+    cd test
+    ./java-integration-test.sh
+
+Windows:
+
+    cd test
+    java-integration-test.bat

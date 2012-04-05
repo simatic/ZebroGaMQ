@@ -21,3 +21,8 @@ Configuration
   understand all its features without playing it for real with devices.
   You can play it anywhere, as long as you get a good GPS signal and a good
   mobile network connection.
+
+- Start the server side executing the start_amazing_game script. Then,
+  follow the instructions to start the game on the Android devices.
+
+- To properly finish the game, execute the termination script.
