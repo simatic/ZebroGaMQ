@@ -1,9 +1,9 @@
-package eu.totem.communication;
+package zebrogamq.communication;
 
 import java.net.URI;
 import java.util.Arrays;
 
-import net.totem.gamelogic.Util;
+import zebrogamq.gamelogic.Util;
 
 import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;

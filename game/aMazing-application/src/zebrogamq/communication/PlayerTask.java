@@ -1,12 +1,12 @@
-package eu.totem.communication;
+package zebrogamq.communication;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import net.totem.gamelogic.ChannelsManager;
-import net.totem.gamelogic.GameLogicState;
-import net.totem.gamelogic.JoinAction;
-import net.totem.gamelogic.Util;
+import zebrogamq.gamelogic.ChannelsManager;
+import zebrogamq.gamelogic.GameLogicState;
+import zebrogamq.gamelogic.JoinAction;
+import zebrogamq.gamelogic.Util;
 
 import com.google.android.maps.GeoPoint;
 

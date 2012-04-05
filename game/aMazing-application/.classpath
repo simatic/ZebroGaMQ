@@ -7,6 +7,6 @@
 	<classpathentry kind="lib" path="lib/amqp-client-2.7.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/xmlrpcLib.jar"/>
-	<classpathentry kind="lib" path="lib/gamelogic-client-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/zebrogamq-gamelogic-client-1.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -1,11 +1,11 @@
-package eu.totem.communication;
+package zebrogamq.communication;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import net.totem.gamelogic.GameLogicActionInterface;
+import zebrogamq.gamelogic.GameLogicActionInterface;
 
 public enum MyListOfGameLogicActions {
 	AMAZING_ACTION_KIND(AmazingActionKind.actionMap);

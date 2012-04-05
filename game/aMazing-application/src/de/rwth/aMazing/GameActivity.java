@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import net.totem.gamelogic.Util;
+import zebrogamq.communication.MyGameLogicProtocol;
+import zebrogamq.communication.PlayerTask;
+
+import zebrogamq.gamelogic.Util;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -17,8 +20,6 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 
 import de.rwth.aMazing.ui.MenuActivity;
-import eu.totem.communication.MyGameLogicProtocol;
-import eu.totem.communication.PlayerTask;
 
 import android.text.InputFilter;
 import android.text.Spanned;

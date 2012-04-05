@@ -1,14 +1,14 @@
-package eu.totem.communication;
+package zebrogamq.communication;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 
-import net.totem.gamelogic.ActionInvocationException;
-import net.totem.gamelogic.GameLogicActionInterface;
-import net.totem.gamelogic.GameLogicState;
-import net.totem.gamelogic.Util;
+import zebrogamq.gamelogic.ActionInvocationException;
+import zebrogamq.gamelogic.GameLogicActionInterface;
+import zebrogamq.gamelogic.GameLogicState;
+import zebrogamq.gamelogic.Util;
 
 public enum AmazingActionKind implements GameLogicActionInterface {
 	SEND_GPS_COORDINATES("sendGPSCoordinates") {

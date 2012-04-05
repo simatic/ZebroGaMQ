@@ -22,13 +22,13 @@
 <link rel="stylesheet" type="text/css" href="document.css"> 
 </head><body>
    <div class="maketitle">
-<h1 class="titleHead">Tutorial: understanding the concepts of the middleware to publish and consume messages</h1>
+<h1 class="titleHead">Tutorial: understanding the concepts of ZebroGaMQ to publish and consume messages</h1>
    </div>
 <!--l. 59--><p class="indent" >
                                                                                                                                                                     
-<!--l. 16--><p class="noindent" >This section is a tutorial for explaining the concepts of the middleware and of its client applications, 
+<!--l. 16--><p class="noindent" >This section is a tutorial for explaining the concepts of ZebroGaMQ and of its client applications, 
 and the use of those concepts to publish and consume GPS coordinates
-using the AMQP part of the Communication Middleware. It is also the opportunity
+using the AMQP part of the ZebroGaMQ. It is also the opportunity
 to briefly presents the different XML-RPC methods used to interact with the game
 server.
 <!--l. 24--><p class="noindent" >
@@ -37,7 +37,7 @@ server.
 <!--l. 27--><p class="noindent" >
    <h5 class="subsubsectionHead"><span class="titlemark">1.1   </span> <a 
  id="x1-390009.1.1"></a>Game server and Game Logic server</h5>
-<!--l. 29--><p class="noindent" >A client of the middleware can communicate with two different entities: the Game server and the
+<!--l. 29--><p class="noindent" >A client of ZebroGaMQ can communicate with two different entities: the Game server and the
 Game Logic server. The Game server represents the lobby (term used in the jargon of
 multiple-players video games): it allows the listing, the creation, the joining and the termination
 of game instances. The Game Logic server represents a single game instance. Two different
@@ -114,9 +114,8 @@ class="ec-lmtt-10">&#x00A0;terminate()</span>
    <h5 class="subsubsectionHead"><span class="titlemark">1.3   </span> <a 
  id="x1-410009.1.3"></a>Publishing messages</h5>
 <!--l. 89--><p class="noindent" >Once a client has joined a game instance, the publication and the consumption of
-messages within the game instance is ensured using the AMQP protocol. The
-Communication Middleware provides high-level methods hiding the complexity of
-AMQP.
+messages within the game instance is ensured using the AMQP protocol. ZebroGaMQ 
+provides high-level methods hiding the complexity of AMQP.
 <!--l. 94--><p class="indent" >   Messages can be published to a given user (designed by its login) or to the Game Logic
 server, or can be broadcast to all the users of a game instance and to the Game Logic server.
 The three matching (publish, publishToGameLogicServer, publishToAll) publication methods
@@ -143,14 +142,14 @@ JavaScript applications.
 <!--l. 115--><p class="noindent" >
    <h5 class="subsubsectionHead"><span class="titlemark">1.4   </span> <a 
  id="x1-420009.1.4"></a>Computing messages: actions and action kinds</h5>
-<!--l. 117--><p class="noindent" >Since clients of the Communication Middleware don&#8217;t have to handle the low-level
+<!--l. 117--><p class="noindent" >Since clients of the ZebroGaMQ don&#8217;t have to handle the low-level
 details of reception of messages, they just need to define a behaviour on the consumption of
 these messages. This is why actions and action kinds are made for. An action represents a
 particular behaviour, whereas an action kind defines a name space for a set of actions of a whole
 protocol. When a client publish a message to another client, it must give both the action kind
 and the action matching with the message. When the other client consumes the message, if the
 action kind and the action are defined on its state machine, the corresponding method will
-automatically be triggered by the Communication Middleware. Otherwise, the
+automatically be triggered by the ZebroGaMQ. Otherwise, the
 messages are printed nevertheless. The implementation of actions and action kinds are
 different for Java Android applications, JavaScript applications and for the Game Logic
 server in Python. Let&#8217;s see the example
@@ -1625,7 +1624,7 @@ class="ec-lmtt-10x-x-109">LocationActionKind</span>
 <!--l. 441--><p class="noindent" >
    <h5 class="subsubsectionHead"><span class="titlemark">2.3   </span> <a 
  id="x1-460009.2.3"></a>Adding a Master application in JavaScript</h5>
-<!--l. 444--><p class="noindent" >Another feature of the middleware is the possibility to add JavaScript applications. 
+<!--l. 444--><p class="noindent" >Another feature of ZebroGaMQ is the possibility to add JavaScript applications. 
 This Section explains how the action <span 
 class="ec-lmtt-10x-x-109">LocationActionKind</span>/
 <span 

@@ -1,4 +1,4 @@
-package eu.totem.communication;
+package zebrogamq.communication;
 
 import com.google.android.maps.GeoPoint;
 
