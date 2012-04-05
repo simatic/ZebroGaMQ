@@ -43,8 +43,8 @@ Installation and tests
 * Android SDK API level ≥ 7
 * To run the tests on Unix/Mac:
 
-    cd test
-    ./android-integration-test.sh
+    `cd test
+    ./android-integration-test.sh`
 
 * To run the tests on Windows:
 
