@@ -45,53 +45,12 @@ else
     export JARS=./target/gamelogic-integration-application-${MODULE_VERSION}.jar:${JARS}
 fi
 
-if [[ -f ${HOME}/.m2/repository/com/rabbitmq/amqp-client/${RABBITMQ_CLIENT_VERSION}/amqp-client-${RABBITMQ_CLIENT_VERSION}.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/com/rabbitmq/amqp-client/${RABBITMQ_CLIENT_VERSION}/amqp-client-${RABBITMQ_CLIENT_VERSION}.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/com/rabbitmq/amqp-client/${RABBITMQ_CLIENT_VERSION}/amqp-client-${RABBITMQ_CLIENT_VERSION}.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
-
-if [[ -f ${HOME}/.m2/repository/org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
-
-if [[ -f ${HOME}/.m2/repository/xmlrpc/xmlrpc/2.0.1/xmlrpc-2.0.1.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/xmlrpc/xmlrpc/2.0.1/xmlrpc-2.0.1.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/xmlrpc/xmlrpc/2.0.1/xmlrpc-2.0.1.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
-
-if [[ -f ${HOME}/.m2/repository/ws-commons-util/ws-commons-util/1.0.1/ws-commons-util-1.0.1.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/ws-commons-util/ws-commons-util/1.0.1/ws-commons-util-1.0.1.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/ws-commons-util/ws-commons-util/1.0.1/ws-commons-util-1.0.1.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
-
-if [[ -f ${HOME}/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
-
-if [[ -f ${HOME}/.m2/repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
+export JARS=${HOME}/.m2/repository/com/rabbitmq/amqp-client/${RABBITMQ_CLIENT_VERSION}/amqp-client-${RABBITMQ_CLIENT_VERSION}.jar:${JARS}
+export JARS=${HOME}/.m2/repository/org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar:${JARS}
+export JARS=${HOME}/.m2/repository/xmlrpc/xmlrpc/2.0.1/xmlrpc-2.0.1.jar:${JARS}
+export JARS=${HOME}/.m2/repository/ws-commons-util/ws-commons-util/1.0.1/ws-commons-util-1.0.1.jar:${JARS}
+export JARS=${HOME}/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar:${JARS}
+export JARS=${HOME}/.m2/repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar:${JARS}
 
 # argv[0] = login
 # argv[1] = password
