@@ -21,7 +21,7 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package eu.telecomsudparis.integration.player.android;
+package zebrogamq.integration.android;
 
 import android.os.Handler;
 import android.os.Message;

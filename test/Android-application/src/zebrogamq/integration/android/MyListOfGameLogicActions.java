@@ -21,14 +21,14 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package eu.telecomsudparis.integration.player.android;
+package zebrogamq.integration.android;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import net.totem.gamelogic.GameLogicActionInterface;
+import zebrogamq.gamelogic.GameLogicActionInterface;
 
 public enum MyListOfGameLogicActions {
 	//TODO You should register RAW_ACTION_KIND only if you are willing to use raw actions

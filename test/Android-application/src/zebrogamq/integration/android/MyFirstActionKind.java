@@ -21,53 +21,64 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package eu.telecomsudparis.integration.player.android;
+package zebrogamq.integration.android;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.totem.gamelogic.ActionInvocationException;
-import net.totem.gamelogic.GameLogicActionInterface;
-import net.totem.gamelogic.GameLogicState;
-import net.totem.gamelogic.Util;
+import zebrogamq.gamelogic.ActionInvocationException;
+import zebrogamq.gamelogic.GameLogicActionInterface;
+import zebrogamq.gamelogic.GameLogicState;
+import zebrogamq.gamelogic.Util;
 
-public enum MySecondActionKind implements GameLogicActionInterface {
-	MY_FOURTH_ACTION("myFourthAction") {
+public enum MyFirstActionKind implements
+	GameLogicActionInterface {
+	MY_FIRST_ACTION("myFirstAction") {
 		public Object execute(GameLogicState state, String[] header,
 				String body) throws ActionInvocationException {
-			return MyGameLogicProtocol.myFourthAction(state, header,
+			return MyGameLogicProtocol.myFirstAction(state, header,
 					body);
 		}
 	},
-	MY_FIFTH_ACTION("myFitfhAction") {
+	MY_SECOND_ACTION("mySecondAction") {
+		public Object execute(GameLogicState state, String[] header,
+				String body) throws ActionInvocationException {
+			return MyGameLogicProtocol.mySecondAction(state, header,
+					body);
+		}
+	},
+	MY_THIRD_ACTION("myThirdAction") {
 		public Object execute(GameLogicState state, String[] header,
 				String body) throws ActionInvocationException {
 			return null;
 		}
 	};
-	public final static int KIND_NUMBER = 101;
+
+	public final static int KIND_NUMBER = 100;
 	public final static int LOWER_ACTION_NUMBER = 0;
 	public final static int UPPER_ACTION_NUMBER = 1000;
-
+	
 	// Ignore the code below. Just make sure it is present in all your enums.
 	// The copy and paste is due to a limitation of Java enums (no inheritance).
 
-	private final static Map<String, MySecondActionKind> privateActionMap = new HashMap<String, MySecondActionKind>();
-	public final static Map<String, MySecondActionKind> actionMap = Collections.unmodifiableMap(privateActionMap);
+	private final static Map<String, MyFirstActionKind> privateActionMap = new HashMap<String, MyFirstActionKind>();
+	public final static Map<String, MyFirstActionKind> actionMap = Collections
+			.unmodifiableMap(privateActionMap);
 
 	private final String codeKind;
-	public final String nameKind = "mySecondActionKind";
+	public final String nameKind = "myFirstActionKind";
 	private final String codeAction;
 	private final String nameAction;
 
 	static {
-		for (MySecondActionKind gra : MySecondActionKind.values()) {
+		for (MyFirstActionKind gra : MyFirstActionKind
+				.values()) {
 			privateActionMap.put(gra.toString(), gra);
 		}
 	}
 
-	private MySecondActionKind(String nameAction) {
+	private MyFirstActionKind(String nameAction) {
 		this.codeKind = String.valueOf(KIND_NUMBER);
 		this.codeAction = String.valueOf(LOWER_ACTION_NUMBER + ordinal());
 		this.nameAction = nameAction;

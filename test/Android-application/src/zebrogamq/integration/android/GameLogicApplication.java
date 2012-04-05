@@ -21,14 +21,14 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package eu.telecomsudparis.integration.player.android;
+package zebrogamq.integration.android;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import net.totem.gamelogic.Log;
-import net.totem.gamelogic.Util;
+import zebrogamq.gamelogic.Log;
+import zebrogamq.gamelogic.Util;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -50,7 +50,7 @@ public class GameLogicApplication extends Activity implements Log {
 	private 		TextView 				myTextView;
 	private 		ScrollView 				scroller;
 	private 		MessageDisplayHandler 	handler;
-	private 		GameLogicTask				playerTask;
+	private 		GameLogicTask			playerTask;
 	
 	String			playerName;
 

@@ -21,15 +21,15 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package eu.telecomsudparis.integration.player.android;
+package zebrogamq.integration.android;
 
 import java.io.IOException;
 
-import net.totem.gamelogic.ChannelsManager;
-import net.totem.gamelogic.GameLogicState;
-import net.totem.gamelogic.JoinAction;
-import net.totem.gamelogic.PresenceAction;
-import net.totem.gamelogic.Util;
+import zebrogamq.gamelogic.ChannelsManager;
+import zebrogamq.gamelogic.GameLogicState;
+import zebrogamq.gamelogic.JoinAction;
+import zebrogamq.gamelogic.PresenceAction;
+import zebrogamq.gamelogic.Util;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;

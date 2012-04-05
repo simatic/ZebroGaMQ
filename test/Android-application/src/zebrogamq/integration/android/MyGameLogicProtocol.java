@@ -21,12 +21,12 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package eu.telecomsudparis.integration.player.android;
+package zebrogamq.integration.android;
 
 import java.io.IOException;
 
-import net.totem.gamelogic.GameLogicState;
-import net.totem.gamelogic.Util;
+import zebrogamq.gamelogic.GameLogicState;
+import zebrogamq.gamelogic.Util;
 
 public class MyGameLogicProtocol{
 
