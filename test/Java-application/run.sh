@@ -27,13 +27,22 @@ CLASS=net.totem.integration.j2se.GameLogicApplication
 RABBITMQPROPERTIESFILE=rabbitmq.properties
 XMLRPCPROPERTIESFILE=xmlrpc.properties
 
+if [[ -f ${HOME}/.m2/repository/net/totem/gamelogic-client/1.0-SNAPSHOT/gamelogic-client-1.0-SNAPSHOT.jar ]]
+then
+    export JARS=${HOME}/.m2/repository/net/totem/gamelogic-client/1.0-SNAPSHOT/gamelogic-client-1.0-SNAPSHOT.jar
+else
+    echo Running maven install on Java-client...
+    (cd ../../src/Java-client; mvn install)
+    export JARS=${HOME}/.m2/repository/net/totem/gamelogic-client/1.0-SNAPSHOT/gamelogic-client-1.0-SNAPSHOT.jar
+fi
 
 if [[ -f ./target/gamelogic-integration-application-${MODULE_VERSION}.jar ]]
 then
-    export JARS=./target/gamelogic-integration-application-${MODULE_VERSION}.jar
+    export JARS=./target/gamelogic-integration-application-${MODULE_VERSION}.jar:${JARS}
 else
-    echo Archive file ./target/gamelogic-integration-application-${MODULE_VERSION}.jar missing
-    echo Run maven install to generate it
+    echo Running maven install on Java-application...
+    mvn install
+    export JARS=./target/gamelogic-integration-application-${MODULE_VERSION}.jar:${JARS}
 fi
 
 if [[ -f ${HOME}/.m2/repository/com/rabbitmq/amqp-client/${RABBITMQ_CLIENT_VERSION}/amqp-client-${RABBITMQ_CLIENT_VERSION}.jar ]]
@@ -49,22 +58,6 @@ then
     export JARS=${HOME}/.m2/repository/org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar:${JARS}
 else
     echo Archive file ${HOME}/.m2/repository/org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
-
-if [[ -f ${HOME}/.m2/repository/net/totem/gamelogic-client/1.0-SNAPSHOT/gamelogic-client-1.0-SNAPSHOT.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/net/totem/gamelogic-client/1.0-SNAPSHOT/gamelogic-client-1.0-SNAPSHOT.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/net/totem/gamelogic-client/1.0-SNAPSHOT/gamelogic-client-1.0-SNAPSHOT.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
-
-if [[ -f ${HOME}/.m2/repository/net/totem/gamelogic-integration-application/1.0-SNAPSHOT/gamelogic-integration-application-1.0-SNAPSHOT.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/net/totem/gamelogic-integration-application/1.0-SNAPSHOT/gamelogic-integration-application-1.0-SNAPSHOT.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/net/totem/gamelogic-integration-application/1.0-SNAPSHOT/gamelogic-integration-application-1.0-SNAPSHOT.jar missing
     echo Run maven install to install it on your local maven repository
 fi
 
