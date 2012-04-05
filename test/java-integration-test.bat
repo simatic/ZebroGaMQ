@@ -46,7 +46,7 @@ rem sleep 2 second
 ping 127.0.0.1 -n 2 > NUL
 
 rem launch the Game Master Application
-cd %PWD%/Java-application
+cd %PWD%\Java-application
 call run.bat "michel" "simatic" "Master" "Tidy-City" "Instance-1"
 rem sleep 15 second
 ping 127.0.0.1 -n 15 > NUL

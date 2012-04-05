@@ -47,7 +47,7 @@ rem sleep 1 second
 ping 127.0.0.1 -n 1 > NUL
 
 rem launch the JavaScript proxy
-cd %PWD%../src/JavaScript-proxy
+cd %PWD%\..\src\JavaScript-proxy
 start node proxy.js %CONFIGURATION_FILES_DIRECTORY% %JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY%
 rem sleep 1 second
 ping 127.0.0.1 -n 1 > NUL

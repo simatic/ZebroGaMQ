@@ -39,7 +39,7 @@ call rabbitmqctl start_app
 
 rem launch the Game Server
 cd ..\src\Python-server
-start python net\totem\gameserver\gameserver.py %CONFIGURATION_FILES_DIRECTORY%
+start python zebrogamq\gameserver\gameserver.py %CONFIGURATION_FILES_DIRECTORY%
 rem sleep 1 second
 ping 127.0.0.1 -n 1 > NUL
 
