@@ -1,4 +1,4 @@
-TCM: TOTEM Communication Middleware
+ZebroGaMQ: Communication Middleware for Mobile Gaming
 Copyright: Copyright (C) 2009-2012
 Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
 
@@ -20,7 +20,7 @@ USA
 Developer(s): Denis Conan, Gabriel Adgeg
 
 
-This is the TOTEM Library for using RabbitMQ in Java Client applications.
+This is the ZebroGaMQ Library for Java Client applications.
 
 Prerequisites:
 - RabbitMQ Server version 2.7.1: http://www.rabbitmq.com/server.html

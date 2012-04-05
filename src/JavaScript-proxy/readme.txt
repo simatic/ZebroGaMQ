@@ -1,4 +1,4 @@
-TCM: TOTEM Communication Middleware
+ZebroGaMQ: Communication Middleware for Mobile Gaming
 Copyright: Copyright (C) 2009-2012
 Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
 
@@ -90,25 +90,25 @@ II. Execution
   In the files resources/xmlrpc.properties & resources/rabbitmq.properties,
   set the IP addresses that you use for:
   - the GameServer,
-  - the NodeJsProxy,
+  - the JavaScript proxy,
   - the RabbitMQ broker.
 
   By default, the all the addresses are set to localhost.
 
 
-  Using NodeJsProxy for several games
+  Using JavaScript proxy for several games
   -----------------------------------
 
-  A single instance of the NodeJsProxy is required to handle several Master
+  A single instance of the JavaScript proxy is required to handle several Master
   and Spectator applications for different games.
 
-  To describe the html, css & javascript files used by several applications 
+  To describe the html, css & JavaScript files used by several applications 
   for several games, use the games-specific-files configuration file, located 
   in the resources directory of the current folder.
 
   This file describes a set of keys and values, binding an element of an URL
   or of an HTML file to a local file designated by its path, required to upload
-  all the required files for the Javascript applications.
+  all the required files for the JavaScript applications.
 
   Please refer to the imports located in the file 
   ../../test/Javascript-application/gamelogic.html for a better understanding of the 

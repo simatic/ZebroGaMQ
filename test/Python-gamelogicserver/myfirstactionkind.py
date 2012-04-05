@@ -1,5 +1,5 @@
 """
- TCM: TOTEM Communication Middleware
+ ZebroGaMQ: Communication Middleware for Mobile Gaming
  Copyright: Copyright (C) 2009-2012
  Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
 
@@ -22,7 +22,7 @@
 """
 
 
-from net.totem.gamelogicserver.gamelogicactionenumtype import GameLogicActionEnumeration
+from zebrogamq.gamelogicserver.gamelogicactionenumtype import GameLogicActionEnumeration
 from myprotocol import myFirstAction, mySecondAction
 
 def doNothing(state, header, body):

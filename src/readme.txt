@@ -1,4 +1,4 @@
-TCM: TOTEM Communication Middleware
+ZebroGaMQ: Communication Middleware for Mobile Gaming
 Copyright: Copyright (C) 2009-2012
 Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
 
@@ -19,8 +19,7 @@ USA
 
 Developer(s): Denis Conan, Gabriel Adgeg
 
-This directory structure contains the code written for using RabbitMQ in the
-TOTEM project:
+This directory structure contains the code of:
 - Java-client:
   Maven project for the API of player applications.
 - JavaScript-client:

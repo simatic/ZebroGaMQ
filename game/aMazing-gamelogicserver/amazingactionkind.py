@@ -1,6 +1,5 @@
-from net.totem.gamelogicserver.gamelogicactionenumtype import GameLogicActionEnumeration
+from zebrogamq.gamelogicserver.gamelogicactionenumtype import GameLogicActionEnumeration
 from myprotocol import computeGPSCoordinates, playerIsReady, itemRequest, playerLocationAccurate, teleportItem, drawItem, freePass, breakMaze, binoculars, rocket
-
 
 def doNothing(state, header, body):
     pass

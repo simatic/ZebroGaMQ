@@ -1,6 +1,6 @@
 @echo off
 
-rem TCM: TOTEM Communication Middleware
+rem ZebroGaMQ: Communication Middleware for Mobile Gaming
 rem Copyright: Copyright (C) 2009-2012
 rem Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
 rem
@@ -41,7 +41,7 @@ set PWD=%~dp0
 
 rem launch the Game Server
 cd ..\src\Python-server
-start python net\totem\gameserver\gameserver.py %CONFIGURATION_FILES_DIRECTORY%
+start python zebrogamq\gameserver\gameserver.py %CONFIGURATION_FILES_DIRECTORY%
 rem sleep 2 second
 ping 127.0.0.1 -n 2 > NUL
 

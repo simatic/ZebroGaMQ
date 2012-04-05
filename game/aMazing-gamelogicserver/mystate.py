@@ -1,4 +1,4 @@
-from net.totem.gamelogicserver.gamelogicstate import GameLogicState
+from zebrogamq.gamelogicserver.gamelogicstate import GameLogicState
 
 class MyState(GameLogicState):
 	mynewstatevariable = None

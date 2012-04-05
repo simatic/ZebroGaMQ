@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# TCM: TOTEM Communication Middleware
+# ZebroGaMQ: Communication Middleware for Mobile Gaming
 # Copyright: Copyright (C) 2009-2012
 # Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
 #
@@ -23,81 +23,34 @@
 
 MODULE_VERSION=1.0-SNAPSHOT
 RABBITMQ_CLIENT_VERSION=2.7.0
-CLASS=net.totem.integration.j2se.GameLogicApplication
+CLASS=zebrogamq.integration.j2se.GameLogicApplication
 RABBITMQPROPERTIESFILE=rabbitmq.properties
 XMLRPCPROPERTIESFILE=xmlrpc.properties
 
-if [[ -f ./target/gamelogic-integration-application-${MODULE_VERSION}.jar ]]
+if [[ -f ${HOME}/.m2/repository/zebrogamq/zebrogamq-gamelogic-client/1.0-SNAPSHOT/zebrogamq-gamelogic-client-1.0-SNAPSHOT.jar ]]
 then
-    export JARS=./target/gamelogic-integration-application-${MODULE_VERSION}.jar
+    export JARS=${HOME}/.m2/repository/zebrogamq/zebrogamq-gamelogic-client/1.0-SNAPSHOT/zebrogamq-gamelogic-client-1.0-SNAPSHOT.jar
 else
-    echo Archive file ./target/gamelogic-integration-application-${MODULE_VERSION}.jar missing
-    echo Run maven install to generate it
+    echo Running maven install on Java-client...
+    (cd ../../src/Java-client; mvn install)
+    export JARS=${HOME}/.m2/repository/zebrogamq/zebrogamq-gamelogic-client/1.0-SNAPSHOT/zebrogamq-gamelogic-client-1.0-SNAPSHOT.jar
 fi
 
-if [[ -f ${HOME}/.m2/repository/com/rabbitmq/amqp-client/${RABBITMQ_CLIENT_VERSION}/amqp-client-${RABBITMQ_CLIENT_VERSION}.jar ]]
+if [[ -f ./target/zebrogamq-gamelogic-integration-application-${MODULE_VERSION}.jar ]]
 then
-    export JARS=${HOME}/.m2/repository/com/rabbitmq/amqp-client/${RABBITMQ_CLIENT_VERSION}/amqp-client-${RABBITMQ_CLIENT_VERSION}.jar:${JARS}
+    export JARS=./target/zebrogamq-gamelogic-integration-application-${MODULE_VERSION}.jar:${JARS}
 else
-    echo Archive file ${HOME}/.m2/repository/com/rabbitmq/amqp-client/${RABBITMQ_CLIENT_VERSION}/amqp-client-${RABBITMQ_CLIENT_VERSION}.jar missing
-    echo Run maven install to install it on your local maven repository
+    echo Running maven install on Java-application...
+    mvn install
+    export JARS=./target/zebrogamq-gamelogic-integration-application-${MODULE_VERSION}.jar:${JARS}
 fi
 
-if [[ -f ${HOME}/.m2/repository/org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
-
-if [[ -f ${HOME}/.m2/repository/net/totem/gamelogic-client/1.0-SNAPSHOT/gamelogic-client-1.0-SNAPSHOT.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/net/totem/gamelogic-client/1.0-SNAPSHOT/gamelogic-client-1.0-SNAPSHOT.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/net/totem/gamelogic-client/1.0-SNAPSHOT/gamelogic-client-1.0-SNAPSHOT.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
-
-if [[ -f ${HOME}/.m2/repository/net/totem/gamelogic-integration-application/1.0-SNAPSHOT/gamelogic-integration-application-1.0-SNAPSHOT.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/net/totem/gamelogic-integration-application/1.0-SNAPSHOT/gamelogic-integration-application-1.0-SNAPSHOT.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/net/totem/gamelogic-integration-application/1.0-SNAPSHOT/gamelogic-integration-application-1.0-SNAPSHOT.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
-
-if [[ -f ${HOME}/.m2/repository/xmlrpc/xmlrpc/2.0.1/xmlrpc-2.0.1.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/xmlrpc/xmlrpc/2.0.1/xmlrpc-2.0.1.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/xmlrpc/xmlrpc/2.0.1/xmlrpc-2.0.1.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
-
-if [[ -f ${HOME}/.m2/repository/ws-commons-util/ws-commons-util/1.0.1/ws-commons-util-1.0.1.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/ws-commons-util/ws-commons-util/1.0.1/ws-commons-util-1.0.1.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/ws-commons-util/ws-commons-util/1.0.1/ws-commons-util-1.0.1.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
-
-if [[ -f ${HOME}/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
-
-if [[ -f ${HOME}/.m2/repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar ]]
-then
-    export JARS=${HOME}/.m2/repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar:${JARS}
-else
-    echo Archive file ${HOME}/.m2/repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar missing
-    echo Run maven install to install it on your local maven repository
-fi
+export JARS=${HOME}/.m2/repository/com/rabbitmq/amqp-client/${RABBITMQ_CLIENT_VERSION}/amqp-client-${RABBITMQ_CLIENT_VERSION}.jar:${JARS}
+export JARS=${HOME}/.m2/repository/org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar:${JARS}
+export JARS=${HOME}/.m2/repository/xmlrpc/xmlrpc/2.0.1/xmlrpc-2.0.1.jar:${JARS}
+export JARS=${HOME}/.m2/repository/ws-commons-util/ws-commons-util/1.0.1/ws-commons-util-1.0.1.jar:${JARS}
+export JARS=${HOME}/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar:${JARS}
+export JARS=${HOME}/.m2/repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar:${JARS}
 
 # argv[0] = login
 # argv[1] = password

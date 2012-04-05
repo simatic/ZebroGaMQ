@@ -1,5 +1,5 @@
 """
- TCM: TOTEM Communication Middleware
+ ZebroGaMQ: Communication Middleware for Mobile Gaming
  Copyright: Copyright (C) 2009-2012
  Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
 
@@ -23,7 +23,7 @@
 
 import xmlrpclib
 import sys
-from net.totem.configuration.xmlrpc.xmlrpcconfig import XMLRPCConfiguration
+from zebrogamq.configuration.xmlrpc.xmlrpcconfig import XMLRPCConfiguration
 
 confDir = "../resources/"
 
