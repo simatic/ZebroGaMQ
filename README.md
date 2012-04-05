@@ -4,6 +4,7 @@
 ZebroGaMQ provides an easy and reliable way to 
 publish and consume messages in the context of mobile multiplayer games. 
 A prototypical game involves:
+
 * A Python server
 * Android applications
 * JavaScript applications
@@ -30,6 +31,7 @@ Installation and tests
 
     cd test
     ./java-integration-test.sh
+
 * To run the tests on Windows:
 
     cd test
@@ -43,6 +45,7 @@ Installation and tests
 
     cd test
     ./android-integration-test.sh
+
 * To run the tests on Windows:
 
     cd test
@@ -58,6 +61,7 @@ Installation and tests
 
     cd test
     ./javascript-integration-test.sh
+
 * To run the tests on Windows:
 
     cd test
