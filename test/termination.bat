@@ -1,6 +1,6 @@
 @echo off
 
-rem TCM: TOTEM Communication Middleware
+rem ZebroGaMQ: Communication Middleware for Mobile Gaming
 rem Copyright: Copyright (C) 2009-2012
 rem Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
 rem

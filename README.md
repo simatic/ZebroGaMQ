@@ -1,7 +1,7 @@
-[TOTEM Communication Middleware](http://www.totem-games.org/?q=Communication%20Middleware)
+[ZebroGaMQ: Communication Middleware for Mobile Gaming](http://www.totem-games.org/?q=Communication%20Middleware)
 ================================
 
-The TOTEM Communication Middleware provides an easy and reliable way to 
+ZebroGaMQ provides an easy and reliable way to 
 publish and consume messages in the context of mobile multiplayer games. 
 A prototypical game involves:
 * A Python server

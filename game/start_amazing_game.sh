@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# TCM: TOTEM Communication Middleware
+# ZebroGaMQ: Communication Middleware for Mobile Gaming
 # Copyright: Copyright (C) 2009-2012
 # Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
 #
@@ -34,7 +34,7 @@ rabbitmqctl reset
 rabbitmqctl start_app
 
 # launch the Game Server
-(cd ../src/Python-server; python net/totem/gameserver/gameserver.py $CONFIGURATION_FILES_DIRECTORY) &
+(cd ../src/Python-server; python zebrogamq/gameserver/gameserver.py $CONFIGURATION_FILES_DIRECTORY) &
 GAMESERVER_PID=$!
 echo $GAMESERVER_PID >> resources/gameserver_temp_pid.txt
 sleep 1

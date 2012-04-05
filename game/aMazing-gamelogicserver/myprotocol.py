@@ -5,7 +5,7 @@ from gps import *
 from item import Item
 import gameSession
 import xmlrpclib
-from net.totem.configuration.xmlrpc.xmlrpcconfig import XMLRPCConfiguration
+from zebrogamq.configuration.xmlrpc.xmlrpcconfig import XMLRPCConfiguration
 from subprocess import call
 
 gpsListP1 = []

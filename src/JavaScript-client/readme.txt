@@ -1,4 +1,4 @@
-TCM: TOTEM Communication Middleware
+ZebroGaMQ: Communication Middleware for Mobile Gaming
 Copyright: Copyright (C) 2009-2012
 Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
 
@@ -19,7 +19,7 @@ USA
 
 Developer(s): Denis Conan, Gabriel Adgeg
 
-This is the TOTEM Library for using XML-RPC and RabbitMQ through a 
+This is the ZebroGaMQ Library for using XML-RPC and RabbitMQ through a 
 Node.js proxy in JavaScript Client applications.
 
 Prerequisites:
