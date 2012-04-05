@@ -27,6 +27,7 @@ CLASS=net.totem.integration.j2se.GameLogicApplication
 RABBITMQPROPERTIESFILE=rabbitmq.properties
 XMLRPCPROPERTIESFILE=xmlrpc.properties
 
+
 if [[ -f ./target/gamelogic-integration-application-${MODULE_VERSION}.jar ]]
 then
     export JARS=./target/gamelogic-integration-application-${MODULE_VERSION}.jar

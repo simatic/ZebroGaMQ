@@ -25,7 +25,7 @@ import pika
 import logging
 from pika.adapters import SelectConnection
 from pika.credentials import PlainCredentials
-from net.totem.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
+from zebrogamq.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
 import listofactions
 
 class GameLogicChannel(object):

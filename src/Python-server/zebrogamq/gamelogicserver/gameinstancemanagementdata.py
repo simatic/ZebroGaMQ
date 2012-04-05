@@ -1,4 +1,4 @@
-""""
+"""
  TCM: TOTEM Communication Middleware
  Copyright: Copyright (C) 2009-2012
  Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
@@ -21,7 +21,15 @@
  Developer(s): Denis Conan, Gabriel Adgeg
 """
 
+from zebrogamq.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
+from multiprocessing import Queue, Semaphore
 
-__all__ = [
-           'totem',
-           ]
+class GameInstanceManagementData(object):
+	
+	def __init__(self, gameName, instanceName):
+		self.gameName = gameName
+		self.instanceName = instanceName
+		self.vhost = RabbitMQConfiguration().getRabbitMQProperty("virtualHostSeparator") + gameName + RabbitMQConfiguration().getRabbitMQProperty("virtualHostSeparator") + instanceName
+		self.semaphore = Semaphore(0)
+		self.queueRequest = Queue()
+		self.queueReturn = Queue()

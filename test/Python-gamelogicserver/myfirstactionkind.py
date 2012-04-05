@@ -22,7 +22,7 @@
 """
 
 
-from net.totem.gamelogicserver.gamelogicactionenumtype import GameLogicActionEnumeration
+from zebrogamq.gamelogicserver.gamelogicactionenumtype import GameLogicActionEnumeration
 from myprotocol import myFirstAction, mySecondAction
 
 def doNothing(state, header, body):

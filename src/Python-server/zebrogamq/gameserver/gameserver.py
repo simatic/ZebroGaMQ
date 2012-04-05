@@ -24,8 +24,8 @@
 import sys
 import logging
 from SimpleXMLRPCServer import SimpleXMLRPCServer
-from net.totem.configuration.xmlrpc.xmlrpcconfig import XMLRPCConfiguration
-from net.totem.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
+from zebrogamq.configuration.xmlrpc.xmlrpcconfig import XMLRPCConfiguration
+from zebrogamq.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
 import gameserverprotocol
 
 global server

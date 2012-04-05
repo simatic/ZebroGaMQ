@@ -22,7 +22,7 @@
 """
 
 
-from net.totem.gamelogicserver.listofactionsenumtype import ListOfActionsEnumeration
+from zebrogamq.gamelogicserver.listofactionsenumtype import ListOfActionsEnumeration
 from myfirstactionkind import  MyFirstActionKind
 from mysecondactionkind import  MySecondActionKind
 

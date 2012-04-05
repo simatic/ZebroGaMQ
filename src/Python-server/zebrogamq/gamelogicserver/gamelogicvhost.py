@@ -24,7 +24,7 @@
 import sys
 import logging
 from subprocess import call
-from net.totem.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
+from zebrogamq.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
 
 grant_all_permissions = " \".*\" \".*\" \".*\""
 

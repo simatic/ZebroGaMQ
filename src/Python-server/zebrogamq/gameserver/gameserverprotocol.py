@@ -25,11 +25,11 @@ import sys
 import thread
 import logging
 from multiprocessing import Process
-from net.totem.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
-from net.totem.gamelogicserver.creategamelogicserver import createGameLogicServer
-from net.totem.gamelogicserver.createloggingserver import createLoggingServer
-from net.totem.gamelogicserver.gamelogicvhost import set_permissions_vhost_participant
-from net.totem.gamelogicserver.gameinstancemanagementdata import GameInstanceManagementData
+from zebrogamq.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
+from zebrogamq.gamelogicserver.creategamelogicserver import createGameLogicServer
+from zebrogamq.gamelogicserver.createloggingserver import createLoggingServer
+from zebrogamq.gamelogicserver.gamelogicvhost import set_permissions_vhost_participant
+from zebrogamq.gamelogicserver.gameinstancemanagementdata import GameInstanceManagementData
 
 gameInstanceManagementDataDict = {}
 

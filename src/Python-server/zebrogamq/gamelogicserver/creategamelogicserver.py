@@ -22,7 +22,7 @@
 """
 
 import logging
-from net.totem.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
+from zebrogamq.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
 from gamelogicchannel import GameLogicChannel 
 from gamelogicqueueworker import Worker
 from mylistofactions import MyListOfActions

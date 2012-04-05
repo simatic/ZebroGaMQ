@@ -23,7 +23,7 @@
 
 import xmlrpclib
 import sys
-from net.totem.configuration.xmlrpc.xmlrpcconfig import XMLRPCConfiguration
+from zebrogamq.configuration.xmlrpc.xmlrpcconfig import XMLRPCConfiguration
 
 confDir = "../resources/"
 

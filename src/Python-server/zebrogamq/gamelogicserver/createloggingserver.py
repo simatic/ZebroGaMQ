@@ -24,7 +24,7 @@
 import pika
 import logging
 from pika.credentials import PlainCredentials
-from net.totem.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
+from zebrogamq.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
 
 def createLoggingServer(gameName, instanceName):
     logging.info("GameLogicServer] Creating Logging server for " + gameName + " " + instanceName)

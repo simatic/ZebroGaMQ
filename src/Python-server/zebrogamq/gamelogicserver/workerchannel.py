@@ -24,7 +24,7 @@
 import pika
 import logging
 from pika.credentials import PlainCredentials
-from net.totem.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
+from zebrogamq.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
 
 class WorkerChannel(object):
     
