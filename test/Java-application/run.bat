@@ -29,68 +29,31 @@ set RABBITMQPROPERTIESFILE=rabbitmq.properties
 set XMLRPCPROPERTIESFILE=xmlrpc.properties
 set PWD=%~dp0
 
-IF EXIST "%PWD%target\gamelogic-integration-application-%MODULE_VERSION%.jar" (
-	set JARS="%PWD%target\gamelogic-integration-application-%MODULE_VERSION%.jar"
-) ELSE (
-	echo Archive file "%PWD%target\gamelogic-integration-application-%MODULE_VERSION%.jar" missing
-    echo Run maven install to generate it
-)
-
-IF EXIST "%HOMEPATH%\.m2\repository\com\rabbitmq\amqp-client\%RABBITMQ_CLIENT_VERSION%\amqp-client-%RABBITMQ_CLIENT_VERSION%.jar" (
-	set JARS="%HOMEPATH%\.m2\repository\com\rabbitmq\amqp-client\%RABBITMQ_CLIENT_VERSION%\amqp-client-%RABBITMQ_CLIENT_VERSION%.jar";%JARS%
-) ELSE (
-	echo Archive file "%HOMEPATH%\.m2\repository\com\rabbitmq\amqp-client\%RABBITMQ_CLIENT_VERSION%\amqp-client-%RABBITMQ_CLIENT_VERSION%.jar" missing
-    echo Run maven install to install it on your local maven repository
-)
-
-IF EXIST "%HOMEPATH%\.m2\repository\org\apache\commons\commons-io\1.3.2\commons-io-1.3.2.jar" (
-	set JARS="%HOMEPATH%\.m2\repository\org\apache\commons\commons-io\1.3.2\commons-io-1.3.2.jar";%JARS%
-) ELSE (
-	echo Archive file "%HOMEPATH%\.m2\repository\org\apache\commons\commons-io\1.3.2\commons-io-1.3.2.jar" missing
-    echo Run maven install to install it on your local maven repository
-)
 
 IF EXIST "%HOMEPATH%\.m2\repository\net\totem\gamelogic-client\1.0-SNAPSHOT\gamelogic-client-1.0-SNAPSHOT.jar" (
-	set JARS="%HOMEPATH%\.m2\repository\net\totem\gamelogic-client\1.0-SNAPSHOT\gamelogic-client-1.0-SNAPSHOT.jar";%JARS%
+    set JARS="%HOMEPATH%\.m2\repository\net\totem\gamelogic-client\1.0-SNAPSHOT\gamelogic-client-1.0-SNAPSHOT.jar"
 ) ELSE (
-	echo Archive file "%HOMEPATH%\.m2\repository\net\totem\gamelogic-client\1.0-SNAPSHOT\gamelogic-client-1.0-SNAPSHOT.jar" missing
-    echo Run maven install to install it on your local maven repository
+    echo Running maven install on Java-client...
+    cd ..\src\Java-client
+    call mvn install
+    set JARS="%HOMEPATH%\.m2\repository\net\totem\gamelogic-client\1.0-SNAPSHOT\gamelogic-client-1.0-SNAPSHOT.jar"
 )
 
-IF EXIST "%HOMEPATH%\.m2\repository\net\totem\gamelogic-integration-application\1.0-SNAPSHOT\gamelogic-integration-application-1.0-SNAPSHOT.jar" (
-	set JARS="%HOMEPATH%\.m2\repository\net\totem\gamelogic-integration-application\1.0-SNAPSHOT\gamelogic-integration-application-1.0-SNAPSHOT.jar";%JARS%
+IF EXIST "%PWD%target\gamelogic-integration-application-%MODULE_VERSION%.jar" (
+	set JARS="%PWD%target\gamelogic-integration-application-%MODULE_VERSION%.jar";%JARS%
 ) ELSE (
-	echo Archive file "%HOMEPATH%\.m2\repository\net\totem\gamelogic-integration-application\1.0-SNAPSHOT\gamelogic-integration-application-1.0-SNAPSHOT.jar" missing
-    echo Run maven install to install it on your local maven repository
+    echo Running maven install on Java-application...
+    cd %PWD%
+    call mvn install
+    set JARS="%PWD%target\gamelogic-integration-application-%MODULE_VERSION%.jar";%JARS%
 )
 
-IF EXIST "%HOMEPATH%\.m2\repository\xmlrpc\xmlrpc\2.0.1\xmlrpc-2.0.1.jar" (
-	set JARS="%HOMEPATH%\.m2\repository\xmlrpc\xmlrpc\2.0.1\xmlrpc-2.0.1.jar";%JARS%
-) ELSE (
-	echo Archive file "%HOMEPATH%\.m2\repository\xmlrpc\xmlrpc\2.0.1\xmlrpc-2.0.1.jar" missing
-    echo Run maven install to install it on your local maven repository
-)
-
-IF EXIST "%HOMEPATH%\.m2\repository\com\rabbitmq\amqp-client\%RABBITMQ_CLIENT_VERSION%\amqp-client-%RABBITMQ_CLIENT_VERSION%.jar" (
-	set JARS="%HOMEPATH%\.m2\repository\ws-commons-util\ws-commons-util\1.0.1\ws-commons-util-1.0.1.jar";%JARS%
-) ELSE (
-	echo Archive file "%HOMEPATH%\.m2\repository\ws-commons-util\ws-commons-util\1.0.1\ws-commons-util-1.0.1.jar" missing
-    echo Run maven install to install it on your local maven repository
-)
-
-IF EXIST "%HOMEPATH%\.m2\repository\xml-apis\xml-apis\1.0.b2\xml-apis-1.0.b2.jar" (
-	set JARS="%HOMEPATH%\.m2\repository\xml-apis\xml-apis\1.0.b2\xml-apis-1.0.b2.jar";%JARS%
-) ELSE (
-	echo Archive file "%HOMEPATH%\.m2\repository\xml-apis\xml-apis\1.0.b2\xml-apis-1.0.b2.jar" missing
-    echo Run maven install to install it on your local maven repository
-)
-
-IF EXIST "%HOMEPATH%\.m2\repository\commons-codec\commons-codec\1.4\commons-codec-1.4.jar" (
-	set JARS="%HOMEPATH%\.m2\repository\commons-codec\commons-codec\1.4\commons-codec-1.4.jar";%JARS%
-) ELSE (
-	echo Archive file "%HOMEPATH%\.m2\repository\commons-codec\commons-codec\1.4\commons-codec-1.4.jar" missing
-    echo Run maven install to install it on your local maven repository
-)
+set JARS="%HOMEPATH%\.m2\repository\com\rabbitmq\amqp-client\%RABBITMQ_CLIENT_VERSION%\amqp-client-%RABBITMQ_CLIENT_VERSION%.jar";%JARS%
+set JARS="%HOMEPATH%\.m2\repository\org\apache\commons\commons-io\1.3.2\commons-io-1.3.2.jar";%JARS%
+set JARS="%HOMEPATH%\.m2\repository\xmlrpc\xmlrpc\2.0.1\xmlrpc-2.0.1.jar";%JARS%
+set JARS="%HOMEPATH%\.m2\repository\ws-commons-util\ws-commons-util\1.0.1\ws-commons-util-1.0.1.jar";%JARS%
+set JARS="%HOMEPATH%\.m2\repository\xml-apis\xml-apis\1.0.b2\xml-apis-1.0.b2.jar";%JARS%
+set JARS="%HOMEPATH%\.m2\repository\commons-codec\commons-codec\1.4\commons-codec-1.4.jar";%JARS%
 
 rem argv[0] = login
 rem argv[1] = password
