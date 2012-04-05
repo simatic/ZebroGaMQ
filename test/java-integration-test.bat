@@ -41,7 +41,7 @@ set PWD=%~dp0
 
 rem launch the Game Server
 cd ..\src\Python-server
-start python net\totem\gameserver\gameserver.py %CONFIGURATION_FILES_DIRECTORY%
+start python zebrogamq\gameserver\gameserver.py %CONFIGURATION_FILES_DIRECTORY%
 rem sleep 2 second
 ping 127.0.0.1 -n 2 > NUL
 

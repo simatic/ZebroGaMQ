@@ -97,8 +97,8 @@ function startProxy (){
 }
 
 function loadGenericFiles(){
-    fu.get("/rabbitmq-totem-library.js", fu.staticHandler(JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY+"rabbitmq-totem-library.js"));
-    fu.get("/rabbitmq-totem-actions.js", fu.staticHandler(JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY+"rabbitmq-totem-actions.js"));
+    fu.get("/zebrogamq-library.js", fu.staticHandler(JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY+"zebrogamq-library.js"));
+    fu.get("/zebrogamq-actions.js", fu.staticHandler(JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY+"zebrogamq-actions.js"));
     fu.get("/jquery-1.6.2.min.js", fu.staticHandler(JAVASCRIPT_CLIENT_LIBRARY_DIRECTORY+"external/jquery-1.6.2.min.js"));
 }
 
