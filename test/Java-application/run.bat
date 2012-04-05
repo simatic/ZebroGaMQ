@@ -34,7 +34,7 @@ IF EXIST "%HOMEPATH%\.m2\repository\zebrogamq\zebrogamq-gamelogic-client\1.0-SNA
     set JARS="%HOMEPATH%\.m2\repository\zebrogamq\zebrogamq-gamelogic-client\1.0-SNAPSHOT\zebrogamq-gamelogic-client-1.0-SNAPSHOT.jar"
 ) ELSE (
     echo Running maven install on Java-client...
-    cd ..\src\Java-client
+    cd ..\..\src\Java-client
     call mvn install
     set JARS="%HOMEPATH%\.m2\repository\zebrogamq\zebrogamq-gamelogic-client\1.0-SNAPSHOT\zebrogamq-gamelogic-client-1.0-SNAPSHOT.jar"
 )
