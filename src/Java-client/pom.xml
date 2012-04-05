@@ -71,12 +71,6 @@
 	<version>4.4</version>
 	<scope>test</scope>
       </dependency>
-      <!-- javadoc -->
-      <dependency>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.7</version>
-      </dependency>
       <!-- maven site -->
       <dependency>
         <groupId>org.apache.maven.plugins</groupId>
@@ -137,15 +131,6 @@
           </execution>
         </executions>
       </plugin>
-      <!-- javadoc generation -->
-      <plugin>
-	<artifactId>maven-javadoc-plugin</artifactId>
-	<configuration>
-	  <overview> ${basedir}/src/main/javadoc/overview.html </overview>
-	  <docfilessubdirs>true</docfilessubdirs>
-	  <excludedocfilessubdir>.svn</excludedocfilessubdir>
-	</configuration>
-      </plugin>
       <!-- byte code packaging in jar -->
       <plugin>
 	<groupId>org.apache.maven.plugins</groupId>
@@ -155,25 +140,6 @@
 	    <manifestFile>src/main/resources/META-INF/zebrogamq-library.mf</manifestFile>
 	  </archive>
 	</configuration>
-      </plugin>
-      <!-- javadoc packaging in jar -->
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <phase>package</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-            <configuration>
-              <docfilessubdirs>true</docfilessubdirs>
-              <excludedocfilessubdir>.svn</excludedocfilessubdir>
-              <detectOfflineLinks>false</detectOfflineLinks>
-              <detectJavaApiLink>false</detectJavaApiLink>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <!-- testing -->
       <plugin>
@@ -193,15 +159,6 @@
   <!-- reporting plugins configuration -->
   <reporting>
     <plugins>
-      <!-- javadoc -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <minmemory>128m</minmemory>
-          <maxmemory>512</maxmemory>
-        </configuration>
-      </plugin>
       <!-- source cross reference reports -->
       <plugin>
 	<groupId>org.apache.maven.plugins</groupId>
