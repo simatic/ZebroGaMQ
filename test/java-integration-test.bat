@@ -47,24 +47,24 @@ ping 127.0.0.1 -n 2 > NUL
 
 rem launch the Game Master Application
 cd %PWD%/Java-application
-start sh run.sh "michel" "simatic" "Master" "Tidy-City" "Instance-1"
-rem sleep 2 second
-ping 127.0.0.1 -n 2 > NUL
+call run.bat "michel" "simatic" "Master" "Tidy-City" "Instance-1"
+rem sleep 15 second
+ping 127.0.0.1 -n 15 > NUL
 
 rem launch the Spectator Application
-start sh run.sh "denis" "conan" "Spectator" "Tidy-City" "Instance-1" "*.*.*.*"
-rem sleep 2 second
-ping 127.0.0.1 -n 2 > NUL
+call run.bat "denis" "conan" "Spectator" "Tidy-City" "Instance-1" "*.*.*.*"
+rem sleep 5 second
+ping 127.0.0.1 -n 5 > NUL
 
 rem launch the Player Application
-start sh run.sh "lisa" "blum" "Player" "Tidy-City" "Instance-1"
-rem sleep 2 second
-ping 127.0.0.1 -n 2 > NUL
+call run.bat "lisa" "blum" "Player" "Tidy-City" "Instance-1"
+rem sleep 5 second
+ping 127.0.0.1 -n 5 > NUL
 
 cd %PWD%
 
 echo To properly stop the demonstration,
 echo execute the termination.bat script located in the current directory,
-echo and close the python.exe and the three java shells.
+echo and close the python.exe shell.
 
 endlocal
