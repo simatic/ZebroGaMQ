@@ -21,7 +21,7 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package net.totem.gamelogic;
+package zebrogamq.gamelogic;
 
 import java.util.Collections;
 import java.util.HashMap;

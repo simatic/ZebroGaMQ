@@ -21,28 +21,8 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package net.totem.integration.j2se;
+package zebrogamq.gamelogic;
 
-import net.totem.gamelogic.GameLogicState;
-import net.totem.gamelogic.Util;
-
-public class MyGameLogicProtocol extends Thread {
-
-	public static Object myFirstAction(final GameLogicState state, final String[] header,
-			final String body) {
-		Util.println(" ["+state.role+ " " + state.login + "] " + body);
-		return null;
-	}
-
-	public static Object mySecondAction(final GameLogicState state, final String[] header,
-			final String body) {
-		Util.println(" ["+state.role+ " " + state.login + "] react to mySecondAction");
-		return null;
-	}
-
-	public static Object myFourthAction(final GameLogicState state, final String[] header,
-			final String body) {
-		Util.println(" ["+state.role+ " " + state.login + "] react to myFourthAction");
-		return null;
-	}
+public interface Log {
+	void println(String message);
 }

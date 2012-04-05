@@ -21,63 +21,39 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package net.totem.integration.j2se;
+package zebrogamq.gamelogic;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.totem.gamelogic.ActionInvocationException;
-import net.totem.gamelogic.GameLogicActionInterface;
-import net.totem.gamelogic.GameLogicState;
-import net.totem.gamelogic.Util;
-
-public enum MyFirstActionKind implements GameLogicActionInterface {
-	MY_FIRST_ACTION("myFirstAction") {
-		public Object execute(final GameLogicState state,
-				final String[] header, final String body)
-				throws ActionInvocationException {
-			return MyGameLogicProtocol.myFirstAction(state, header, body);
-		}
-	},
-	MY_SECOND_ACTION("mySecondAction") {
-		public Object execute(final GameLogicState state,
-				final String[] header, final String body)
-				throws ActionInvocationException {
-			return MyGameLogicProtocol.mySecondAction(state, header, body);
-		}
-	},
-	MY_THIRD_ACTION("myThirdAction") {
-		public Object execute(final GameLogicState state,
-				final String[] header, final String body)
-				throws ActionInvocationException {
-			return null;
+public enum LifeCycleAction implements GameLogicActionInterface {
+	INITIATE_TERMINATION("terminate") {
+		public Object execute(final GameLogicState state, final String[] header,
+				final String body) throws ActionInvocationException {
+			return GameLogicProtocol.terminate(state, header, body);
 		}
 	};
 
-	public final static int KIND_NUMBER = 100;
+	private final static Map<String, LifeCycleAction> privateActionMap = new HashMap<String, LifeCycleAction>();
+	public final static Map<String, LifeCycleAction> actionMap = Collections
+			.unmodifiableMap(privateActionMap);
+	public final static int KIND_NUMBER = 0;
 	public final static int LOWER_ACTION_NUMBER = 0;
 	public final static int UPPER_ACTION_NUMBER = 1000;
-	public final String nameKind = "myFirstActionKind";
-
-	// Ignore the code below. Just make sure it is present in all your enums.
-	// The copy and paste is due to a limitation of Java enums (no inheritance).
-
-	private final static Map<String, MyFirstActionKind> privateActionMap = new HashMap<String, MyFirstActionKind>();
-	public final static Map<String, MyFirstActionKind> actionMap = Collections
-			.unmodifiableMap(privateActionMap);
 
 	private final String codeKind;
+	private final String nameKind = "lifecycle";
 	private final String codeAction;
 	private final String nameAction;
 
 	static {
-		for (MyFirstActionKind gra : MyFirstActionKind.values()) {
+		for (LifeCycleAction gra : LifeCycleAction.values()) {
 			privateActionMap.put(gra.toString(), gra);
 		}
 	}
 
-	private MyFirstActionKind(final String nameAction) {
+	private LifeCycleAction(final String nameAction) {
 		this.codeKind = String.valueOf(KIND_NUMBER);
 		this.codeAction = String.valueOf(LOWER_ACTION_NUMBER + ordinal());
 		this.nameAction = nameAction;

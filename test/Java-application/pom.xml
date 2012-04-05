@@ -25,14 +25,14 @@
   
   <modelVersion>4.0.0</modelVersion>
   
-  <groupId>net.totem</groupId>
-  <artifactId>gamelogic-integration-application</artifactId>
-  <name>TOTEM Application Game Logic</name>
+  <groupId>zebrogamq</groupId>
+  <artifactId>zebrogamq-gamelogic-integration-application</artifactId>
+  <name>ZebroGaMQ Application Game Logic</name>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   
   <description>
-    Example application demonstrating the integration of the technologies on a J2SE environment.
+    ZebroGaMQ application demonstrating the integration of the Java J2SE client library.
   </description>
   
   <licenses>
@@ -98,8 +98,8 @@
       </dependency>
       <!-- rabbitmq totem lib -->
       <dependency>
-	<groupId>net.totem</groupId>
-	<artifactId>gamelogic-client</artifactId>
+	<groupId>zebrogamq</groupId>
+	<artifactId>zebrogamq-gamelogic-client</artifactId>
 	<version>1.0-SNAPSHOT</version>
       </dependency>
       <!-- xmlrpc -->
@@ -143,8 +143,8 @@
       <artifactId>commons-codec</artifactId>
     </dependency>
     <dependency>
-	<groupId>net.totem</groupId>
-	<artifactId>gamelogic-client</artifactId>
+	<groupId>zebrogamq</groupId>
+	<artifactId>zebrogamq-gamelogic-client</artifactId>
     </dependency>
   </dependencies>
 

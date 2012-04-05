@@ -21,7 +21,7 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package net.totem.gamelogic;
+package zebrogamq.gamelogic;
 
 public class GameLogicState {
 	

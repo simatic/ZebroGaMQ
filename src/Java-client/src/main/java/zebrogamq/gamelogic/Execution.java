@@ -21,7 +21,7 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package net.totem.gamelogic;
+package zebrogamq.gamelogic;
 
 public interface Execution {
 	Object execute(GameLogicState state, String[] header, String body)

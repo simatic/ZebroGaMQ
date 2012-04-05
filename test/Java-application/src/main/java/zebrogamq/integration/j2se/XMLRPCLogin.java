@@ -1,4 +1,4 @@
-package net.totem.integration.j2se;
+package zebrogamq.integration.j2se;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -8,7 +8,7 @@ import java.util.Vector;
 import org.apache.xmlrpc.XmlRpcClient;
 import org.apache.xmlrpc.XmlRpcException;
 
-import net.totem.gamelogic.Util;
+import zebrogamq.gamelogic.Util;
 
 public class XMLRPCLogin {
 	

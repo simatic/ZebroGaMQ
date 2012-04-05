@@ -21,13 +21,9 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package net.totem.integration.j2se;
+package zebrogamq.gamelogic;
 
-import net.totem.gamelogic.Log;
-
-public class Logger implements Log {
-
-	public void println(final String message) {
-		System.out.println(message);
-	}
+public interface ActionKind {
+	String getCodeKind();
+	String getNameKind();
 }

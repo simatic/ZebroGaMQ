@@ -21,55 +21,54 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package net.totem.integration.j2se;
+package zebrogamq.gamelogic;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.totem.gamelogic.ActionInvocationException;
-import net.totem.gamelogic.GameLogicActionInterface;
-import net.totem.gamelogic.GameLogicState;
-import net.totem.gamelogic.Util;
-
-public enum MySecondActionKind implements GameLogicActionInterface {
-	MY_FOURTH_ACTION("myFourthAction") {
-		public Object execute(final GameLogicState state,
-				final String[] header, final String body)
-				throws ActionInvocationException {
-			return MyGameLogicProtocol.myFourthAction(state, header, body);
-		}
-	},
-	MY_FIFTH_ACTION("myFitfhAction") {
+public enum PresenceAction implements GameLogicActionInterface {
+	HEARTBEAT("heartbeat") {
 		public Object execute(final GameLogicState state,
 				final String[] header, final String body)
 				throws ActionInvocationException {
 			return null;
 		}
+	},
+	ASK_PARTICIPANTS_LIST("askParticipantsList") {
+		public Object execute(final GameLogicState state,
+				final String[] header, final String body)
+				throws ActionInvocationException {
+			return null;
+		}
+	},
+	PARTICIPANTS_LIST("participantsList") {
+		public Object execute(final GameLogicState state,
+				final String[] header, final String body)
+				throws ActionInvocationException {
+			return GameLogicProtocol.participantsList(state, header, body);
+		}
 	};
-	public final static int KIND_NUMBER = 101;
+
+	private final static Map<String, PresenceAction> privateActionMap = new HashMap<String, PresenceAction>();
+	public final static Map<String, PresenceAction> actionMap = Collections
+			.unmodifiableMap(privateActionMap);
+	public final static int KIND_NUMBER = 20;
 	public final static int LOWER_ACTION_NUMBER = 0;
 	public final static int UPPER_ACTION_NUMBER = 1000;
-	public final String nameKind = "mySecondActionKind";
-
-	// Ignore the code below. Just make sure it is present in all your enums.
-	// The copy and paste is due to a limitation of Java enums (no inheritance).
-
-	private final static Map<String, MySecondActionKind> privateActionMap = new HashMap<String, MySecondActionKind>();
-	public final static Map<String, MySecondActionKind> actionMap = Collections
-			.unmodifiableMap(privateActionMap);
 
 	private final String codeKind;
+	private final String nameKind = "presence";
 	private final String codeAction;
 	private final String nameAction;
 
 	static {
-		for (MySecondActionKind gra : MySecondActionKind.values()) {
+		for (PresenceAction gra : PresenceAction.values()) {
 			privateActionMap.put(gra.toString(), gra);
 		}
 	}
 
-	private MySecondActionKind(final String nameAction) {
+	private PresenceAction(final String nameAction) {
 		this.codeKind = String.valueOf(KIND_NUMBER);
 		this.codeAction = String.valueOf(LOWER_ACTION_NUMBER + ordinal());
 		this.nameAction = nameAction;

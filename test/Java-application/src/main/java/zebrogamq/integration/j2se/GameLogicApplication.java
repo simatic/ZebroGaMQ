@@ -21,17 +21,17 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package net.totem.integration.j2se;
+package zebrogamq.integration.j2se;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import net.totem.gamelogic.ChannelsManager;
-import net.totem.gamelogic.GameLogicState;
-import net.totem.gamelogic.JoinAction;
-import net.totem.gamelogic.PresenceAction;
-import net.totem.gamelogic.Util;
+import zebrogamq.gamelogic.ChannelsManager;
+import zebrogamq.gamelogic.GameLogicState;
+import zebrogamq.gamelogic.JoinAction;
+import zebrogamq.gamelogic.PresenceAction;
+import zebrogamq.gamelogic.Util;
 
 public class GameLogicApplication {
 	

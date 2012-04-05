@@ -21,14 +21,14 @@
  Developer(s): Denis Conan, Gabriel Adgeg
  */
 
-package net.totem.integration.j2se;
+package zebrogamq.integration.j2se;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import net.totem.gamelogic.GameLogicActionInterface;
+import zebrogamq.gamelogic.GameLogicActionInterface;
 
 public enum MyListOfGameLogicActions {
 	MY_FIRST_ACTION_KIND(MyFirstActionKind.actionMap),
