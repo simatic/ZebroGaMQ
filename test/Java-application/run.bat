@@ -24,28 +24,28 @@ rem Developer(s): Denis Conan, Gabriel Adgeg
 setlocal
 set MODULE_VERSION=1.0-SNAPSHOT
 set RABBITMQ_CLIENT_VERSION=2.7.0
-set CLASS=net.totem.integration.j2se.GameLogicApplication
+set CLASS=zebrogamq.integration.j2se.GameLogicApplication
 set RABBITMQPROPERTIESFILE=rabbitmq.properties
 set XMLRPCPROPERTIESFILE=xmlrpc.properties
 set PWD=%~dp0
 
 
-IF EXIST "%HOMEPATH%\.m2\repository\net\totem\gamelogic-client\1.0-SNAPSHOT\gamelogic-client-1.0-SNAPSHOT.jar" (
-    set JARS="%HOMEPATH%\.m2\repository\net\totem\gamelogic-client\1.0-SNAPSHOT\gamelogic-client-1.0-SNAPSHOT.jar"
+IF EXIST "%HOMEPATH%\.m2\repository\zebrogamq\zebrogamq-gamelogic-client\1.0-SNAPSHOT\zebrogamq-gamelogic-client-1.0-SNAPSHOT.jar" (
+    set JARS="%HOMEPATH%\.m2\repository\zebrogamq\zebrogamq-gamelogic-client\1.0-SNAPSHOT\zebrogamq-gamelogic-client-1.0-SNAPSHOT.jar"
 ) ELSE (
     echo Running maven install on Java-client...
     cd ..\src\Java-client
     call mvn install
-    set JARS="%HOMEPATH%\.m2\repository\net\totem\gamelogic-client\1.0-SNAPSHOT\gamelogic-client-1.0-SNAPSHOT.jar"
+    set JARS="%HOMEPATH%\.m2\repository\zebrogamq\zebrogamq-gamelogic-client\1.0-SNAPSHOT\zebrogamq-gamelogic-client-1.0-SNAPSHOT.jar"
 )
 
-IF EXIST "%PWD%target\gamelogic-integration-application-%MODULE_VERSION%.jar" (
-	set JARS="%PWD%target\gamelogic-integration-application-%MODULE_VERSION%.jar";%JARS%
+IF EXIST "%PWD%target\zebrogamq-gamelogic-integration-application-%MODULE_VERSION%.jar" (
+	set JARS="%PWD%target\zebrogamq-gamelogic-integration-application-%MODULE_VERSION%.jar";%JARS%
 ) ELSE (
     echo Running maven install on Java-application...
     cd %PWD%
     call mvn install
-    set JARS="%PWD%target\gamelogic-integration-application-%MODULE_VERSION%.jar";%JARS%
+    set JARS="%PWD%target\zebrogamq-gamelogic-integration-application-%MODULE_VERSION%.jar";%JARS%
 )
 
 set JARS="%HOMEPATH%\.m2\repository\com\rabbitmq\amqp-client\%RABBITMQ_CLIENT_VERSION%\amqp-client-%RABBITMQ_CLIENT_VERSION%.jar";%JARS%

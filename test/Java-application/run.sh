@@ -23,26 +23,26 @@
 
 MODULE_VERSION=1.0-SNAPSHOT
 RABBITMQ_CLIENT_VERSION=2.7.0
-CLASS=net.totem.integration.j2se.GameLogicApplication
+CLASS=zebrogamq.integration.j2se.GameLogicApplication
 RABBITMQPROPERTIESFILE=rabbitmq.properties
 XMLRPCPROPERTIESFILE=xmlrpc.properties
 
-if [[ -f ${HOME}/.m2/repository/net/totem/gamelogic-client/1.0-SNAPSHOT/gamelogic-client-1.0-SNAPSHOT.jar ]]
+if [[ -f ${HOME}/.m2/repository/zebrogamq/zebrogamq-gamelogic-client/1.0-SNAPSHOT/zebrogamq-gamelogic-client-1.0-SNAPSHOT.jar ]]
 then
-    export JARS=${HOME}/.m2/repository/net/totem/gamelogic-client/1.0-SNAPSHOT/gamelogic-client-1.0-SNAPSHOT.jar
+    export JARS=${HOME}/.m2/repository/zebrogamq/zebrogamq-gamelogic-client/1.0-SNAPSHOT/zebrogamq-gamelogic-client-1.0-SNAPSHOT.jar
 else
     echo Running maven install on Java-client...
     (cd ../../src/Java-client; mvn install)
-    export JARS=${HOME}/.m2/repository/net/totem/gamelogic-client/1.0-SNAPSHOT/gamelogic-client-1.0-SNAPSHOT.jar
+    export JARS=${HOME}/.m2/repository/zebrogamq/zebrogamq-gamelogic-client/1.0-SNAPSHOT/zebrogamq-gamelogic-client-1.0-SNAPSHOT.jar
 fi
 
-if [[ -f ./target/gamelogic-integration-application-${MODULE_VERSION}.jar ]]
+if [[ -f ./target/zebrogamq-gamelogic-integration-application-${MODULE_VERSION}.jar ]]
 then
-    export JARS=./target/gamelogic-integration-application-${MODULE_VERSION}.jar:${JARS}
+    export JARS=./target/zebrogamq-gamelogic-integration-application-${MODULE_VERSION}.jar:${JARS}
 else
     echo Running maven install on Java-application...
     mvn install
-    export JARS=./target/gamelogic-integration-application-${MODULE_VERSION}.jar:${JARS}
+    export JARS=./target/zebrogamq-gamelogic-integration-application-${MODULE_VERSION}.jar:${JARS}
 fi
 
 export JARS=${HOME}/.m2/repository/com/rabbitmq/amqp-client/${RABBITMQ_CLIENT_VERSION}/amqp-client-${RABBITMQ_CLIENT_VERSION}.jar:${JARS}
