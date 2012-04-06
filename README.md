@@ -10,10 +10,14 @@ A prototypical game involves:
 * JavaScript applications
 * Java J2SE applications
 
-One of the most powerful features of the middleware is the disconnection 
-management of Android devices: you just have to focus on publishing your 
-messages, the middleware will handle for you the loss of network 
-connection inherent to mobile networks.
+Here are the most powerful features of the middleware:
+* Clients of the ZebroGaMQ don’t have to handle the low-level details of reception
+  of messages, they just need to define a behaviour on the consumption of these messages.
+* Disconnection management of Android devices: you just have to focus on publishing your 
+  messages, the middleware will handle for you the loss of network connection inherent 
+  to mobile networks.
+* Game instances management: you can create several instances of your game, and let players
+  use those instances in parallel.
 
 Installation and tests
 ----------------------
