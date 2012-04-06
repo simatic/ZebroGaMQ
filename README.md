@@ -72,3 +72,9 @@ Installation and tests
 
     cd test
     javascript-integration-test.bat
+
+Resources for Newcomers
+-----------------------
+* [Detailed installation procedure of required softwares](http://simatic.github.com/ZebroGaMQ/doc/detailed_installation.html)
+* [Tutorial: understanding the concepts of ZebroGaMQ to publish and consume messages](http://simatic.github.com/ZebroGaMQ/doc/tutorial.html)
+* [Javadoc](http://simatic.github.com/ZebroGaMQ/doc/javadoc/index.html)
