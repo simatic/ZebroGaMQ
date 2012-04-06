@@ -27,12 +27,13 @@ Installation and tests
 ### For Java applications
 * Java ≥ 1.5,
 * Maven ≥ 2.2.1
-* To run the tests on Unix/Mac:
+#### To run the tests
+on Unix/Mac:
 
     `cd test`
     `./java-integration-test.sh`
 
-* To run the tests on Windows:
+on Windows:
 
     `cd test`
     `java-integration-test.bat`
@@ -41,12 +42,13 @@ Installation and tests
 ### For Android applications
 * ADT plugin for Eclipse ≥ 12.0.0,
 * Android SDK API level ≥ 7
-* To run the tests on Unix/Mac:
+#### To run the tests
+on Unix/Mac:
 
     cd test
     ./android-integration-test.sh
 
-* To run the tests on Windows:
+on Windows:
 
     cd test
     android-integration-test.bat
@@ -57,12 +59,13 @@ Installation and tests
 * NPM ≥ 1.0.106,
 * AMQP library (to install with NPM) = 0.1.0,
 * XMLRPC library (to install with NPM) ≥ 0.8.1
-* To run the tests on Unix/Mac:
+#### To run the tests
+on Unix/Mac:
 
     cd test
     ./javascript-integration-test.sh
 
-* To run the tests on Windows:
+on Windows:
 
     cd test
     javascript-integration-test.bat
