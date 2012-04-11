@@ -29,8 +29,9 @@ import java.util.Map;
 import java.util.Vector;
 
 public enum ListOfActions {
-	LIFECYCLE_ACTIONS(LifeCycleAction.actionMap), JOIN_ACTIONS(
-			JoinAction.actionMap), PRESENCE_ACTIONS(PresenceAction.actionMap);
+	LIFECYCLE_ACTIONS(LifeCycleAction.actionMap),
+	JOIN_ACTIONS(JoinAction.actionMap),
+	PRESENCE_ACTIONS(PresenceAction.actionMap);
 
 	private final Map<String, ? extends GameLogicActionInterface> actionMap;
 	private final static List<Map<String, ? extends GameLogicActionInterface>> privateListOfActionsMaps = new Vector<Map<String, ? extends GameLogicActionInterface>>();

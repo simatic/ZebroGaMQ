@@ -31,8 +31,8 @@ import java.util.Vector;
 import zebrogamq.gamelogic.GameLogicActionInterface;
 
 public enum MyListOfGameLogicActions {
-	MY_FIRST_ACTION_KIND(MyFirstActionKind.actionMap), MY_SECOND_ACTION_KIND(
-			MySecondActionKind.actionMap);
+	MY_FIRST_ACTION_KIND(MyFirstActionKind.actionMap),
+	MY_SECOND_ACTION_KIND(MySecondActionKind.actionMap);
 
 	// Ignore the code below. Just make sure it is present in all your enums.
 	// The copy and paste is due to a limitation of Java enums (no inheritance).
