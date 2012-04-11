@@ -25,10 +25,11 @@ package zebrogamq.gamelogic;
 
 import java.util.Arrays;
 
-public class GameLogicProtocol{
+public class GameLogicProtocol {
 
 	public static Object terminate(final GameLogicState state,
-			final String[] header, final String body) {
+			final String[] header, final String body)
+			throws ActionInvocationException {
 		if (state == null) {
 			throw new IllegalArgumentException(
 					"terminate action with null state");
@@ -43,14 +44,16 @@ public class GameLogicProtocol{
 		}
 		Util.println("Terminate received.");
 		state.connectionExit();
+		OptionalDelegationOfStandardActions.getInstance().terminate(state,
+				header, body);
 		return null;
 	}
 
 	public static Object join(final GameLogicState state,
-			final String[] header, final String body) {
+			final String[] header, final String body)
+			throws ActionInvocationException {
 		if (state == null) {
-			throw new IllegalArgumentException(
-					"join action with null state");
+			throw new IllegalArgumentException("join action with null state");
 		}
 		if (header == null) {
 			throw new IllegalArgumentException(
@@ -60,16 +63,18 @@ public class GameLogicProtocol{
 			throw new IllegalArgumentException(
 					"join action with null body message");
 		}
-		Util.println(" ["+state.role+" " + state.login + "] Received "
+		Util.println(" [" + state.role + " " + state.login + "] Received "
 				+ Arrays.asList(header) + " / " + body);
+		OptionalDelegationOfStandardActions.getInstance().join(state, header,
+				body);
 		return null;
 	}
 
 	public static Object joinOK(final GameLogicState state,
-			final String[] header, final String body) {
+			final String[] header, final String body)
+			throws ActionInvocationException {
 		if (state == null) {
-			throw new IllegalArgumentException(
-					"joinOK action with null state");
+			throw new IllegalArgumentException("joinOK action with null state");
 		}
 		if (header == null) {
 			throw new IllegalArgumentException(
@@ -79,13 +84,16 @@ public class GameLogicProtocol{
 			throw new IllegalArgumentException(
 					"joinOK action with null body message");
 		}
-		Util.println(" ["+state.role+" " + state.login + "] Received "
+		Util.println(" [" + state.role + " " + state.login + "] Received "
 				+ Arrays.asList(header) + " / " + body);
+		OptionalDelegationOfStandardActions.getInstance().joinOK(state, header,
+				body);
 		return null;
 	}
 
 	public static Object participantsList(final GameLogicState state,
-			final String[] header, final String body) {
+			final String[] header, final String body)
+			throws ActionInvocationException {
 		if (state == null) {
 			throw new IllegalArgumentException(
 					"participantsList action with null state");
@@ -98,8 +106,10 @@ public class GameLogicProtocol{
 			throw new IllegalArgumentException(
 					"participantsList action with null body message");
 		}
-		Util.println(" ["+state.role+" " + state.login + "] Received "
+		Util.println(" [" + state.role + " " + state.login + "] Received "
 				+ Arrays.asList(header) + " / " + body);
+		OptionalDelegationOfStandardActions.getInstance().participantsList(
+				state, header, body);
 		return null;
 	}
 }

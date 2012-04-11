@@ -30,14 +30,15 @@ import java.util.Properties;
 import zebrogamq.gamelogic.ChannelsManager;
 import zebrogamq.gamelogic.GameLogicState;
 import zebrogamq.gamelogic.JoinAction;
+import zebrogamq.gamelogic.OptionalDelegationOfStandardActions;
 import zebrogamq.gamelogic.PresenceAction;
 import zebrogamq.gamelogic.Util;
 
 public class GameLogicApplication {
-	
+
 	private static GameLogicState state = null;
-	
-	public static void main(final String[] argv){
+
+	public static void main(final String[] argv) {
 		Util.setLogger(new Logger());
 		if (argv.length != 5 && argv.length != 6) {
 			Util.println("Please, only five or six strings"
@@ -46,7 +47,7 @@ public class GameLogicApplication {
 			return;
 		}
 		boolean loadOK = loadProperties();
-		if(loadOK){
+		if (loadOK) {
 			// instantiate GameLogicState
 			state = new GameLogicState();
 			state.login = argv[0];
@@ -54,13 +55,13 @@ public class GameLogicApplication {
 			state.role = argv[2];
 			state.gameName = argv[3];
 			state.instanceName = argv[4];
-			if(argv.length == 6){
+			if (argv.length == 6) {
 				state.observationKey = argv[5];
 				if ((Util.getContentKeyAt(state.observationKey, "\\.", 0) == null)
 						|| (Util.getContentKeyAt(state.observationKey, "\\.", 1) == null)
 						|| (Util.getContentKeyAt(state.observationKey, "\\.", 2) == null)
 						|| (Util.getContentKeyAt(state.observationKey, "\\.", 3) == null)) {
-					Util.println("["+state.role+"] Please, "
+					Util.println("[" + state.role + "] Please, "
 							+ "<observation key game play> "
 							+ "must conform to the syntax "
 							+ "<part1>.<part2>.<part3>.<part4>");
@@ -69,22 +70,22 @@ public class GameLogicApplication {
 			}
 			// execute the XMLRPC call
 			boolean loggedIn = executeXMLRPCLogin();
-			if(loggedIn){
+			if (loggedIn) {
 				initChannelsManager();
-				// launch the participant list thread (except for spectators applications
-				if(!state.role.equals(GameLogicState.SPECTATOR)){
-					startParticipantListThread();		
+				// launch the participant list thread (except for spectators
+				// applications
+				if (!state.role.equals(GameLogicState.SPECTATOR)) {
+					startParticipantListThread();
 				}
-			}else{
+			} else {
 				Util.println("Bad XML-RPC answer.");
 			}
-		}else{
+		} else {
 			Util.println("Properties files have not been load.");
 		}
 	}
-	
-	
-	private static boolean loadProperties(){
+
+	private static boolean loadProperties() {
 		boolean loadOK = false;
 		Properties rabbitMQProperties = new Properties();
 		String rabbitMQConfigFileName = System
@@ -121,42 +122,55 @@ public class GameLogicApplication {
 		return loadOK;
 	}
 
-	
-	private static boolean executeXMLRPCLogin(){
+	private static boolean executeXMLRPCLogin() {
 		boolean res = false;
-		if(state.role.equals(GameLogicState.GAME_MASTER)){
-			Util.println("["+state.role+" " +state.login +"] creating instance "+state.gameName+"/"+state.instanceName);
-			res = XMLRPCLogin.createAndJoinGameInstance(state.login, state.password, state.gameName, state.instanceName);
-		}else if (state.observationKey != null){
-			Util.println("["+state.role+" " +state.login +"] joining instance "+state.gameName+"/"+state.instanceName+" with observation key "+state.observationKey);
-			res = XMLRPCLogin.joinGameInstance(state.login, state.password, state.gameName, state.instanceName, state.observationKey);
-		}else{
-			Util.println("["+state.role+" " +state.login +"] joining instance "+state.gameName+"/"+state.instanceName);
-			res = XMLRPCLogin.joinGameInstance(state.login, state.password, state.gameName, state.instanceName);
+		if (state.role.equals(GameLogicState.GAME_MASTER)) {
+			Util.println("[" + state.role + " " + state.login
+					+ "] creating instance " + state.gameName + "/"
+					+ state.instanceName);
+			res = XMLRPCLogin.createAndJoinGameInstance(state.login,
+					state.password, state.gameName, state.instanceName);
+		} else if (state.observationKey != null) {
+			Util.println("[" + state.role + " " + state.login
+					+ "] joining instance " + state.gameName + "/"
+					+ state.instanceName + " with observation key "
+					+ state.observationKey);
+			res = XMLRPCLogin.joinGameInstance(state.login, state.password,
+					state.gameName, state.instanceName, state.observationKey);
+		} else {
+			Util.println("[" + state.role + " " + state.login
+					+ "] joining instance " + state.gameName + "/"
+					+ state.instanceName);
+			res = XMLRPCLogin.joinGameInstance(state.login, state.password,
+					state.gameName, state.instanceName);
 		}
 		return res;
 	}
-	
-	
-	private static void initChannelsManager(){
+
+	private static void initChannelsManager() {
 		try {
 			// Instantiate the channelsManager
-			state.channelsManager = ChannelsManager.getInstance(state, MyListOfGameLogicActions.ListOfActionsMaps);
+			state.channelsManager = ChannelsManager.getInstance(state,
+					MyListOfGameLogicActions.ListOfActionsMaps);
+			OptionalDelegationOfStandardActions
+					.setInstance(new MyOptionalDelegationOfStandardActions());
 			// Publish a Join message
-			String content = state.login+"," + state.gameName+","+ state.instanceName;
-			state.channelsManager.publishToGameLogicServer(state, JoinAction.JOIN, content);
+			String content = state.login + "," + state.gameName + ","
+					+ state.instanceName;
+			state.channelsManager.publishToGameLogicServer(state,
+					JoinAction.JOIN, content);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	private static void startParticipantListThread() {
 		new Thread() {
 			public void run() {
 				while (!state.hasConnectionExited()) {
 					try {
-						state.channelsManager.publishToGameLogicServer(state, PresenceAction.ASK_PARTICIPANTS_LIST, " ");
+						state.channelsManager.publishToGameLogicServer(state,
+								PresenceAction.ASK_PARTICIPANTS_LIST, " ");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
