@@ -1,5 +1,15 @@
 package zebrogamq.gamelogic;
 
+/**
+ * Default implementation of the class OptionalDelegationOfStandardActions.
+ * 
+ * There is no special behavior triggered on the reception of basic actions
+ * (join actions, lifecycle actions and presence actions) when this class
+ * is used.
+ * 
+ * To define your own behavior, please refer directly to the javadoc of 
+ * OptionalDelegationOfStandardActions.
+ */
 public class NOpOptionalDelegationOfStandardActions extends
 		OptionalDelegationOfStandardActions {
 

@@ -30,6 +30,17 @@ import zebrogamq.gamelogic.Util;
 
 public class MyGameLogicProtocol{
 
+	/**
+	 * Method called once the client receive a MY_FIRST_ACTION message. 
+	 * 
+	 * @param state		the GameLogicState of the game logic
+	 * @param header	an array containing four informations about the message
+	 * 					- the sender
+	 * 					- the recipient
+	 * 					- the action kind
+	 * 					- the action
+	 * @param body 		the content of the message
+	 */
 	public static Object myFirstAction(GameLogicState state,
 			String[] header, String body) {
 		Util.println(" [Player " + state.login + "] " + body);
@@ -44,12 +55,34 @@ public class MyGameLogicProtocol{
 		return null;
 	}
 
+	/**
+	 * Method called once the client receive a MY_SECOND_ACTION message. 
+	 * 
+	 * @param state		the GameLogicState of the game logic
+	 * @param header	an array containing four informations about the message
+	 * 					- the sender
+	 * 					- the recipient
+	 * 					- the action kind
+	 * 					- the action
+	 * @param body 		the content of the message
+	 */
 	public static Object mySecondAction(GameLogicState state,
 			String[] header, String body) {
 		Util.println(" [Player " + state.login + "] react to mySecondAction");
 		return null;
 	}
 
+	/**
+	 * Method called once the client receive a MY_FOURTH_ACTION message. 
+	 * 
+	 * @param state		the GameLogicState of the game logic
+	 * @param header	an array containing four informations about the message
+	 * 					- the sender
+	 * 					- the recipient
+	 * 					- the action kind
+	 * 					- the action
+	 * @param body 		the content of the message
+	 */
 	public static Object myFourthAction(GameLogicState state,
 			String[] header, String body) {
 		Util.println(" [Player " + state.login + "] " + body);

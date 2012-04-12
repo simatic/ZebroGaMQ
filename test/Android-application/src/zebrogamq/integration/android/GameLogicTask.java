@@ -148,6 +148,17 @@ class GameLogicTask extends AsyncTask<Void, Integer, Integer> {
 		return res;
 	}
 	
+	/*
+	 * This method successively:
+	 * - instantiate the channelsManager of the state in order to 
+	 *   start the consumption and to enable publication of messages.
+	 * - publish a JOIN message to the GameLogicServer. By default,
+	 *   on the reception of this message, there is only a message
+	 *   displayed. If you want to define your own behavior on the 
+	 *   reception of this message, please refer to the javadoc of 
+	 *   the class OptionalDelegationOfStandardActions.
+	 *   (http://simatic.github.com/ZebroGaMQ/doc/javadoc/index.html)
+	 */
 	private void initChannelsManager(){
 		try {
 			// Instantiate the channelsManager

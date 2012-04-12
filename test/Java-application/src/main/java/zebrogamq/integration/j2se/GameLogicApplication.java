@@ -147,13 +147,22 @@ public class GameLogicApplication {
 		return res;
 	}
 
+	/*
+	 * This method successively:
+	 * - instantiate the channelsManager of the state in order to 
+	 *   start the consumption and to enable publication of messages.
+	 * - publish a JOIN message to the GameLogicServer. By default,
+	 *   on the reception of this message, there is only a message
+	 *   displayed. If you want to define your own behavior on the 
+	 *   reception of this message, please refer to the javadoc of 
+	 *   the class OptionalDelegationOfStandardActions.
+	 *   (http://simatic.github.com/ZebroGaMQ/doc/javadoc/index.html)
+	 */
 	private static void initChannelsManager() {
 		try {
 			// Instantiate the channelsManager
 			state.channelsManager = ChannelsManager.getInstance(state,
 					MyListOfGameLogicActions.ListOfActionsMaps);
-			OptionalDelegationOfStandardActions
-					.setInstance(new MyOptionalDelegationOfStandardActions());
 			// Publish a Join message
 			String content = state.login + "," + state.gameName + ","
 					+ state.instanceName;

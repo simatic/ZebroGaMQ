@@ -73,7 +73,7 @@ Installation and tests
     ./javascript-integration-test.sh
 
 
-##### To run the testson Windows:
+##### To run the tests on Windows:
 
     cd test
     javascript-integration-test.bat
