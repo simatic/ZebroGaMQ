@@ -1,0 +1,167 @@
+ZebroGaMQ: Communication Middleware for Mobile Gaming
+Copyright: Copyright (C) 2009-2012
+Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 3 of the License, or any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+USA
+
+Developer(s): Denis Conan, Gabriel Adgeg
+
+
+1/ Beginning of the demonstration
+---------------------------------
+
+$ ./java-integration-test.sh
+
+
+Stopping and halting node 'rabbit@adgeg-laptop' ...
+...done.
+Activating RabbitMQ plugins ...
+
+********************************************************************************
+********************************************************************************
+
+0 plugins activated:
+
+Stopping node 'rabbit@adgeg-laptop' ...
+...done.
+Resetting node 'rabbit@adgeg-laptop' ...
+...done.
+Starting node 'rabbit@adgeg-laptop' ...
+...done.
+[INFO - GameServer] Game server started
+[INFO - GameServer] List of registered method for xml rpc calls of game server ['createAndJoinGameInstance', 'joinGameInstance', 'listGameInstances', 'system.listMethods', 'system.methodHelp', 'system.methodSignature', 'terminate', 'terminateGameInstance']
+[Master michel] creating instance Tidy-City/Instance-1
+[INFO - GameServer] Creation of a game instance Tidy-City Instance-1
+[INFO - GameLogicServer] Creating instance Tidy-City Instance-1 with master = michel
+Creating vhost "/Tidy-City/Instance-1" ...
+...done.
+Creating user "gamelogicserver" ...
+...done.
+Setting permissions for user "gamelogicserver" in vhost "/Tidy-City/Instance-1" ...
+...done.
+Creating user "loggingserver" ...
+...done.
+Setting permissions for user "loggingserver" in vhost "/Tidy-City/Instance-1" ...
+...done.
+Creating user "michel" ...
+...done.
+Setting permissions for user "michel" in vhost "/Tidy-City/Instance-1" ...
+...done.
+[INFO - GameServer] Creating process for LoggingServer
+[INFO - GameLogicServer] Creating Logging server for Tidy-City Instance-1
+[INFO - GameLogicServer] Joining of michel
+localhost - - [02/Apr/2012 12:46:30] "POST / HTTP/1.1" 200 -
+[INFO -  LoggingServer] Waiting for messages on /Tidy-City/Instance-1
+XMLRPC call createAndJoinGameInstance has succeded for michel in Tidy-City/Instance-1
+ [Master michel] initCommunicationWithBroker for HeartbeatChannel.
+ [Master michel] initCommunicationWithBroker for ConsumeChannel.
+ [Master michel] Sent Mon Apr 02 12:46:30 CEST 2012 with key = michel.gamelogicserver.presence.heartbeat on vhost /Tidy-City/Instance-1
+ [Master michel] initCommunicationWithBroker for PublishChannel.
+ [Master michel] Sent michel,Tidy-City,Instance-1 with key = michel.gamelogicserver.join.join on vhost /Tidy-City/Instance-1
+ [Master michel] received on /Tidy-City/Instance-1: michel has joined, with routing key = gamelogicserver.michel.join.joinOK
+ [Master michel] Received [gamelogicserver, michel, join, joinOK] / michel has joined
+ [Master michel] Sent   with key = michel.gamelogicserver.presence.askParticipantsList on vhost /Tidy-City/Instance-1
+ [Master michel] received on /Tidy-City/Instance-1: {'michel': 'Mon Apr 02 12:46:30 CEST 2012'}, with routing key = gamelogicserver.michel.presence.participantsList
+ [Master michel] Received [gamelogicserver, michel, presence, participantsList] / {'michel': 'Mon Apr 02 12:46:30 CEST 2012'}
+[Spectator denis] joining instance Tidy-City/Instance-1 with observation key *.*.*.*
+[INFO - GameServer] denis joining game instance Tidy-City Instance-1 with observation key *.*.*.*
+Creating user "denis" ...
+...done.
+Setting permissions for user "denis" in vhost "/Tidy-City/Instance-1" ...
+...done.
+[INFO - GameLogicServer] Joining of denis
+[INFO - GameServer] denis has joined the game instance Tidy-City Instance-1.
+localhost - - [02/Apr/2012 12:46:31] "POST / HTTP/1.1" 200 -
+XMLRPC call joinGameInstance has succeded for denis in Tidy-City/Instance-1
+ [Spectator denis] initCommunicationWithBroker for HeartbeatChannel.
+ [Spectator denis] initCommunicationWithBroker for ConsumeChannel.
+ [Spectator denis] Sent Mon Apr 02 12:46:31 CEST 2012 with key = denis.gamelogicserver.presence.heartbeat on vhost /Tidy-City/Instance-1
+ [Spectator denis] initCommunicationWithBroker for PublishChannel.
+ [Spectator denis] received on /Tidy-City/Instance-1: denis has joined, with routing key = gamelogicserver.denis.join.joinOK
+ [Spectator denis] Received [gamelogicserver, denis, join, joinOK] / denis has joined
+ [Spectator denis] Sent denis,Tidy-City,Instance-1 with key = denis.gamelogicserver.join.join on vhost /Tidy-City/Instance-1
+ [Spectator denis] received on /Tidy-City/Instance-1: Mon Apr 02 12:46:31 CEST 2012, with routing key = denis.gamelogicserver.presence.heartbeat
+ [Spectator denis] received on /Tidy-City/Instance-1: denis,Tidy-City,Instance-1, with routing key = denis.gamelogicserver.join.join
+ [Spectator denis] Received [denis, gamelogicserver, join, join] / denis,Tidy-City,Instance-1
+[Player lisa] joining instance Tidy-City/Instance-1
+[INFO - GameServer] lisa joining game instance Tidy-City Instance-1
+Creating user "lisa" ...
+...done.
+Setting permissions for user "lisa" in vhost "/Tidy-City/Instance-1" ...
+...done.
+[INFO - GameLogicServer] Joining of lisa
+[INFO - GameServer] lisa has joined the game instance Tidy-City Instance-1.
+localhost - - [02/Apr/2012 12:46:34] "POST / HTTP/1.1" 200 -
+XMLRPC call joinGameInstance has succeded for lisa in Tidy-City/Instance-1
+ [Spectator denis] received on /Tidy-City/Instance-1: lisa has joined, with routing key = gamelogicserver.lisa.join.joinOK
+ [Spectator denis] Received [gamelogicserver, lisa, join, joinOK] / lisa has joined
+ [Player lisa] initCommunicationWithBroker for HeartbeatChannel.
+ [Player lisa] initCommunicationWithBroker for ConsumeChannel.
+ [Player lisa] initCommunicationWithBroker for PublishChannel.
+ [Player lisa] Sent Mon Apr 02 12:46:34 CEST 2012 with key = lisa.gamelogicserver.presence.heartbeat on vhost /Tidy-City/Instance-1
+ [Spectator denis] received on /Tidy-City/Instance-1: Mon Apr 02 12:46:34 CEST 2012, with routing key = lisa.gamelogicserver.presence.heartbeat
+ [Player lisa] Sent lisa,Tidy-City,Instance-1 with key = lisa.gamelogicserver.join.join on vhost /Tidy-City/Instance-1
+ [Spectator denis] received on /Tidy-City/Instance-1: lisa,Tidy-City,Instance-1, with routing key = lisa.gamelogicserver.join.join
+ [Spectator denis] Received [lisa, gamelogicserver, join, join] / lisa,Tidy-City,Instance-1
+ [Player lisa] received on /Tidy-City/Instance-1: lisa has joined, with routing key = gamelogicserver.lisa.join.joinOK
+ [Player lisa] Received [gamelogicserver, lisa, join, joinOK] / lisa has joined
+ [Player lisa] Sent   with key = lisa.gamelogicserver.presence.askParticipantsList on vhost /Tidy-City/Instance-1
+ [Spectator denis] received on /Tidy-City/Instance-1:  , with routing key = lisa.gamelogicserver.presence.askParticipantsList
+ [Spectator denis] received on /Tidy-City/Instance-1: {'lisa': 'Mon Apr 02 12:46:34 CEST 2012', 'denis': 'Mon Apr 02 12:46:31 CEST 2012', 'michel': 'Mon Apr 02 12:46:30 CEST 2012'}, with routing key = gamelogicserver.lisa.presence.participantsList
+ [Spectator denis] Received [gamelogicserver, lisa, presence, participantsList] / {'lisa': 'Mon Apr 02 12:46:34 CEST 2012', 'denis': 'Mon Apr 02 12:46:31 CEST 2012', 'michel': 'Mon Apr 02 12:46:30 CEST 2012'}
+ [Player lisa] received on /Tidy-City/Instance-1: {'lisa': 'Mon Apr 02 12:46:34 CEST 2012', 'denis': 'Mon Apr 02 12:46:31 CEST 2012', 'michel': 'Mon Apr 02 12:46:30 CEST 2012'}, with routing key = gamelogicserver.lisa.presence.participantsList
+ [Player lisa] Received [gamelogicserver, lisa, presence, participantsList] / {'lisa': 'Mon Apr 02 12:46:34 CEST 2012', 'denis': 'Mon Apr 02 12:46:31 CEST 2012', 'michel': 'Mon Apr 02 12:46:30 CEST 2012'}
+
+
+Execute the termination script to stop the demonstration.
+
+
+2/ End of the demonstration
+---------------------------
+
+2.1 On a second shell:
+
+    $ ./termination.sh
+    [Termination] Beginning
+    [Termination] Exiting
+    End of demonstration
+    Stopping the borker...
+    Stopping node 'rabbit@totem-laptop' ...
+    ...done.
+    Stopping and halting node 'rabbit@totem-laptop' ...
+    ...done.
+
+2.2 Display on the first shell:
+
+    [INFO - GameServer] Terminating all game instances
+    [INFO - GameServer] Terminating game instance Tidy-City Instance-1
+    [INFO - GameLogicServer] Terminating
+    [INFO - LoggingServer] Terminating...
+    [INFO - LoggingServer] Process terminated
+    [INFO - GameLogicServer] Deleting the virtual host of the game instance /Tidy-City/Instance-1
+    [Player lisa] received on /Tidy-City/Instance-1: all the participants must terminate, with routing key = gamelogicserver.all.lifecycle.terminate
+    Terminate received.
+    Exiting: closing channels and connections
+    [Master michel] received on /Tidy-City/Instance-1: all the participants must terminate, with routing key = gamelogicserver.all.lifecycle.terminate
+    Terminate received.
+    Exiting: closing channels and connections
+    [Spectator denis] received on /Tidy-City/Instance-1: all the participants must terminate, with routing key = gamelogicserver.all.lifecycle.terminate
+    Terminate received.
+    Exiting: closing channels and connections
+    Deleting vhost "/Tidy-City/Instance-1" ...
+    ...done.
+    [INFO - GameServer] Exiting
+    localhost - - [02/Apr/2012 12:46:49] "POST / HTTP/1.0" 200 -

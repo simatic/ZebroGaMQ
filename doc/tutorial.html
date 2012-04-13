@@ -1,0 +1,1926 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
+  "http://www.w3.org/TR/html4/loose.dtd">  
+<!-- ZebroGaMQ: Communication Middleware for Mobile Gaming
+ Copyright: Copyright (C) 2009-2012
+ Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
+ Permission is granted to copy, distribute and/or modify this document
+ under the terms of the GNU Free Documentation License, Version 1.3
+ or any later version published by the Free Software Foundation;
+ with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+ A copy of the license is included in the section entitled "GNU
+ Free Documentation License".-->
+<html > 
+<head>
+   <link rel="stylesheet" href="menu.css" type="text/css">
+   <title>Tutorial on the Communication Infrastructure</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<!-- html,png,fn-in,next,section+,hook+,info,index=2 --> 
+<meta name="src" content="document.tex"> 
+<meta name="date" content="2012-03-28 16:17:00"> 
+<link rel="stylesheet" type="text/css" href="document.css"> 
+</head><body>
+   <div class="maketitle">
+<h1 class="titleHead">Tutorial: understanding the concepts of ZebroGaMQ to publish and consume messages</h1>
+   </div>
+<!--l. 59--><p class="indent" >
+                                                                                                                                                                    
+<!--l. 16--><p class="noindent" >This section is a tutorial for explaining the concepts of ZebroGaMQ and of its client applications, 
+and the use of those concepts to publish and consume GPS coordinates
+using the AMQP part of the ZebroGaMQ. It is also the opportunity
+to briefly presents the different XML-RPC methods used to interact with the game
+server.
+<!--l. 24--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">1   </span> <a 
+ id="x1-380009.1"></a>In a nutshell</h4>
+<!--l. 27--><p class="noindent" >
+   <h5 class="subsubsectionHead"><span class="titlemark">1.1   </span> <a 
+ id="x1-390009.1.1"></a>Game server and Game Logic server</h5>
+<!--l. 29--><p class="noindent" >A client of ZebroGaMQ can communicate with two different entities: the Game server and the
+Game Logic server. The Game server represents the lobby (term used in the jargon of
+multiple-players video games): it allows the listing, the creation, the joining and the termination
+of game instances. The Game Logic server represents a single game instance. Two different
+protocols should be used depending on the entity to communicate with: communication with the
+Game server is ensured by XML-RPC calls, whereas communication with the Game Logic server
+is based on AMQP.
+<!--l. 39--><p class="noindent" >
+   <h5 class="subsubsectionHead"><span class="titlemark">1.2   </span> <a 
+ id="x1-400009.1.2"></a>Interacting with the game server using XML-RPC</h5>
+<!--l. 41--><p class="noindent" >A client should first either create a game instance, or list the already existing game instances
+and join one. To perform the XML-RPC calls, a Java/Android application calls the Game server
+using XML-RPC. For JavaScript applications, the methods are provided by the API:
+they allow to send a request to the JavaScript proxy which executes the XML-RPC
+calls to the GameServer. Here follows the methods that can be called on the Game
+server:
+     <ul class="itemize1">
+     <li class="itemize"><div class="alltt">
+     <!--l. 51--><p class="noindent" ><div class="obeylines-v">
+     <span 
+class="ec-lmtt-10">String[]</span><span 
+class="ec-lmtt-10">&#x00A0;listGameInstances(gameName)</span>
+                                                                                 
+                                                                                 </div>
+     </div>
+     to retrieve the list of existing instances for a given game;
+     </li>
+     <li class="itemize"><div class="alltt">
+     <!--l. 58--><p class="noindent" ><div class="obeylines-v">
+     <span 
+class="ec-lmtt-10">boolean</span><span 
+class="ec-lmtt-10">&#x00A0;createAndJoinGameInstance(login,</span><span 
+class="ec-lmtt-10">&#x00A0;password,</span><span 
+class="ec-lmtt-10">&#x00A0;gameName,instanceName)</span>
+</div>
+     </div>
+     to create a game instance for a given game, and to join it;
+     </li>
+     <li class="itemize"><div class="alltt">
+     <!--l. 63--><p class="noindent" ><div class="obeylines-v">
+     <span 
+class="ec-lmtt-10">boolean</span><span 
+class="ec-lmtt-10">&#x00A0;joinGameInstance(login,</span><span 
+class="ec-lmtt-10">&#x00A0;password,</span><span 
+class="ec-lmtt-10">&#x00A0;gameName,</span><span 
+class="ec-lmtt-10">&#x00A0;instanceName,</span><span 
+class="ec-lmtt-10">&#x00A0;[observationKey])</span>
+</div>
+     </div>
+     to make an application join an existing game instance
+	 ,observationKey is used to filter messages to consume;
+     </li>
+     <li class="itemize"><div class="alltt">
+                                                                                 
+                                                                                 
+     <!--l. 74--><p class="noindent" ><div class="obeylines-v">
+     <span 
+class="ec-lmtt-10">boolean</span><span 
+class="ec-lmtt-10">&#x00A0;terminateGameInstance(gameName,</span><span 
+class="ec-lmtt-10">&#x00A0;instanceName)</span>
+</div>
+     </div>
+     to terminate a given instance of a given game;
+     </li>
+     <li class="itemize"><div class="alltt">
+     <!--l. 79--><p class="noindent" ><div class="obeylines-v">
+     <span 
+class="ec-lmtt-10">boolean</span><span 
+class="ec-lmtt-10">&#x00A0;terminate()</span>
+</div>
+     </div>
+     to terminate the game server, and hence every existing game instances. Note: clients don&#8217;t
+     need special permissions to call this method.</li></ul>
+<!--l. 87--><p class="noindent" >
+   <h5 class="subsubsectionHead"><span class="titlemark">1.3   </span> <a 
+ id="x1-410009.1.3"></a>Publishing messages</h5>
+<!--l. 89--><p class="noindent" >Once a client has joined a game instance, the publication and the consumption of
+messages within the game instance is ensured using the AMQP protocol. ZebroGaMQ 
+provides high-level methods hiding the complexity of AMQP.
+<!--l. 94--><p class="indent" >   Messages can be published to a given user (designed by its login) or to the Game Logic
+server, or can be broadcast to all the users of a game instance and to the Game Logic server.
+The three matching (publish, publishToGameLogicServer, publishToAll) publication methods
+use the following parameters:
+     <ul class="itemize1">
+     <li class="itemize">the <span 
+class="ec-lmbx-10x-x-109">state </span>of the state machine of the user, which contains the information required
+     for the publication of a message (login, game name, instance name...),
+     </li>
+     <li class="itemize">a String representing the <span 
+class="ec-lmbx-10x-x-109">content </span>of the message,
+     </li>
+     <li class="itemize">an <span 
+class="ec-lmbx-10x-x-109">action kind </span>and an <span 
+class="ec-lmbx-10x-x-109">action</span>. Their role is described in Section 1.4.</li></ul>
+                                                                                 
+                                                                                 
+<!--l. 108--><p class="indent" >   The <span 
+class="ec-lmbx-10x-x-109">Game Logic server programmed in Python</span>
+<span 
+class="ec-lmbx-10x-x-109">should not publish messages in separate threads</span>, since the AMQP mechanism for the
+publication of messages is not thread-safe. There isn&#8217;t such limitation on Java Android and
+JavaScript applications.
+<!--l. 115--><p class="noindent" >
+   <h5 class="subsubsectionHead"><span class="titlemark">1.4   </span> <a 
+ id="x1-420009.1.4"></a>Computing messages: actions and action kinds</h5>
+<!--l. 117--><p class="noindent" >Since clients of the ZebroGaMQ don&#8217;t have to handle the low-level
+details of reception of messages, they just need to define a behaviour on the consumption of
+these messages. This is why actions and action kinds are made for. An action represents a
+particular behaviour, whereas an action kind defines a name space for a set of actions of a whole
+protocol. When a client publish a message to another client, it must give both the action kind
+and the action matching with the message. When the other client consumes the message, if the
+action kind and the action are defined on its state machine, the corresponding method will
+automatically be triggered by the ZebroGaMQ. Otherwise, the
+messages are printed nevertheless. The implementation of actions and action kinds are
+different for Java Android applications, JavaScript applications and for the Game Logic
+server in Python. Let&#8217;s see the example
+of a JavaScript application which has defined the following action kind and action:
+<div class="alltt">
+<!--l. 133--><p class="noindent" ><div class="obeylines-v">
+<span 
+class="ec-lmtt-10">function</span><span 
+class="ec-lmtt-10">&#x00A0;LocationActionKind</span><span 
+class="ec-lmtt-10">&#x00A0;()</span><span 
+class="ec-lmtt-10">&#x00A0;{}</span>
+<br />
+<br /><span 
+class="ec-lmtt-10">LocationActionKind.prototype.sendCoordinates</span><span 
+class="ec-lmtt-10">&#x00A0;=</span><span 
+class="ec-lmtt-10">&#x00A0;function</span><span 
+class="ec-lmtt-10">&#x00A0;(state,</span><span 
+class="ec-lmtt-10">&#x00A0;publisher,</span><span 
+class="ec-lmtt-10">&#x00A0;consumer,</span><span 
+class="ec-lmtt-10">&#x00A0;message){</span>
+<br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;println("Send</span><span 
+class="ec-lmtt-10">&#x00A0;coordinates</span><span 
+class="ec-lmtt-10">&#x00A0;action","New</span><span 
+class="ec-lmtt-10">&#x00A0;coordinates</span><span 
+class="ec-lmtt-10">&#x00A0;from</span><span 
+class="ec-lmtt-10">&#x00A0;"+publisher+":</span><span 
+class="ec-lmtt-10">&#x00A0;"+message);</span>
+<br /><span 
+class="ec-lmtt-10">};</span>
+</div>
+</div>
+and which has stored the action kind on its state machine: <div class="alltt">
+<!--l. 141--><p class="noindent" ><div class="obeylines-v">
+<span 
+class="ec-lmtt-10">gameLogicState.listOfActions.LocationActionKind</span><span 
+class="ec-lmtt-10">&#x00A0;=</span><span 
+class="ec-lmtt-10">&#x00A0;new</span><span 
+class="ec-lmtt-10">&#x00A0;LocationActionKind();</span>
+</div>
+</div>
+<!--l. 145--><p class="indent" >   From now, every client that publishes a message to this JavaScript application, setting the
+action parameter of the publish method to <span 
+class="ec-lmtt-10x-x-109">"LocationActionKind.sendCoordinates"</span>
+(<span 
+class="ec-lmss-10x-x-109">actionkind.action</span>) will trigger the execution of the <span 
+class="ec-lmtt-10x-x-109">sendCoordinates(state, publisher,</span>
+<span 
+class="ec-lmtt-10x-x-109">consumer, message) </span>function on the JavaScript application side.
+                                                                                 
+                                                                                 
+<!--l. 152--><p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">2   </span> <a 
+ id="x1-430009.2"></a>Publishing and consuming GPS coordinates</h4>
+<!--l. 155--><p class="noindent" >In Section 2.1<!--tex4ht:ref: SS_point_to_point_android -->, a player periodically publish a message to another player. On the consumption
+of the message, the other player prints this message. In Section 2.2<!--tex4ht:ref: SS_broadcast_gamelogic -->, the player broadcast its
+coordinates to the others players and to the game logic server. In Section 2.3<!--tex4ht:ref: SS_broadcast_js -->, the master
+application written in JavaScript consumes the messages.
+<!--l. 163--><p class="noindent" >
+   <h5 class="subsubsectionHead"><span class="titlemark">2.1   </span> <a 
+ id="x1-440009.2.1"></a>Point to point communication between Android devices</h5>
+<!--l. 166--><p class="noindent" >In the Android project <span 
+class="ec-lmtt-10x-x-109">Android-application</span>:
+<!--l. 168--><p class="indent" >
+     <ol  class="enumerate1" >
+     <li 
+  class="enumerate" id="x1-44002x1">Create new <span 
+class="ec-lmss-10x-x-109">actionKind </span>and <span 
+class="ec-lmss-10x-x-109">action </span>in a Java state machine:
+          <ul class="itemize1">
+          <li class="itemize">Copy       the       class       <span 
+class="ec-lmtt-10x-x-109">MyFirstActionKind     </span>located       in       the
+          package <span 
+class="ec-lmtt-10x-x-109">eu.telecomsudparis.integration.player.android</span>, paste it in the
+          same package, and rename it <span 
+class="ec-lmtt-10x-x-109">LocationActionKind</span>. <br 
+class="newline" />Note:   If   you   are   using   an   IDE   like   Eclipse,   every   references   to
+          <span 
+class="ec-lmtt-10x-x-109">MyFirstActionKind  </span>should   be   automatically   replaced   by   reference   to
+          <span 
+class="ec-lmtt-10x-x-109">LocationActionKind</span>.  Otherwise,  you  need  to  replace  those  references  by
+          yourself.
+          </li>
+          <li class="itemize">In this new class:
+              <ul class="itemize2">
+              <li class="itemize">The value of the attribute <span 
+class="ec-lmtt-10x-x-109">nameKind </span>is set to <span 
+class="ec-lmtt-10x-x-109">"myFirstActionKind"</span>. Replace
+              this value by <span 
+class="ec-lmtt-10x-x-109">"locationActionKind"</span>.
+                 <ul class="itemize3">
+                 <li class="itemize">The  action  kind  part  of  location  messages  is  a  string,  for  instance
+                 <span 
+class="ec-lmtt-10x-x-109">player1.gamelogicserver.locationActionKind </span>followed by a string
+                 specifying the action.</li></ul>
+              </li>
+              <li class="itemize">The value of the attribute <span 
+class="ec-lmtt-10x-x-109">KIND_NUMBER </span>is to <span 
+class="ec-lmtt-10x-x-109">100</span>. Replace this value by
+              <span 
+class="ec-lmtt-10x-x-109">102</span>.
+              </li>
+              <li class="itemize">The name of the first enum of the list is set to <span 
+class="ec-lmtt-10x-x-109">MY_FIRST_ACTION("myFirstAction")</span>,
+              Replace this name with <span 
+class="ec-lmtt-10x-x-109">SEND_GPS_COORDINATES("sendGPSCoordinates")</span>.
+                 <ul class="itemize3">
+                 <li class="itemize">The          action          part          of          location          messages
+                                                                                 
+                                                                                 
+                 is        specified        by        that        string,        for        instance
+                 <span 
+class="ec-lmtt-10x-x-109">player1.gamelogicserver.locationActionKind.sendGPSCoordinates</span>.</li></ul>
+              </li></ul>
+          </li>
+          <li class="itemize">The enumerations <span 
+class="ec-lmtt-10x-x-109">MY_SECOND_ACTION("mySecondAction") </span>and
+          <span 
+class="ec-lmtt-10x-x-109">MY_THIRD_ACTION("myThirdAction") </span>can be removed. Note: Beware to keep a
+          semicolon after the last enumeration, otherwise the source code does not
+          compile.</li></ul>
+     </li>
+     <li 
+  class="enumerate" id="x1-44004x2">Implement the required behaviour on the reception of the <span 
+class="ec-lmss-10x-x-109">action</span>:
+          <ul class="itemize1">
+          <li class="itemize">In the class <span 
+class="ec-lmtt-10x-x-109">MyGameLogicProtocol</span>, add the following static method: <div class="alltt">
+          <!--l. 212--><p class="noindent" ><div class="obeylines-v">
+          <span 
+class="ec-lmtt-10">public</span><span 
+class="ec-lmtt-10">&#x00A0;static</span><span 
+class="ec-lmtt-10">&#x00A0;Object</span><span 
+class="ec-lmtt-10">&#x00A0;computeGPSCoordinates(String</span><span 
+class="ec-lmtt-10">&#x00A0;player,</span><span 
+class="ec-lmtt-10">&#x00A0;String</span><span 
+class="ec-lmtt-10">&#x00A0;coordinates)</span><span 
+class="ec-lmtt-10">&#x00A0;{</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;Util.println(player+"</span><span 
+class="ec-lmtt-10">&#x00A0;GPS</span><span 
+class="ec-lmtt-10">&#x00A0;coordinates</span><span 
+class="ec-lmtt-10">&#x00A0;received</span><span 
+class="ec-lmtt-10">&#x00A0;:</span><span 
+class="ec-lmtt-10">&#x00A0;"+coordinates);</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;return</span><span 
+class="ec-lmtt-10">&#x00A0;null;</span>
+          <br /><span 
+class="ec-lmtt-10">}</span>
+</div>
+          </div>
+          </li>
+          <li class="itemize">In the class <span 
+class="ec-lmtt-10x-x-109">LocationActionKind</span>, complete the method <span 
+class="ec-lmtt-10x-x-109">execute </span>of
+          <span 
+class="ec-lmtt-10x-x-109">SEND_GPS_COORDINATES</span>: <div class="alltt">
+          <!--l. 220--><p class="noindent" ><div class="obeylines-v">
+          <span 
+class="ec-lmtt-10">public</span><span 
+class="ec-lmtt-10">&#x00A0;Object</span><span 
+class="ec-lmtt-10">&#x00A0;execute(GameLogicState</span><span 
+class="ec-lmtt-10">&#x00A0;state,</span><span 
+class="ec-lmtt-10">&#x00A0;String[]</span><span 
+class="ec-lmtt-10">&#x00A0;header,</span><span 
+class="ec-lmtt-10">&#x00A0;String</span><span 
+class="ec-lmtt-10">&#x00A0;body)</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;throws</span><span 
+class="ec-lmtt-10">&#x00A0;ActionInvocationException</span><span 
+class="ec-lmtt-10">&#x00A0;{</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;return</span><span 
+class="ec-lmtt-10">&#x00A0;MyGameLogicProtocol.computeGPSCoordinates(header[0],body);</span>
+          <br /><span 
+class="ec-lmtt-10">}</span>
+</div>
+          </div>
+          <span 
+class="ec-lmri-10x-x-109">Notice that </span><span 
+class="ec-lmtti-10x-x-109">header[0] </span><span 
+class="ec-lmri-10x-x-109">refers to the sender of the message.</span></li></ul>
+     </li>
+     <li 
+  class="enumerate" id="x1-44006x3">Register the new <span 
+class="ec-lmss-10x-x-109">action kind </span>in the list of actions:
+                                                                                 
+                                                                                 
+          <ul class="itemize1">
+          <li class="itemize">Add a new enumeration in the class <span 
+class="ec-lmtt-10x-x-109">MyListOfGameLogicActions</span>, after
+          MY_FIRST_ACTION_KIND(MyFirstActionKind.actionMap) and
+          MY_SECOND_ACTION_KIND(MySecondActionKind.actionMap):
+              <ul class="itemize2">
+              <li class="itemize"><span 
+class="ec-lmtt-10x-x-109">LOCATION_ACTION_KIND(LocationActionKind.actionMap);</span></li></ul>
+          </li></ul>
+     </li>
+     <li 
+  class="enumerate" id="x1-44008x4">Simulate the publication of GPS coordinates:
+          <ul class="itemize1">
+          <li class="itemize">In the class <span 
+class="ec-lmtt-10x-x-109">GameLogicTask</span>, add the method presented in Listing 13: <!--l. 245-->
+          <!--l. 247--><p class="noindent" ><a 
+ id="x40-44009r13"></a><hr class="float"><div class="float" 
+>
+<a 
+ id="x1-44009r13"></a>
+<a 
+ id="x1-44010"></a>
+<br /> <div class="caption" 
+><span class="id">Listing&#x00A0;13: </span><span  
+class="content">Method to send simulated GPS coordinates</span></div><!--tex4ht:label?: x1-44009r9 --><div class="lstlisting" id="listing-13"><span class="label"><a 
+ id="x1-44011r1"></a><span 
+class="ec-lmr-6">1</span></span><span 
+class="ec-lmsso-8">//</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">simulates</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">the</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">sending</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">of</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">GPS</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">coordinates</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44012r2"></a><span 
+class="ec-lmr-6">2</span></span><span 
+class="ec-lmssbx-10x-x-80">private</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmssbx-10x-x-80">void</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">startSendGPSCoordinatesThread</span><span 
+class="ec-lmss-8">()</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">{</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44013r3"></a><span 
+class="ec-lmr-6">3</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmssbx-10x-x-80">new</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">Thread</span><span 
+class="ec-lmss-8">(){</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44014r4"></a><span 
+class="ec-lmr-6">4</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmssbx-10x-x-80">double</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">latitude</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">=</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="lmsy8-">-</span><span 
+class="ec-lmss-8">179.8642632;</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44015r5"></a><span 
+class="ec-lmr-6">5</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmssbx-10x-x-80">double</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">longitude</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">=</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="lmsy8-">-</span><span 
+class="ec-lmss-8">179.2570048;</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44016r6"></a><span 
+class="ec-lmr-6">6</span></span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">//</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">the</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">recipient</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">is</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">the</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">other</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">player</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44017r7"></a><span 
+class="ec-lmr-6">7</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">String</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">recipient</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">=</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">state</span><span 
+class="ec-lmss-8">.</span><span 
+class="ec-lmss-8">login</span><span 
+class="ec-lmss-8">.</span><span 
+class="ec-lmss-8">equals</span><span 
+class="ec-lmss-8">(</span><span 
+class="ec-lmss-8">GameLogicApplication</span><span 
+class="ec-lmss-8">.</span><span 
+class="ec-lmss-8">INSTANCE_CREATOR_NAME</span><span 
+class="ec-lmss-8">)</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">?</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44018r8"></a><span 
+class="ec-lmr-6">8</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">GameLogicApplication</span><span 
+class="ec-lmss-8">.</span><span 
+class="ec-lmss-8">INSTANCE_JOINER_NAME</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">:</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44019r9"></a><span 
+class="ec-lmr-6">9</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">GameLogicApplication</span><span 
+class="ec-lmss-8">.</span><span 
+class="ec-lmss-8">INSTANCE_CREATOR_NAME</span><span 
+class="ec-lmss-8">;</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44020r10"></a><span 
+class="ec-lmr-6">10</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmssbx-10x-x-80">public</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmssbx-10x-x-80">void</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">run</span><span 
+class="ec-lmss-8">()</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">{</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44021r11"></a><span 
+class="ec-lmr-6">11</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmssbx-10x-x-80">while</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">(!</span><span 
+class="ec-lmss-8">state</span><span 
+class="ec-lmss-8">.</span><span 
+class="ec-lmss-8">hasConnectionExited</span><span 
+class="ec-lmss-8">()){</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44022r12"></a><span 
+class="ec-lmr-6">12</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmssbx-10x-x-80">try</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">{</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44023r13"></a><span 
+class="ec-lmr-6">13</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">state</span><span 
+class="ec-lmss-8">.</span><span 
+class="ec-lmss-8">channelsManager</span><span 
+class="ec-lmss-8">.</span><span 
+class="ec-lmss-8">publish</span><span 
+class="ec-lmss-8">(</span><span 
+class="ec-lmss-8">recipient</span><span 
+class="ec-lmss-8">,</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44024r14"></a><span 
+class="ec-lmr-6">14</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">state</span><span 
+class="ec-lmss-8">,</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44025r15"></a><span 
+class="ec-lmr-6">15</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">LocationActionKind</span><span 
+class="ec-lmss-8">.</span><span 
+class="ec-lmss-8">SEND_GPS_COORDINATES</span><span 
+class="ec-lmss-8">,</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44026r16"></a><span 
+class="ec-lmr-6">16</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">latitude</span><span 
+class="ec-lmss-8">+</span><span 
+class="ec-lmss-8">"</span><span 
+class="ec-lmss-8">/</span><span 
+class="ec-lmss-8">"</span><span 
+class="ec-lmss-8">+</span><span 
+class="ec-lmss-8">longitude</span><span 
+class="ec-lmss-8">);</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44027r17"></a><span 
+class="ec-lmr-6">17</span></span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">//</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">increment</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">the</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">coordinates</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44028r18"></a><span 
+class="ec-lmr-6">18</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">latitude</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">++;</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44029r19"></a><span 
+class="ec-lmr-6">19</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">longitude</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">++;</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44030r20"></a><span 
+class="ec-lmr-6">20</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">}</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmssbx-10x-x-80">catch</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">(</span><span 
+class="ec-lmss-8">IOException</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">e</span><span 
+class="ec-lmss-8">)</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">{</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44031r21"></a><span 
+class="ec-lmr-6">21</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">e</span><span 
+class="ec-lmss-8">.</span><span 
+class="ec-lmss-8">printStackTrace</span><span 
+class="ec-lmss-8">();</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44032r22"></a><span 
+class="ec-lmr-6">22</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">}</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44033r23"></a><span 
+class="ec-lmr-6">23</span></span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">//</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">wait</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">for</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">5</span><span 
+class="ec-lmsso-8">&#x00A0;</span><span 
+class="ec-lmsso-8">seconds</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44034r24"></a><span 
+class="ec-lmr-6">24</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmssbx-10x-x-80">try</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">{</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44035r25"></a><span 
+class="ec-lmr-6">25</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">Thread</span><span 
+class="ec-lmss-8">.</span><span 
+class="ec-lmss-8">sleep</span><span 
+class="ec-lmss-8">(5000);</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44036r26"></a><span 
+class="ec-lmr-6">26</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">}</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmssbx-10x-x-80">catch</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">(</span><span 
+class="ec-lmss-8">InterruptedException</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">e</span><span 
+class="ec-lmss-8">)</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">{</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44037r27"></a><span 
+class="ec-lmr-6">27</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">Util</span><span 
+class="ec-lmss-8">.</span><span 
+class="ec-lmss-8">println</span><span 
+class="ec-lmss-8">(</span><span 
+class="ec-lmss-8">state</span><span 
+class="ec-lmss-8">.</span><span 
+class="ec-lmss-8">login</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">+</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44038r28"></a><span 
+class="ec-lmr-6">28</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">"</span><span 
+class="ec-lmss-8">Thread</span><span 
+class="ec-lmss-8">&#x2423;</span><span 
+class="ec-lmss-8">sleep</span><span 
+class="ec-lmss-8">&#x2423;</span><span 
+class="ec-lmss-8">was</span><span 
+class="ec-lmss-8">&#x2423;</span><span 
+class="ec-lmss-8">interrupted</span><span 
+class="ec-lmss-8">"</span><span 
+class="ec-lmss-8">);</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44039r29"></a><span 
+class="ec-lmr-6">29</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">}</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44040r30"></a><span 
+class="ec-lmr-6">30</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">}</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44041r31"></a><span 
+class="ec-lmr-6">31</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">}</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44042r32"></a><span 
+class="ec-lmr-6">32</span></span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">&#x00A0;</span><span 
+class="ec-lmss-8">}.</span><span 
+class="ec-lmss-8">start</span><span 
+class="ec-lmss-8">();</span><span 
+class="ec-lmss-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-44043r33"></a><span 
+class="ec-lmr-6">33</span></span><span 
+class="ec-lmss-8">}</span>
+          </div><hr class="endfloat" />
+          </div>
+          </li>
+          <li class="itemize">Complete the method <span 
+class="ec-lmtt-10x-x-109">doInBackground(Void... params) </span>to make the client which
+          creates the instance calling this method:
+          <div class="alltt">
+          <!--l. 285--><p class="noindent" ><div class="obeylines-v">
+          <span 
+class="ec-lmtt-10">@Override</span>
+          <br /><span 
+class="ec-lmtt-10">protected</span><span 
+class="ec-lmtt-10">&#x00A0;Integer</span><span 
+class="ec-lmtt-10">&#x00A0;doInBackground(Void...</span><span 
+class="ec-lmtt-10">&#x00A0;params)</span><span 
+class="ec-lmtt-10">&#x00A0;{</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;[...]</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;if(res){</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;if(state.login.equals(GameLogicApplication.INSTANCE_CREATOR_NAME)){</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;startSendGPSCoordinatesThread();</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;}</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;return</span><span 
+class="ec-lmtt-10">&#x00A0;RESULT_OK;</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;}else{</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;return</span><span 
+class="ec-lmtt-10">&#x00A0;RESULT_ERROR;</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;}</span>
+          <br /><span 
+class="ec-lmtt-10">}</span>
+</div>
+          </div>
+          </li></ul>
+                                                                                 
+                                                                                 
+     </li>
+     <li 
+  class="enumerate" id="x1-44045x5">Test the communication between two Android devices (or emulators): <a 
+ id="x1-440445"></a>
+          <ol  class="enumerate2" >
+          <li 
+  class="enumerate" id="x1-44047x1">Configure and start the Game server:
+              <ul class="itemize1">
+              <li class="itemize">Set the IP addresses of the GameServer.
+			  Replace         the         value         of         <span 
+class="ec-lmtt-10x-x-109">gameLogicServerBrokerHost</span>
+              in   the   file   <span 
+class="ec-lmtt-10x-x-109">test/resources/rabbitmq.properties</span>,   and   the   values   of
+              <span 
+class="ec-lmtt-10x-x-109">gameServerXMLRPCHost </span>in the file <span 
+class="ec-lmtt-10x-x-109">test/resources/xmlrpc.properties.
+              </li>
+              <li class="itemize">Start the server side launching the following command in a shell: <div class="alltt">
+              <!--l. 313--><p class="noindent" ><div class="obeylines-v">
+              <span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;./android-integration-test.sh</span>
+</div>
+              </div>
+              </li></ul>
+          </li>
+          <li 
+  class="enumerate" id="x1-44049x2">Configure and run the Android-application on two Android devices:
+              <ul class="itemize1">
+              <li class="itemize">Set             the             IP             addresses             of             the
+              Android-application. Replace the value of <span 
+class="ec-lmtt-10x-x-109">gameLogicServerBrokerHost</span>
+              in the file <span 
+class="ec-lmtt-10x-x-109">Android-application/res/raw/rabbitmq.properties </span>and the
+              value         of         <span 
+class="ec-lmtt-10x-x-109">gameServerXMLRPCHost      </span>in         the         file
+              <span 
+class="ec-lmtt-10x-x-109">Android-application/res/raw/xmlrpc.properties</span>.
+              </li>
+              <li class="itemize">Run the application as an Android Application on two devices.</li></ul>
+          </li>
+          <li 
+  class="enumerate" id="x1-44051x3">Create and join the game instance to test the sending of messages:
+              <ul class="itemize1">
+              <li class="itemize">On the first device, press the menu button, and click on &#8220;Create Instance&#8221;.
+              </li>
+              <li class="itemize">On the second device, press the menu button, and click on &#8220;Join Instance&#8221;.
+              </li>
+              <li class="itemize">Once the two devices are correctly logged into the game instance, you should see
+              on the second device the reception of new GPS coordinates from the first
+              device every five seconds, and the displaying of the following message:
+              <div class="alltt">
+                                                                                 
+                                                                                 
+              <!--l. 335--><p class="noindent" ><div class="obeylines-v">
+              <span 
+class="ec-lmtt-10">PLAYER_1</span><span 
+class="ec-lmtt-10">&#x00A0;GPS</span><span 
+class="ec-lmtt-10">&#x00A0;coordinates</span><span 
+class="ec-lmtt-10">&#x00A0;received:</span><span 
+class="ec-lmtt-10">&#x00A0;-167.8642632/-167.2570048</span>
+</div>
+              </div>
+              This message means that the action <span 
+class="ec-lmtt-10x-x-109">sendGPSCoordinates </span>of the
+              <span 
+class="ec-lmtt-10x-x-109">LocationActionKind </span>has been properly triggered.</li></ul>
+          </li>
+          <li 
+  class="enumerate" id="x1-44053x4">Terminate the instance, the Game server and the two Android applications:
+              <ul class="itemize1">
+              <li class="itemize">Execute the following command in a shell: <div class="alltt">
+              <!--l. 344--><p class="noindent" ><div class="obeylines-v">
+              <span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;./termination.sh</span></div>
+              </div>
+              </li></ul>
+          </li></ol>
+     </li></ol>
+<!--l. 351--><p class="noindent" >
+   <h5 class="subsubsectionHead"><span class="titlemark">2.2   </span> <a 
+ id="x1-450009.2.2"></a>Broadcast between Android devices and the Game Logic server </h5>
+<!--l. 353--><p class="noindent" >This subsection presents how to implement the reception of GPS coordinates on the game logic
+server side.
+<!--l. 356--><p class="indent" >
+     <ol  class="enumerate1" >
+     <li 
+  class="enumerate" id="x1-45002x1">Create the new <span 
+class="ec-lmss-10x-x-109">actionKind </span>and <span 
+class="ec-lmss-10x-x-109">action </span>in the Python state machine:
+          <ul class="itemize1">
+          <li class="itemize">In the directory GameLogicServer, copy/paste the file <span 
+class="ec-lmtt-10x-x-109">myfirstactionkind.py</span>
+          into the new file <span 
+class="ec-lmtt-10x-x-109">locationactionkind.py</span>
+          </li>
+          <li class="itemize">In this new file:
+              <ul class="itemize2">
+              <li class="itemize">Rename the variable <span 
+class="ec-lmtt-10x-x-109">MyFirstActionKind </span>into <span 
+class="ec-lmtt-10x-x-109">LocationActionKind</span>.
+                                                                                 
+                                                                                 
+              </li>
+              <li class="itemize">The   value   of   the   first   argument   of   the   constructor   is   set   to
+              <span 
+class="ec-lmtt-10x-x-109">"myFirstActionKind"</span>. Replace this value by <span 
+class="ec-lmtt-10x-x-109">"locationActionKind"</span>.
+              </li>
+              <li class="itemize">The value of the second argument of the constructor is set to <span 
+class="ec-lmtt-10x-x-109">100</span>. Replace
+              this value by <span 
+class="ec-lmtt-10x-x-109">102</span>.</li></ul>
+          </li></ul>
+     </li>
+     <li 
+  class="enumerate" id="x1-45004x2">Implement the required behaviour on the reception of the <span 
+class="ec-lmss-10x-x-109">action</span>:
+          <ul class="itemize1">
+          <li class="itemize">In the file <span 
+class="ec-lmtt-10x-x-109">myprotocol.py</span>, add the following method: <div class="alltt">
+          <!--l. 380--><p class="noindent" ><div class="obeylines-v">
+          <span 
+class="ec-lmtt-10">def</span><span 
+class="ec-lmtt-10">&#x00A0;computeGPSCoordinates(state,</span><span 
+class="ec-lmtt-10">&#x00A0;header,</span><span 
+class="ec-lmtt-10">&#x00A0;body):</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;print</span><span 
+class="ec-lmtt-10">&#x00A0;&#8217;</span><span 
+class="ec-lmtt-10">&#x00A0;[GameLogicServer]</span><span 
+class="ec-lmtt-10">&#x00A0;GPS</span><span 
+class="ec-lmtt-10">&#x00A0;coordinates</span><span 
+class="ec-lmtt-10">&#x00A0;received</span><span 
+class="ec-lmtt-10">&#x00A0;from</span><span 
+class="ec-lmtt-10">&#x00A0;%r:</span><span 
+class="ec-lmtt-10">&#x00A0;%r&#8217;</span><span 
+class="ec-lmtt-10">&#x00A0;%</span><span 
+class="ec-lmtt-10">&#x00A0;(header[0],</span><span 
+class="ec-lmtt-10">&#x00A0;body)</span>
+</div>
+          </div>
+          </li>
+          <li class="itemize">In the file <span 
+class="ec-lmtt-10x-x-109">locationactionkind.py</span>, the first element of the dictionary
+          is set to <span 
+class="ec-lmtt-10x-x-109">("myFirstAction", myFirstAction)</span>. Replace it with
+          <span 
+class="ec-lmtt-10x-x-109">("sendGPSCoordinates",computeGPSCoordinates) </span>to indicate that it&#8217;s the method
+          <span 
+class="ec-lmtt-10x-x-109">computeGPSCoordinates </span>that should be called on the reception of a message
+          <span 
+class="ec-lmtt-10x-x-109">sendGPSCoordinates</span>.
+          </li>
+          <li class="itemize">You can remove the two other elements <span 
+class="ec-lmtt-10x-x-109">("mySecondAction", mySecondAction) </span>and
+          <span 
+class="ec-lmtt-10x-x-109">("myThirdAction",doNothing) </span>from the dictionnary. In this case, don&#8217;t forget to
+          remove the comma after the first element, otherwise the source code contains a
+          syntax error.
+          </li>
+          <li class="itemize">Add the following import at the beginning of the file: <br 
+class="newline" /><span 
+class="ec-lmtt-10x-x-109">from myprotocol import computeGPSCoordinates</span></li></ul>
+     </li>
+     <li 
+  class="enumerate" id="x1-45006x3">Register the new <span 
+class="ec-lmtt-10x-x-109">action kind </span>in the list of actions:
+          <ul class="itemize1">
+          <li class="itemize">In the file <span 
+class="ec-lmtt-10x-x-109">mylistofactions.py</span>, add the following element at the end of the
+                                                                                 
+                                                                                 
+          dictionary: <br 
+class="newline" /><span 
+class="ec-lmtt-10x-x-109">("locationActionKind", LocationActionKind)</span>
+          </li>
+          <li class="itemize">Add the corresponding import at the beginning of this file: <br 
+class="newline" /><span 
+class="ec-lmtt-10x-x-109">from locationactionkind import LocationActionKind</span></li></ul>
+     </li>
+     <li 
+  class="enumerate" id="x1-45008x4">Make the Player application broadcast the sending of its GPS coordinates:
+          <ul class="itemize1">
+          <li class="itemize">In the class GameLogicTask of the Android-application, inside the
+          <span 
+class="ec-lmtt-10x-x-109">startSendGPSCoordinatesThread() </span>method, replace the method <span 
+class="ec-lmtt-10x-x-109">publish </span>by the
+          following one: <div class="alltt">
+          <!--l. 415--><p class="noindent" ><div class="obeylines-v">
+          <span 
+class="ec-lmtt-10">state.channelsManager.publishToAll(state,</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;LocationActionKind.SEND_GPS_COORDINATES,</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;latitude+"/"+longitude);</span>
+</div>
+          </div>
+          </li></ul>
+     </li>
+     <li 
+  class="enumerate" id="x1-45010x5">Test the broadcast between Android devices and the Game server:
+          <ul class="itemize1">
+          <li class="itemize">Repeat the procedure described section 2.1<!--tex4ht:ref: SS_point_to_point_android --> point 5<!--tex4ht:ref: item_test -->.
+          </li>
+          <li class="itemize">On the Game server shell, you should see the reception of new GPS coordinates from
+          the first device every five seconds, and the displaying of the following message:
+          <div class="alltt">
+          <!--l. 429--><p class="noindent" ><div class="obeylines-v">
+          <span 
+class="ec-lmtt-10">[GameLogicServer]</span><span 
+class="ec-lmtt-10">&#x00A0;New</span><span 
+class="ec-lmtt-10">&#x00A0;GPS</span><span 
+class="ec-lmtt-10">&#x00A0;coordinates</span><span 
+class="ec-lmtt-10">&#x00A0;received</span><span 
+class="ec-lmtt-10">&#x00A0;from</span><span 
+class="ec-lmtt-10">&#x00A0;&#8217;PLAYER_1&#8217;:</span>
+          <br /><span 
+class="ec-lmtt-10">&#8217;-148.8642632/-148.2570048&#8217;</span>
+</div>
+          </div>
+          This message means that the action <span 
+class="ec-lmtt-10x-x-109">sendGPSCoordinates </span>of the <span 
+class="ec-lmtt-10x-x-109">LocationActionKind</span>
+          has been properly triggered on the Game server side.</li></ul>
+     </li></ol>
+                                                                                 
+                                                                                 
+<!--l. 441--><p class="noindent" >
+   <h5 class="subsubsectionHead"><span class="titlemark">2.3   </span> <a 
+ id="x1-460009.2.3"></a>Adding a Master application in JavaScript</h5>
+<!--l. 444--><p class="noindent" >Another feature of ZebroGaMQ is the possibility to add JavaScript applications. 
+This Section explains how the action <span 
+class="ec-lmtt-10x-x-109">LocationActionKind</span>/
+<span 
+class="ec-lmtt-10x-x-109">sendGPSCoordinates </span>is implemented in JavaScript.
+<!--l. 449--><p class="indent" >
+     <ol  class="enumerate1" >
+     <li 
+  class="enumerate" id="x1-46002x1">Create new <span 
+class="ec-lmss-10x-x-109">action kind </span>and <span 
+class="ec-lmss-10x-x-109">action </span>in the JavaScript-application:
+          <ul class="itemize1">
+          <li class="itemize">add a new <span 
+class="ec-lmss-10x-x-109">action kind </span>and a new <span 
+class="ec-lmss-10x-x-109">action </span>at the end of the file
+          <span 
+class="ec-lmtt-10x-x-109">JavaScript-application/my-gamelogic-actions.js</span>, after the declaration of
+          <span 
+class="ec-lmtt-10x-x-109">MyFirstActionKind </span>and <span 
+class="ec-lmtt-10x-x-109">myFirstAction</span>: <div class="alltt">
+          <!--l. 458--><p class="noindent" ><div class="obeylines-v">
+          <span 
+class="ec-lmtt-10">function</span><span 
+class="ec-lmtt-10">&#x00A0;LocationActionKind</span><span 
+class="ec-lmtt-10">&#x00A0;()</span><span 
+class="ec-lmtt-10">&#x00A0;{}</span>
+          <br />
+          <br /><span 
+class="ec-lmtt-10">LocationActionKind.prototype.sendGPSCoordinates</span><span 
+class="ec-lmtt-10">&#x00A0;=</span><span 
+class="ec-lmtt-10">&#x00A0;function</span><span 
+class="ec-lmtt-10">&#x00A0;(state,</span><span 
+class="ec-lmtt-10">&#x00A0;publisher,</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;consumer,</span><span 
+class="ec-lmtt-10">&#x00A0;message){</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;println(publisher,"New</span><span 
+class="ec-lmtt-10">&#x00A0;GPS</span><span 
+class="ec-lmtt-10">&#x00A0;coordinates</span><span 
+class="ec-lmtt-10">&#x00A0;received:</span><span 
+class="ec-lmtt-10">&#x00A0;"+message);</span>
+          <br /><span 
+class="ec-lmtt-10">};</span>
+</div>
+          </div>
+          </li></ul>
+     </li>
+     <li 
+  class="enumerate" id="x1-46004x2">Register the new <span 
+class="ec-lmtt-10x-x-109">action kind </span>in the list of actions:
+          <ul class="itemize1">
+          <li class="itemize">In the function <span 
+class="ec-lmtt-10x-x-109">$(document).ready() </span>of the <span 
+class="ec-lmtt-10x-x-109">master.js </span>file, add the following line
+          after the instantiation of the <span 
+class="ec-lmtt-10x-x-109">gameMasterState</span>: <div class="alltt">
+          <!--l. 472--><p class="noindent" ><div class="obeylines-v">
+          <span 
+class="ec-lmtt-10">gameMasterState.listOfActions.locationActionKind</span><span 
+class="ec-lmtt-10">&#x00A0;=</span><span 
+class="ec-lmtt-10">&#x00A0;new</span><span 
+class="ec-lmtt-10">&#x00A0;LocationActionKind();</span>
+</div>
+          </div>
+          </li></ul>
+     </li>
+     <li 
+  class="enumerate" id="x1-46006x3">Test the broadcast between an Android device, the Game server and the
+     MasterApplicationJavaScript:
+                                                                                 
+                                                                                 
+          <ol  class="enumerate2" >
+          <li 
+  class="enumerate" id="x1-46008x1">Make         sure         that         you         have         configured         the
+          IP addresses of the Android-application and of the GameServer as described
+          in Section 2.1, item 5<!--tex4ht:ref: item_test -->.
+          </li>
+          <li 
+  class="enumerate" id="x1-46010x2">Configure the JavaScript proxy used by JavaScript applications:
+              <ul class="itemize1">
+              <li class="itemize">Set the IP addresses used for the JavaScript proxy, for the GameServer and
+              for                                      the                                      RabbitMQ
+              broker.  Replace  the  values  of  <span 
+class="ec-lmtt-10x-x-109">javascriptProxyHost</span>and  <span 
+class="ec-lmtt-10x-x-109">gameServerXMLRPCHost </span>in
+              the file <span 
+class="ec-lmtt-10x-x-109">test/resources/xmlrpc.properties</span>, and the value of
+              gameLogicBrokerHost                   in                   the                   file
+              <span 
+class="ec-lmtt-10x-x-109">test/resources/rabbitmq.properties</span>.</li></ul>
+          </li>
+          <li 
+  class="enumerate" id="x1-46012x3">Modify the Android-application application to enable the sending of GPS
+          coordinates:
+              <ul class="itemize1">
+              <li class="itemize">Update the method <span 
+class="ec-lmtt-10x-x-109">doInBackground(Void... params) </span>of the class
+              <span 
+class="ec-lmtt-10x-x-109">GameLogicTask.java</span>, add the following commentary: <div class="alltt">
+              <!--l. 495--><p class="noindent" ><div class="obeylines-v">
+              <span 
+class="ec-lmtt-10">@Override</span>
+              <br /><span 
+class="ec-lmtt-10">protected</span><span 
+class="ec-lmtt-10">&#x00A0;Integer</span><span 
+class="ec-lmtt-10">&#x00A0;doInBackground(Void...</span><span 
+class="ec-lmtt-10">&#x00A0;params)</span><span 
+class="ec-lmtt-10">&#x00A0;{</span>
+              <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;[...]</span>
+              <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;if(res){</span>
+              <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;startSendGPSCoordinatesThread();</span>
+              <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;return</span><span 
+class="ec-lmtt-10">&#x00A0;RESULT_OK;</span>
+              <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;}else{</span>
+              <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;return</span><span 
+class="ec-lmtt-10">&#x00A0;RESULT_ERROR;</span>
+              <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;}</span>
+              <br /><span 
+class="ec-lmtt-10">}</span></div>
+              </div>
+              </li></ul>
+          </li>
+          <li 
+  class="enumerate" id="x1-46014x4">Start the server side by launching the following command in a shell: <div class="alltt">
+          <!--l. 509--><p class="noindent" ><div class="obeylines-v">
+          <span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;./javascript-integration-test.sh</span>
+</div>
+                                                                                 
+                                                                                 
+          </div>
+          </li>
+          <li 
+  class="enumerate" id="x1-46016x5">Create and join a new game instance with the JavaScript-application:
+              <ul class="itemize1">
+              <li class="itemize">Start the JavaScript application located at the URL <span 
+class="ec-lmtt-10">http://JAVASCRIPT_PROXY_HOST:8001/JavaScript-application</span>
+              (where JAVASCRIPT_PROXY_HOST is the address of the variable <span 
+class="ec-lmtt-10x-x-109">javascriptProxyHost </span>in
+              the file <span 
+class="ec-lmtt-10x-x-109">test/resources/xmlrpc.properties</span>).</li></ul>
+          </li>
+          <li 
+  class="enumerate" id="x1-46018x6">Join the game instance with the Android-application to test the sending of
+          messages:
+              <ul class="itemize1">
+              <li class="itemize">Run the application as an Android Application on a device.
+              </li>
+              <li class="itemize">Press the menu button, and click on &#8220;Join Instance&#8221;.
+              </li>
+              <li class="itemize">Once the device is correctly logged in to the game instance, you should see on the
+              master application the reception of new GPS coordinates from the Android
+              device every five seconds, and the display of the following message:
+              <div class="alltt">
+              <!--l. 529--><p class="noindent" ><div class="obeylines-v">
+              <span 
+class="ec-lmtt-10">PLAYER_2 New</span><span 
+class="ec-lmtt-10">&#x00A0;GPS</span><span 
+class="ec-lmtt-10">&#x00A0;coordinates</span><span 
+class="ec-lmtt-10">&#x00A0;received:</span><span 
+class="ec-lmtt-10">&#x00A0;-179.8642632/-179.2570048</span>
+</div>
+              </div>
+              This message means that the action <span 
+class="ec-lmtt-10x-x-109">sendGPSCoordinates </span>of the
+              <span 
+class="ec-lmtt-10x-x-109">LocationActionKind </span>has been properly triggered.</li></ul>
+          </li>
+          <li 
+  class="enumerate" id="x1-46020x7">Terminate the instance, the GameServer, the JavaScript proxy and the Android
+          application:
+              <ul class="itemize1">
+              <li class="itemize">Press the &#8220;Terminate instance&#8221; button of the JavaScript-application.
+              </li>
+              <li class="itemize">Execute the following command in a shell: <div class="alltt">
+              <!--l. 540--><p class="noindent" ><div class="obeylines-v">
+              <span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;./termination.sh</span>
+                                                                                 
+                                                                                 </div>
+              </div>
+              </li></ul>
+          </li></ol>
+     </li></ol>
+<!--l. 429--><p class="indent" >
+                                                                                                                                                             
+</body></html> 
+
+                                                                                 
+
+

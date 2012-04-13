@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="MenuFont">
+        <item name="android:textSize">25sp</item>
+		<item name="android:textColor">#FFFFFF00</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:clickable">true</item>
+		<item name="android:layout_weight">1</item>
+		<item name="android:gravity">right|center</item>
+		<item name="android:layout_width">fill_parent</item> 
+		<item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="SystemFont">
+        <item name="android:textSize">25sp</item>
+		<item name="android:textColor">#FFFF6a17</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:clickable">true</item>
+		<item name="android:layout_weight">1</item>
+		<item name="android:gravity">right|center</item>
+		<item name="android:layout_width">fill_parent</item> 
+		<item name="android:layout_height">wrap_content</item>
+    </style>
+</resources>

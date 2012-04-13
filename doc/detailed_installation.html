@@ -1,0 +1,744 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
+  "http://www.w3.org/TR/html4/loose.dtd">
+  <!-- ZebroGaMQ: Communication Middleware for Mobile Gaming 
+ Copyright: Copyright (C) 2009-2012
+ Contact: denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
+ Permission is granted to copy, distribute and/or modify this document
+ under the terms of the GNU Free Documentation License, Version 1.3
+ or any later version published by the Free Software Foundation;
+ with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+ A copy of the license is included in the section entitled "GNU
+ Free Documentation License".-->
+<html > 
+<head>
+   <link rel="stylesheet" href="menu.css" type="text/css">
+   <title>Installation procedure detailed</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<!-- html,png,fn-in,next,section+,hook+,info,index=2 --> 
+<meta name="src" content="document.tex"> 
+<meta name="date" content="2012-03-28 16:17:00"> 
+<link rel="stylesheet" type="text/css" href="document.css"> 
+</head><body>
+   <div class="maketitle">
+<h1 class="titleHead">Detailed installation procedure of required softwares</h1>
+   </div>
+<!--l. 59--><p class="indent" >
+                                                                                                                                                           
+<p class="noindent" >This section provide the detailed procedure for installing <span 
+class="ec-lmss-10x-x-109">RabbitMQ</span>: the broker, the Java client for
+Android phones, the Python client for the web framework, and the JavaScript client for the
+Browser.<p class="noindent" >
+   <h4 class="subsectionHead"><span class="titlemark">A   </span> <a 
+ id="x1-54000A.1"></a>RabbitMQ broker on desktop computers</h4>
+<!--l. 23--><p class="noindent" >In this section, we install the software from a regular archive so that we will execute
+<span 
+class="ec-lmss-10x-x-109">RabbitMQ </span>broker as a non-<span 
+class="ec-lmtt-10x-x-109">root </span>user. The configuration of the environment variables
+<span 
+class="ec-lmtt-10">RABBITMQ_MNESIA_BASE</span>
+and <span 
+class="ec-lmtt-10">RABBITMQ_LOG_BASE</span>
+is important to allow executing the broker as a non-<span 
+class="ec-lmtt-10x-x-109">root </span>user. This is done as follows.
+     <ol  class="enumerate1" >
+     <li 
+  class="enumerate" id="x1-54002x1">The instructions we provide are extracted from the &#8220;install&#8221; Web page at this URL:
+     <span 
+class="ec-lmtt-10">http://www.rabbitmq.com/install.html</span>
+     . Refer to this Web page when necessary.
+          <ul class="itemize1">
+          <li class="itemize">At first, install Erlang and Python 2.6:
+              <ul class="itemize2">
+              <li class="itemize">On GNU/Linux, Debian distribution, check the versions that are installed,
+              executing the following commands: <div class="alltt">
+              <!--l. 39--><p class="noindent" ><div class="obeylines-v">
+              <span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;erl</span>
+              <br /><span 
+class="ec-lmtt-10">Erlang</span><span 
+class="ec-lmtt-10">&#x00A0;R13B03</span><span 
+class="ec-lmtt-10">&#x00A0;(erts-5.7.4)</span><span 
+class="ec-lmtt-10">&#x00A0;[source]</span><span 
+class="ec-lmtt-10">&#x00A0;[smp:2:2]</span><span 
+class="ec-lmtt-10">&#x00A0;[rq:2]</span><span 
+class="ec-lmtt-10">&#x00A0;[async-threads:0]</span><span 
+class="ec-lmtt-10">&#x00A0;[hipe]</span><span 
+class="ec-lmtt-10">&#x00A0;[kernel-poll:false]</span>
+              <br />
+              <br /><span 
+class="ec-lmtt-10">Eshell</span><span 
+class="ec-lmtt-10">&#x00A0;V5.7.4</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;(abort</span><span 
+class="ec-lmtt-10">&#x00A0;with</span><span 
+class="ec-lmtt-10">&#x00A0;^G)</span>
+              <br /><span 
+class="ec-lmtt-10">...</span>
+              <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;python</span><span 
+class="ec-lmtt-10">&#x00A0;--version</span>
+              <br /><span 
+class="ec-lmtt-10">Python</span><span 
+class="ec-lmtt-10">&#x00A0;2.6.6</span>
+</div>
+              </div>
+              </li>
+              <li class="itemize">Or execute the following commands as the user <span 
+class="ec-lmss-10x-x-109">root </span>or as a <span 
+class="ec-lmss-10x-x-109">sudouser</span>:
+              <div class="alltt">
+                                                                                 
+                                                                                 
+              <!--l. 50--><p class="noindent" ><div class="obeylines-v">
+              <span 
+class="ec-lmtt-10">apt-get</span><span 
+class="ec-lmtt-10">&#x00A0;install</span><span 
+class="ec-lmtt-10">&#x00A0;erlang</span>
+              <br /><span 
+class="ec-lmtt-10">apt-get</span><span 
+class="ec-lmtt-10">&#x00A0;install</span><span 
+class="ec-lmtt-10">&#x00A0;python</span>
+</div>
+              </div>
+              </li></ul>
+          </li>
+          <li class="itemize">Next, install <span 
+class="ec-lmss-10x-x-109">RabbitMQ </span>version&#x00A0;2.7.1 from the &#8220;Package for generic Unix
+          systems&#8221; (file <span 
+class="ec-lmss-10x-x-109">rabbitmq-server-generic-unix-2.7.1.tar.gz</span>) or from the &#8220;Windows
+          Bundle&#8221; (file <span 
+class="ec-lmss-10x-x-109">rabbitmq-server-windows-2.7.1.zip</span>). In the following, adapt the
+          commands if you are running a Windows operationg system (cf.&#x00A0;the Web page
+          <span 
+class="ec-lmtt-10">http://www.rabbitmq.com/install.html#windows</span>
+          ).
+              <ul class="itemize2">
+              <li class="itemize">On GNU/Linux, Debian distribution, execute the following commands:
+              <div class="alltt">
+              <!--l. 65--><p class="noindent" ><div class="obeylines-v">
+              <span 
+class="ec-lmtt-10">wget</span><span 
+class="ec-lmtt-10">&#x00A0;http://www.rabbitmq.com/releases/rabbitmq-server/</span><span 
+class="ec-lmtt-10">&#x00A0;\</span>
+              <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;v2.7.1/rabbitmq-server-generic-unix-2.7.1.tar.gz</span>
+              <br /><span 
+class="ec-lmtt-10">tar</span><span 
+class="ec-lmtt-10">&#x00A0;xfz</span><span 
+class="ec-lmtt-10">&#x00A0;rabbitmq-server-generic-unix-2.7.1.tar.gz</span>
+</div>
+              </div>
+              </li></ul>
+          </li></ul>
+     <!--l. 72--><p class="noindent" >On Unix-like operating systems, the broker of <span 
+class="ec-lmss-10x-x-109">RabbitMQ</span>, called the server in <span 
+class="ec-lmss-10x-x-109">RabbitMQ</span>
+     terminology, is now installed in the directory <span 
+class="ec-lmcsc-10x-x-109">${yourdirectory}</span><span 
+class="ec-lmss-10x-x-109">/rabbitmq_server-2.7.1</span>. The
+     commands of <span 
+class="ec-lmss-10x-x-109">RabbitMQ </span>(<span 
+class="ec-lmss-10x-x-109">rabbitmq-server </span>to launch the broker and <span 
+class="ec-lmss-10x-x-109">rabbitmqctl </span>to control
+     the broker) are available in the directory <span 
+class="ec-lmcsc-10x-x-109">${yourdirectory}</span><span 
+class="ec-lmss-10x-x-109">/rabbitmq_server-2.7.1/sbin</span>.
+     </li>
+     <li 
+  class="enumerate" id="x1-54004x2">
+     <!--l. 83--><p class="noindent" >
+          <ol  class="enumerate2" >
+          <li 
+  class="enumerate" id="x1-54006x1">On Unix-like operating systems, in order to add the <span 
+class="ec-lmss-10x-x-109">RabbitMQ </span>commands to the shell
+          path, and to configure the location of the database and the log files, add the following
+          commands to the shell script that is executed when opening a shell connection, for
+          instance in the file <span 
+class="ec-lmss-10x-x-109">~/.bashrc</span>: <div class="alltt">
+                                                                                 
+                                                                                 
+          <!--l. 89--><p class="noindent" ><div class="obeylines-v">
+          <span 
+class="ec-lmtt-10">PATH=$PATH:</span><span 
+class="ec-lmtcsc-10">${yourdirectory}</span><span 
+class="ec-lmtt-10">/rabbitmq_server-2.7.1/sbin</span>
+          <br /><span 
+class="ec-lmtt-10">export</span><span 
+class="ec-lmtt-10">&#x00A0;RABBITMQ_MNESIA_BASE=</span><span 
+class="ec-lmtcsc-10">${yourdirectory}</span><span 
+class="ec-lmtt-10">/rabbitmq_server-2.7.1/mnesia</span>
+          <br /><span 
+class="ec-lmtt-10">export</span><span 
+class="ec-lmtt-10">&#x00A0;RABBITMQ_LOG_BASE=</span><span 
+class="ec-lmtcsc-10">${yourdirectory}</span><span 
+class="ec-lmtt-10">/rabbitmq_server-2.7.1/log</span>
+</div>
+          </div>
+          Note that we assume that you are now going to create the
+          directories <span 
+class="ec-lmcsc-10x-x-109">${yourdirectory}</span><span 
+class="ec-lmss-10x-x-109">/rabbitmq_server-2.7.1/mnesia </span>and
+          <span 
+class="ec-lmcsc-10x-x-109">${yourdirectory}</span><span 
+class="ec-lmss-10x-x-109">/rabbitmq_server-2.7.1/log</span>.
+          </li>
+          <li 
+  class="enumerate" id="x1-54008x2">On Windows systems, follow the instructions in <span 
+class="ec-lmtt-10">http://www.rabbitmq.com/install.html#windows</span>
+          , that is:
+              <ul class="itemize1">
+              <li class="itemize">Set <span 
+class="ec-lmcsc-10x-x-109">erlang_home </span>environment variable to where you actually put your
+              Erlang installation, e.g. <span 
+class="ec-lmss-10x-x-109">C:\Program Files\erl5.7.4 </span>(full path). The <span 
+class="ec-lmss-10x-x-109">RabbitMQ</span>
+              batch files expect to execute <span 
+class="ec-lmcsc-10x-x-109">%erlang_home</span><span 
+class="ec-lmss-10x-x-109">%\bin\erl.exe</span>.
+              </li>
+              <li class="itemize">Create  a  system  environment  variable  (e.g.  <span 
+class="ec-lmcsc-10x-x-109">rabbitmq_server</span>)  for
+              <span 
+class="ec-lmss-10x-x-109">C:\Program Files\RabbitMQ\rabbitmq_server-2.7.1</span>. Adjust this if you put
+              <span 
+class="ec-lmss-10x-x-109">rabbitmq_server-2.7.1 </span>elsewhere.
+              </li>
+              <li class="itemize">Append the literal string <span 
+class="ec-lmtt-10x-x-109">;</span><span 
+class="ec-lmtcsc-10x-x-109">%rabbitmq_server</span><span 
+class="ec-lmtt-10x-x-109">%\sbin </span>to your system path
+              (as known as <span 
+class="ec-lmtt-10x-x-109">%PATH%</span>).</li></ul>
+          <!--l. 115--><p class="noindent" >Note: On Windows systems, it is not necessary to create and set the variables
+          <span 
+class="ec-lmtcsc-10x-x-109">rabbitmq_mnesia_base </span>and <span 
+class="ec-lmtcsc-10x-x-109">rabbitmq_log_base</span>.</li></ol>
+     </li>
+     <li 
+  class="enumerate" id="x1-54010x3">On Unix-like and Windows operating systems, your <span 
+class="ec-lmss-10x-x-109">RabbitMQ </span>installation can be tested
+     by launching the broker as follows: <div class="alltt">
+     <!--l. 123--><p class="noindent" ><div class="obeylines-v">
+     <span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;rabbitmq-server</span><span 
+class="ec-lmtt-10">&#x00A0;-detached</span><span 
+class="ec-lmtt-10">&#x00A0;#</span><span 
+class="ec-lmtt-10">&#x00A0;execute</span><span 
+class="ec-lmtt-10">&#x00A0;in</span><span 
+class="ec-lmtt-10">&#x00A0;the</span><span 
+class="ec-lmtt-10">&#x00A0;background</span>
+     <br /><span 
+class="ec-lmtt-10">Activating</span><span 
+class="ec-lmtt-10">&#x00A0;RabbitMQ</span><span 
+class="ec-lmtt-10">&#x00A0;plugins</span><span 
+class="ec-lmtt-10">&#x00A0;...</span>
+     <br /><span 
+class="ec-lmtt-10">0</span><span 
+class="ec-lmtt-10">&#x00A0;plugins</span><span 
+class="ec-lmtt-10">&#x00A0;activated:</span>
+     <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;rabbitmqctl</span><span 
+class="ec-lmtt-10">&#x00A0;status</span>
+     <br /><span 
+class="ec-lmtt-10">Status</span><span 
+class="ec-lmtt-10">&#x00A0;of</span><span 
+class="ec-lmtt-10">&#x00A0;node</span><span 
+class="ec-lmtt-10">&#x00A0;rabbit@rabbit</span><span 
+class="ec-lmtt-10">&#x00A0;...</span>
+     <br /><span 
+class="ec-lmtt-10">[running_applications,[rabbit,"RabbitMQ","2.7.1",</span>
+     <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;mnesia,"MNESIA</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;CXC</span><span 
+class="ec-lmtt-10">&#x00A0;138</span><span 
+class="ec-lmtt-10">&#x00A0;12","4.4.14",</span>
+     <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;os_mon,"CPO</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;CXC</span><span 
+class="ec-lmtt-10">&#x00A0;138</span><span 
+class="ec-lmtt-10">&#x00A0;46","2.2.5",</span>
+     <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;sasl,"SASL</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;CXC</span><span 
+class="ec-lmtt-10">&#x00A0;138</span><span 
+class="ec-lmtt-10">&#x00A0;11","2.1.9.2",</span>
+     <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;stdlib,"ERTS</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;CXC</span><span 
+class="ec-lmtt-10">&#x00A0;138</span><span 
+class="ec-lmtt-10">&#x00A0;10","1.17",</span>
+                                                                                 
+                                                                                 
+     <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;kernel,"ERTS</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;CXC</span><span 
+class="ec-lmtt-10">&#x00A0;138</span><span 
+class="ec-lmtt-10">&#x00A0;10","2.14"],</span>
+     <br /><span 
+class="ec-lmtt-10">&#x00A0;nodes,[disc,[rabbit@rabbit]],</span>
+     <br /><span 
+class="ec-lmtt-10">&#x00A0;running_nodes,[rabbit@rabbit]]</span>
+     <br /><span 
+class="ec-lmtt-10">...done.</span>
+     <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;rabbitmqctl</span><span 
+class="ec-lmtt-10">&#x00A0;stop</span>
+     <br /><span 
+class="ec-lmtt-10">Stopping</span><span 
+class="ec-lmtt-10">&#x00A0;and</span><span 
+class="ec-lmtt-10">&#x00A0;halting</span><span 
+class="ec-lmtt-10">&#x00A0;node</span><span 
+class="ec-lmtt-10">&#x00A0;rabbit@rabbit</span><span 
+class="ec-lmtt-10">&#x00A0;...</span>
+     <br /><span 
+class="ec-lmtt-10">...done.</span>
+     <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;rabbitmqctl</span><span 
+class="ec-lmtt-10">&#x00A0;status</span>
+     <br /><span 
+class="ec-lmtt-10">Status</span><span 
+class="ec-lmtt-10">&#x00A0;of</span><span 
+class="ec-lmtt-10">&#x00A0;node</span><span 
+class="ec-lmtt-10">&#x00A0;rabbit@rabbit</span><span 
+class="ec-lmtt-10">&#x00A0;...</span>
+     <br /><span 
+class="ec-lmtt-10">Error:</span><span 
+class="ec-lmtt-10">&#x00A0;unable</span><span 
+class="ec-lmtt-10">&#x00A0;to</span><span 
+class="ec-lmtt-10">&#x00A0;connect</span><span 
+class="ec-lmtt-10">&#x00A0;to</span><span 
+class="ec-lmtt-10">&#x00A0;node</span><span 
+class="ec-lmtt-10">&#x00A0;rabbit@rabbit:</span><span 
+class="ec-lmtt-10">&#x00A0;nodedown</span>
+     <br /><span 
+class="ec-lmtt-10">diagnostics:</span>
+     <br /><span 
+class="ec-lmtt-10">-</span><span 
+class="ec-lmtt-10">&#x00A0;nodes</span><span 
+class="ec-lmtt-10">&#x00A0;and</span><span 
+class="ec-lmtt-10">&#x00A0;their</span><span 
+class="ec-lmtt-10">&#x00A0;ports</span><span 
+class="ec-lmtt-10">&#x00A0;on</span><span 
+class="ec-lmtt-10">&#x00A0;rabbit:</span><span 
+class="ec-lmtt-10">&#x00A0;[rabbitmqctl2776,45667]</span>
+     <br /><span 
+class="ec-lmtt-10">-</span><span 
+class="ec-lmtt-10">&#x00A0;current</span><span 
+class="ec-lmtt-10">&#x00A0;node:</span><span 
+class="ec-lmtt-10">&#x00A0;rabbitmqctl2776@rabbit</span>
+     <br /><span 
+class="ec-lmtt-10">-</span><span 
+class="ec-lmtt-10">&#x00A0;current</span><span 
+class="ec-lmtt-10">&#x00A0;node</span><span 
+class="ec-lmtt-10">&#x00A0;home</span><span 
+class="ec-lmtt-10">&#x00A0;dir:</span><span 
+class="ec-lmtt-10">&#x00A0;/home/bitnami</span>
+     <br /><span 
+class="ec-lmtt-10">-</span><span 
+class="ec-lmtt-10">&#x00A0;current</span><span 
+class="ec-lmtt-10">&#x00A0;node</span><span 
+class="ec-lmtt-10">&#x00A0;cookie</span><span 
+class="ec-lmtt-10">&#x00A0;hash:</span><span 
+class="ec-lmtt-10">&#x00A0;58UmUjslvHMdJuJyRDcEag==</span>
+</div>
+     </div>
+     </li></ol>
+     
+     
+<h4 class="subsectionHead"><span class="titlemark">B   </span> <a 
+ id="x1-56000A.3"></a>Python RabbitMQ client library named Pika</h4>
+<!--l. 190--><p class="noindent" >To limit the number of commands requiring <span 
+class="ec-lmtt-10x-x-109">root </span>privileges, we propose to not install the
+Python packages using the <span 
+class="ec-lmtt-10x-x-109">pip </span>or <span 
+class="ec-lmtt-10x-x-109">easy_install </span>utility tools. But, of course, you can prefer
+performing this installation differently using Python utility tools. In addition, we only provide
+the commands for Unix-like operating systems.
+<!--l. 197--><p class="indent" >
+     <ol  class="enumerate1" >
+     <li 
+  class="enumerate" id="x1-56002x1">Install the software Pika, version 0.9.5 by executing the following commands
+     <div class="alltt">
+     <!--l. 199--><p class="noindent" ><div class="obeylines-v">
+     <span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;cd</span><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtcsc-10">${yourdirectory}</span>
+     <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;wget</span><span 
+class="ec-lmtt-10">&#x00A0;http://pypi.python.org/packages/source/p/pika/pika-0.9.5.tar.gz</span>
+     <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;tar</span><span 
+class="ec-lmtt-10">&#x00A0;xfz</span><span 
+class="ec-lmtt-10">&#x00A0;pika-0.9.5.tar.gz</span>
+                                                                                 
+                                                                                 </div>
+     </div>
+     The Python packages Pika is installed in the directory <span 
+class="ec-lmcsc-10x-x-109">${yourdirectory}</span><span 
+class="ec-lmss-10x-x-109">/pika-v0.9.5</span>.
+     Insert this package in the path of Python by adding the directories in the shell variable
+     <span 
+class="ec-lmss-10x-x-109">PYTHONPATH</span>: <div class="alltt">
+     <!--l. 208--><p class="noindent" ><div class="obeylines-v">
+     <span 
+class="ec-lmtt-10">export</span><span 
+class="ec-lmtt-10">&#x00A0;PYTHONPATH=$PYTHONPATH:</span><span 
+class="ec-lmtcsc-10">${yourdirectory}</span><span 
+class="ec-lmtt-10">/pika-v0.9.5</span>
+</div>
+     </div>
+     </li>
+     <li 
+  class="enumerate" id="x1-56004x2">Check that Pika is correctly installed by trying the following Python commands
+     that demonstrate that the Pika package can be imported in a Python script:
+     <div class="alltt">
+     <!--l. 214--><p class="noindent" ><div class="obeylines-v">
+     <span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;python</span>
+     <br /><span 
+class="ec-lmtt-10">Python</span><span 
+class="ec-lmtt-10">&#x00A0;2.6.5</span><span 
+class="ec-lmtt-10">&#x00A0;(r265:79063,</span><span 
+class="ec-lmtt-10">&#x00A0;Apr</span><span 
+class="ec-lmtt-10">&#x00A0;16</span><span 
+class="ec-lmtt-10">&#x00A0;2010,</span><span 
+class="ec-lmtt-10">&#x00A0;13:09:56)</span>
+     <br /><span 
+class="ec-lmtt-10">[GCC</span><span 
+class="ec-lmtt-10">&#x00A0;4.4.3]</span><span 
+class="ec-lmtt-10">&#x00A0;on</span><span 
+class="ec-lmtt-10">&#x00A0;linux2</span>
+     <br /><span 
+class="ec-lmtt-10">Type</span><span 
+class="ec-lmtt-10">&#x00A0;"help",</span><span 
+class="ec-lmtt-10">&#x00A0;"copyright",</span><span 
+class="ec-lmtt-10">&#x00A0;"credits"</span><span 
+class="ec-lmtt-10">&#x00A0;or</span><span 
+class="ec-lmtt-10">&#x00A0;"license"</span><span 
+class="ec-lmtt-10">&#x00A0;for</span><span 
+class="ec-lmtt-10">&#x00A0;more</span><span 
+class="ec-lmtt-10">&#x00A0;information.</span>
+     <br /><span 
+class="ec-lmtt-10">&#x003E;&#x003E;&#x003E;</span><span 
+class="ec-lmtt-10">&#x00A0;import</span><span 
+class="ec-lmtt-10">&#x00A0;pika</span>
+     <br /><span 
+class="ec-lmtt-10">&#x003E;&#x003E;&#x003E;</span><span 
+class="ec-lmtt-10">&#x00A0;quit()</span>
+</div>
+     </div>
+     </li></ol>
+
+<!--l. 259--><p class="noindent" >     
+
+   
+   
+   <h4 class="subsectionHead"><span class="titlemark">C   </span> <a 
+ id="x1-57000A.4"></a>JavaScript applications using Node.js and its AMQP and XMLRPC libraries</h4>
+<!--l. 262--><p class="noindent" >The library for Javascript AMQP producers and consumers works with <span 
+class="ec-lmss-10x-x-109">Node.js</span>, which is an
+event-driven I/O server-side JavaScript environment. Here follows an installation 
+procedure for Unix-like operating systems which should be performed on the server
+side:
+<!--l. 267--><p class="indent" >
+     <ol  class="enumerate1" >
+     <li 
+  class="enumerate" id="x1-57002x1">Install <span 
+class="ec-lmss-10x-x-109">Node.js</span>:
+          <ul class="itemize1">
+          <li class="itemize">The prerequisites to build <span 
+class="ec-lmss-10x-x-109">Node.js </span>from source are:
+              <ul class="itemize2">
+              <li class="itemize"><span 
+class="ec-lmss-10x-x-109">python</span>: version&#x00A0;2.4 or higher. The build tools distributed with <span 
+class="ec-lmss-10x-x-109">Node.js </span>run
+              on python.
+              </li>
+              <li class="itemize"><span 
+class="ec-lmss-10x-x-109">libssl-dev</span>: If you plan to use SSL/TLS encryption in your networking, you
+              need this library. <span 
+class="ec-lmtt-10x-x-109">libssl </span>is the library used in the <span 
+class="ec-lmtt-10x-x-109">openssl </span>tool.</li></ul>
+          </li>
+          <li class="itemize">To download and build <span 
+class="ec-lmss-10x-x-109">Node.js</span>, version&#x00A0;0.4.10 execute the following commands:
+          <div class="alltt">
+          <!--l. 282--><p class="noindent" ><div class="obeylines-v">
+          <span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;mkdir</span><span 
+class="ec-lmtt-10">&#x00A0;~/node.js</span>
+          <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;cd</span><span 
+class="ec-lmtt-10">&#x00A0; ~/node.js</span>
+          <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;wget</span><span 
+class="ec-lmtt-10">&#x00A0;http://nodejs.org/dist/node-v0.4.10.tar.gz</span>
+          <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;tar</span><span 
+class="ec-lmtt-10">&#x00A0;xfz</span><span 
+class="ec-lmtt-10">&#x00A0;node-v0.4.10.tar.gz</span>
+          <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;rm</span><span 
+class="ec-lmtt-10">&#x00A0;node-v0.4.10.tar.gz</span>
+          <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;cd</span><span 
+class="ec-lmtt-10">&#x00A0;node-v0.4.10</span>
+          <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;./configure</span><span 
+class="ec-lmtt-10">&#x00A0;--prefix=$HOME/node.js/node-v0.4.10</span>
+          <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;make</span>
+          <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;make</span><span 
+class="ec-lmtt-10">&#x00A0;install</span>
+          <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;echo</span><span 
+class="ec-lmtt-10">&#x00A0;"export</span><span 
+class="ec-lmtt-10">&#x00A0;PATH=$HOME/node.js/node-v0.4.10/bin:$PATH"</span><span 
+class="ec-lmtt-10">&#x00A0;&#x003E;&#x003E;</span><span 
+class="ec-lmtt-10">&#x00A0;~/.bashrc</span>
+          <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;echo</span><span 
+class="ec-lmtt-10">&#x00A0;"export</span><span 
+class="ec-lmtt-10">&#x00A0;NODE_PATH=$HOME/node.js/node-v0.4.10:$HOME/\</span>
+          <br /><span 
+class="ec-lmtt-10">&#x00A0;</span><span 
+class="ec-lmtt-10">&#x00A0;node.js/node-v0.4.10/lib/node_modules"</span><span 
+class="ec-lmtt-10">&#x00A0;&#x003E;&#x003E;</span><span 
+class="ec-lmtt-10">&#x00A0;~/.bashrc</span>
+          <br /><span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;source</span><span 
+class="ec-lmtt-10">&#x00A0;~/.bashrc</span>
+</div>
+          </div>
+          </li>
+          <li class="itemize">Check that <span 
+class="ec-lmss-10x-x-109">node.js </span>is properly installed by trying the following command:
+          <div class="alltt">
+                                                                                 
+                                                                                 
+          <!--l. 299--><p class="noindent" ><div class="obeylines-v">
+          <span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;node</span><span 
+class="ec-lmtt-10">&#x00A0;-v</span>
+          <br /><span 
+class="ec-lmtt-10">v0.4.10</span>
+</div>
+          </div>
+          </li></ul>
+     </li>
+     <li 
+  class="enumerate" id="x1-57004x2">Install <span 
+class="ec-lmss-10x-x-109">npm</span>, the package manager for installing additional <span 
+class="ec-lmss-10x-x-109">Node.js </span>libraries:
+          <ul class="itemize1">
+          <li class="itemize">If the <span 
+class="ec-lmss-10x-x-109">curl </span>command is not present, you should first install it: <div class="alltt">
+          <!--l. 309--><p class="noindent" ><div class="obeylines-v">
+          <span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;sudo</span><span 
+class="ec-lmtt-10">&#x00A0;apt-get</span><span 
+class="ec-lmtt-10">&#x00A0;install</span><span 
+class="ec-lmtt-10">&#x00A0;curl</span>
+</div>
+          </div>
+          </li>
+          <li class="itemize">Then, install <span 
+class="ec-lmss-10x-x-109">npm</span>: <div class="alltt">
+          <!--l. 313--><p class="noindent" ><div class="obeylines-v">
+          <span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;curl</span><span 
+class="ec-lmtt-10">&#x00A0;http://npmjs.org/install.sh</span><span 
+class="ec-lmtt-10">&#x00A0;|</span><span 
+class="ec-lmtt-10">&#x00A0;sh</span>
+</div>
+          </div>
+          </li></ul>
+     </li>
+     <li 
+  class="enumerate" id="x1-57006x3">Install <span 
+class="ec-lmss-10x-x-109">node-amqp </span><span 
+class="ec-lmri-10x-x-109">(version 0.1.0)</span>, an AMQP client for <span 
+class="ec-lmss-10x-x-109">Node.js </span>by executing the following
+     command: <div class="alltt">
+     <!--l. 320--><p class="noindent" ><div class="obeylines-v">
+     <span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;npm</span><span 
+class="ec-lmtt-10">&#x00A0;install</span><span 
+class="ec-lmtt-10">&#x00A0;-g</span><span 
+class="ec-lmtt-10">&#x00A0;amqp@0.1.0</span>
+</div>
+     </div>
+                                                                                 
+                                                                                 
+     </li>
+     <li 
+  class="enumerate" id="x1-57008x4">Install <span 
+class="ec-lmss-10x-x-109">node-mxlrpc</span>, an XMLRPC client for <span 
+class="ec-lmss-10x-x-109">Node.js </span>by executing the following command:
+     <div class="alltt">
+     <!--l. 326--><p class="noindent" ><div class="obeylines-v">
+     <span 
+class="ec-lmtt-10">$</span><span 
+class="ec-lmtt-10">&#x00A0;npm</span><span 
+class="ec-lmtt-10">&#x00A0;install</span><span 
+class="ec-lmtt-10">&#x00A0;-g</span><span 
+class="ec-lmtt-10">&#x00A0;xmlrpc</span>
+</div>
+     </div>
+     </li></ol>
+     
+</body></html> 

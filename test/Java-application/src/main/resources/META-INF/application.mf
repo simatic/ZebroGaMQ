@@ -1,0 +1,4 @@
+Manifest-Version: 0.1.1
+Implementation-Title: "GameLogic Application using RabbitMQ"
+Implementation-Version: "@@@"
+Implementation-Vendor: "Institut Télécom, Télécom SudParis"
