@@ -32,6 +32,8 @@ aMazing
 =======
 
 aMazing is a geolocalized game for two players.
+Description and rules of the game can be found at 
+http://www.totem-games.org/?q=aMazing
 
 Configuration
 -------------
