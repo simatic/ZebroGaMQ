@@ -1,8 +1,13 @@
 /**
  * aMazing! Geolocalized multiplayer game for Android devices.
  * Conceived and realized within the course "Mixed Reality Games for 
- * Mobile Devices" at Fraunhofer FIT (http://www.fit.fraunhofer.de).
+ * Mobile Devices" at Fraunhofer FIT.
+ * 
+ * http://www.fit.fraunhofer.de/de/fb/cscw/mixed-reality.html
+ * http://www.totem-games.org/?q=aMazing
+ * 
  * Copyright (C) 2012  Alexander Hermans, Tianjiao Wang
+ * 
  * Contact: 
  * alexander.hermans0@gmail.com, tianjiao.wang@rwth-aachen.de,
  * richard.wetzel@fit.fraunhofer.de, lisa.blum@fit.fraunhofer.de, 
