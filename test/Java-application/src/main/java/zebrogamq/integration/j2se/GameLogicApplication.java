@@ -30,7 +30,6 @@ import java.util.Properties;
 import zebrogamq.gamelogic.ChannelsManager;
 import zebrogamq.gamelogic.GameLogicState;
 import zebrogamq.gamelogic.JoinAction;
-import zebrogamq.gamelogic.OptionalDelegationOfStandardActions;
 import zebrogamq.gamelogic.PresenceAction;
 import zebrogamq.gamelogic.Util;
 
@@ -156,7 +155,7 @@ public class GameLogicApplication {
 	 *   displayed. If you want to define your own behavior on the 
 	 *   reception of this message, please refer to the javadoc of 
 	 *   the class OptionalDelegationOfStandardActions.
-	 *   (http://simatic.github.com/ZebroGaMQ/doc/javadoc/index.html)
+	 *   (http://simatic.github.com/ZebroGaMQ/doc/javadoc/zebrogamq/gamelogic/OptionalDelegationOfStandardActions.html)
 	 */
 	private static void initChannelsManager() {
 		try {

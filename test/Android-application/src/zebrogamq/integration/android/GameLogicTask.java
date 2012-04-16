@@ -157,7 +157,7 @@ class GameLogicTask extends AsyncTask<Void, Integer, Integer> {
 	 *   displayed. If you want to define your own behavior on the 
 	 *   reception of this message, please refer to the javadoc of 
 	 *   the class OptionalDelegationOfStandardActions.
-	 *   (http://simatic.github.com/ZebroGaMQ/doc/javadoc/index.html)
+	 *   (http://simatic.github.com/ZebroGaMQ/doc/javadoc/zebrogamq/gamelogic/OptionalDelegationOfStandardActions.html)
 	 */
 	private void initChannelsManager(){
 		try {

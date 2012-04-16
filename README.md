@@ -20,6 +20,9 @@ Here are the most powerful features of the middleware:
 * Game instances management: you can create several instances of your game, and let players
   use those instances in parallel.
 
+ZebroGaMQ is presented with a demonstrator game called [aMazing](http://www.totem-games.org/?q=aMazing),
+a geolocalized multiplayer game for Android devices.
+
 Installation and tests
 ----------------------
 
