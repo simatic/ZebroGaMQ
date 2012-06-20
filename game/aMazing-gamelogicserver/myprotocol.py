@@ -93,11 +93,11 @@ def playerIsReady(state, header, body):
         gameSession.halfAreaSize = int(setupData[3])/2
         
         #TODO maybe in future work make these  advanced settings 
-        gameSession.rechargeRate = 6.5
+        gameSession.rechargeRate = 12.5
         gameSession.crownClaimRadius = 50.0
         gameSession.itemPickupRadius = 25.0
-        gameSession.mazePoolLimit = 50.0
-        gameSession.breakerRadius = gameSession.crownClaimRadius*0.5 #TODO change this. 
+        gameSession.mazePoolLimit = 25.0
+        gameSession.breakerRadius = gameSession.crownClaimRadius*0.5 # Maybe change this in the future too. 
         gameSession.expandRate = 1.5 
         
         #We start a timer here to shut down the task if players do not really start playing in 5 minutes.
@@ -310,6 +310,7 @@ def handleGPSCoordinates(player, otherPlayer, gpsList, othergpsList, lastCorrect
         messageP2 = messageP2[0:-1]
         state.gamelogicchannel.publish("PLAYER_1", state, "amazingActionKind.updateCrownClaims", messageP1)
         state.gamelogicchannel.publish("PLAYER_2", state, "amazingActionKind.updateCrownClaims", messageP2)
+        
         updateCrownClaimFlag = False
          
         """
@@ -910,20 +911,25 @@ class TimerThread(threading.Thread):
             else:
                 
                 #Terminate the instance here
-                proxy = xmlrpclib.ServerProxy("http://"
-                                  + XMLRPCConfiguration().getXMLRPCProperty("gameServerXMLRPCHost")
-                                  + ":"
-                                  + XMLRPCConfiguration().getXMLRPCProperty("gameServerXMLRPCPort")
-                                  + "/")
-                try:
-                    proxy.terminateGameInstance(self.gameState.gameName , self.gameState.instanceName)
-                except:
-                    pass
-                               
+                #proxy = xmlrpclib.ServerProxy("http://"
+                #                  + XMLRPCConfiguration().getXMLRPCProperty("gameServerXMLRPCHost")
+                #                  + ":"
+                #                  + XMLRPCConfiguration().getXMLRPCProperty("gameServerXMLRPCPort")
+                #                  + "/")
+                #try:
+                #    proxy.terminateGameInstance(self.gameState.gameName , self.gameState.instanceName)
+                #except:
+                #    pass
+                #               
+                
+                finishInstance(self.gameState.instanceName)
+                
                 self.shutdown()
                 
 
 
-#def finishInstance(instanceName):
-#    call("(cd ./../TerminationInstanceApplication; ./run.sh "+instanceName+")", shell=True)
+def finishInstance(instanceName):
+        call("(cd ./../TerminationInstanceApplication;  bash run.sh "+instanceName+")", shell=True)
+
+
 

@@ -1,35 +1,3 @@
-/**
- * aMazing! Geolocalized multiplayer game for Android devices.
- * Conceived and realized within the course "Mixed Reality Games for 
- * Mobile Devices" at Fraunhofer FIT.
- * 
- * http://www.fit.fraunhofer.de/de/fb/cscw/mixed-reality.html
- * http://www.totem-games.org/?q=aMazing
- * 
- * Copyright (C) 2012  Alexander Hermans, Tianjiao Wang
- * 
- * Contact: 
- * alexander.hermans0@gmail.com, tianjiao.wang@rwth-aachen.de,
- * richard.wetzel@fit.fraunhofer.de, lisa.blum@fit.fraunhofer.de, 
- * denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
-
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Developer(s): Alexander Hermans, Tianjiao Wang
- * ZebroGaMQ:  Denis Conan, Gabriel Adgeg 
- */
-
 package de.rwth.aMazing;
 
 import java.io.IOException;
@@ -41,7 +9,6 @@ import java.util.Properties;
 
 import zebrogamq.communication.MyGameLogicProtocol;
 import zebrogamq.communication.PlayerTask;
-
 import zebrogamq.gamelogic.Util;
 
 import com.google.android.maps.GeoPoint;
@@ -51,10 +18,12 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 
+import de.rwth.aMazing.ui.ConnectActivity;
 import de.rwth.aMazing.ui.MenuActivity;
-
+import de.rwth.aMazing.ui.SettingsActivity;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -66,17 +35,22 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import android.os.Vibrator;
+import android.text.Editable;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -165,7 +139,7 @@ public class GameActivity extends MapActivity {
 				}
 			} else {
 				mazePoolTick++;
-				if (mazePoolTick == 5) {
+				if (mazePoolTick == 10) {
 					mazePoolTick = 0;
 
 					pool = pool + GameSession.rechargeRate;
@@ -211,7 +185,7 @@ public class GameActivity extends MapActivity {
 
 				AlertDialog.Builder vioDialog = new AlertDialog.Builder(context);
 
-				vioDialog.setMessage("You are too close!");
+				vioDialog.setMessage("You are too close! Go back to the highlighted point, or use a free pass.");
 
 				vioDialog.setPositiveButton("OK",
 						new DialogInterface.OnClickListener() {
@@ -388,7 +362,7 @@ public class GameActivity extends MapActivity {
 				break;
 			case -30:
 				Toast pickupError3 = Toast.makeText(context,
-						"Go back to your last correct position first!",
+						"Go back to your last correct position first! (Or use a free pass.)",
 						Toast.LENGTH_LONG);
 				pickupError3.show();
 				break;
@@ -656,6 +630,23 @@ public class GameActivity extends MapActivity {
 		}
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    switch (keyCode) {
+	    case KeyEvent.KEYCODE_VOLUME_UP:
+	        SoundManager.getAudiomanager().adjustStreamVolume(AudioManager.STREAM_MUSIC,
+	                AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
+	        return true;
+	    case KeyEvent.KEYCODE_VOLUME_DOWN:
+	    	SoundManager.getAudiomanager().adjustStreamVolume(AudioManager.STREAM_MUSIC,
+	                AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
+	        return true;
+	    default:
+	        return false;
+	    }
+	}
+
+	
 	private boolean loadProperties() {
 		Resources resources = getResources();
 		InputStream rawResource = resources.openRawResource(R.raw.rabbitmq);
@@ -964,6 +955,9 @@ public class GameActivity extends MapActivity {
 		itemClickListeners[0] = new OnClickListener() {
 			// binoculars
 			public void onClick(View v) {
+				Toast warning = Toast.makeText(context,
+						"By using it you can see the other player's inventory for 20 seconds.", Toast.LENGTH_SHORT);
+				warning.show();
 				showUseCancel(useClickListeners[0], cancelClickListeners[0], v);
 
 			}
@@ -991,6 +985,9 @@ public class GameActivity extends MapActivity {
 		itemClickListeners[1] = new OnClickListener() {
 			// breaker
 			public void onClick(View v) {
+				Toast warning = Toast.makeText(context, "Select an area to break. Then click use item.",
+						Toast.LENGTH_SHORT);
+				warning.show();
 				GameSession.selectingForBreaker = true;
 				showUseCancel(useClickListeners[1], cancelClickListeners[1], v);
 			}
@@ -1006,7 +1003,7 @@ public class GameActivity extends MapActivity {
 					// of an item.
 					v.setOnClickListener(null);
 				} else {
-					Toast warning = Toast.makeText(context, "Select an Point",
+					Toast warning = Toast.makeText(context, "Select an area to break first.",
 							Toast.LENGTH_SHORT);
 					warning.show();
 				}
@@ -1027,6 +1024,9 @@ public class GameActivity extends MapActivity {
 		itemClickListeners[2] = new OnClickListener() {
 			// magnet
 			public void onClick(View v) {
+				Toast warning = Toast.makeText(context,
+						"Select an item. Then click use item.", Toast.LENGTH_SHORT);
+				warning.show();
 				GameSession.selectingForMagnet = true;
 				showUseCancel(useClickListeners[2], cancelClickListeners[2], v);
 
@@ -1047,7 +1047,7 @@ public class GameActivity extends MapActivity {
 					v.setOnClickListener(null);
 				} else {
 					Toast warning = Toast.makeText(context,
-							"Select an item first", Toast.LENGTH_SHORT);
+							"Select an item first.", Toast.LENGTH_SHORT);
 					warning.show();
 				}
 
@@ -1120,6 +1120,9 @@ public class GameActivity extends MapActivity {
 		itemClickListeners[4] = new OnClickListener() {
 			// rocket
 			public void onClick(View v) {
+				Toast warning = Toast.makeText(context,
+						"By using it you can run for 1 minute.", Toast.LENGTH_SHORT);
+				warning.show();
 				showUseCancel(useClickListeners[4], cancelClickListeners[4], v);
 
 			}
@@ -1148,6 +1151,9 @@ public class GameActivity extends MapActivity {
 		itemClickListeners[5] = new OnClickListener() {
 			// teleportation
 			public void onClick(View v) {
+				Toast warning = Toast.makeText(context,
+						"Select an item. Then click use item.", Toast.LENGTH_SHORT);
+				warning.show();
 				GameSession.selectingForTeleport = true;
 				showUseCancel(useClickListeners[5], cancelClickListeners[5], v);
 			}
@@ -1164,9 +1170,10 @@ public class GameActivity extends MapActivity {
 					// However remove the onClicklistener to avoid multiple uses
 					// of an item.
 					v.setOnClickListener(null);
+					
 				} else {
 					Toast warning = Toast.makeText(context,
-							"Select an item first", Toast.LENGTH_SHORT);
+							"Select an item first.", Toast.LENGTH_SHORT);
 					warning.show();
 				}
 

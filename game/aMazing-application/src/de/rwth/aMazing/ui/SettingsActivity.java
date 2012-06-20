@@ -1,35 +1,3 @@
-/**
- * aMazing! Geolocalized multiplayer game for Android devices.
- * Conceived and realized within the course "Mixed Reality Games for 
- * Mobile Devices" at Fraunhofer FIT.
- * 
- * http://www.fit.fraunhofer.de/de/fb/cscw/mixed-reality.html
- * http://www.totem-games.org/?q=aMazing
- * 
- * Copyright (C) 2012  Alexander Hermans, Tianjiao Wang
- * 
- * Contact: 
- * alexander.hermans0@gmail.com, tianjiao.wang@rwth-aachen.de,
- * richard.wetzel@fit.fraunhofer.de, lisa.blum@fit.fraunhofer.de, 
- * denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
-
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * Developer(s): Alexander Hermans, Tianjiao Wang
- * ZebroGaMQ:  Denis Conan, Gabriel Adgeg 
- */
-
 package de.rwth.aMazing.ui;
 
 import de.rwth.aMazing.GameSession;
@@ -85,6 +53,7 @@ public class SettingsActivity extends Activity implements OnClickListener {
 		setText();
 	}
 	private void setText() {
+		int i = 1;
 		if (settingsHolder[0] % 2 == 0) {
 			tv[0].setText("Sound on");
 		}
@@ -100,7 +69,7 @@ public class SettingsActivity extends Activity implements OnClickListener {
 
 	private boolean[] soundSetting = { true, false };
 	private int[] timeSetting = { 900000, 1800000, 2700000, 300000};
-	private int[] districtSetting = { 500, 1000, 1500, 2000, 250 };
+	private int[] districtSetting = { 300, 600, 1000 };
 	private int[] crownNumberSetting = { 5, 7, 3 };
 	private int[] itemNumberSetting = { 25, 30, 40, 50, 5, 15, 20 };
 
