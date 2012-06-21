@@ -1,6 +1,11 @@
 [ZebroGaMQ: Communication Middleware for Mobile Gaming](http://www.totem-games.org/?q=Communication%20Middleware)
 ================================
 
+We are very proud to propose this game to the ZebroGaMQ community. This is a fork of the game for WhereCamp. This clone is not aligned with the master branch but it will be very soon. The code changes are minor and will not have a big effect.
+
+The server corresponding to the WhereCamp fork is kindly managed by TSP Artemis team for the duration of WhereCamp.
+
+
 ZebroGaMQ provides an easy and reliable way to 
 publish and consume messages in the context of mobile multiplayer games. 
 A prototypical game involves:
