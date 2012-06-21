@@ -41,10 +41,9 @@ public final class R {
         public static final int previous=0x7f020018;
         public static final int rocket=0x7f020019;
         public static final int setting_back=0x7f02001a;
-        public static final int setting_back_old=0x7f02001b;
-        public static final int splash=0x7f02001c;
-        public static final int teleportation=0x7f02001d;
-        public static final int traesure=0x7f02001e;
+        public static final int splash=0x7f02001b;
+        public static final int teleportation=0x7f02001c;
+        public static final int traesure=0x7f02001d;
     }
     public static final class id {
         public static final int GameCountdown=0x7f08001d;
