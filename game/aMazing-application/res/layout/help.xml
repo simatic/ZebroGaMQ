@@ -9,14 +9,14 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
-        android:src="@drawable/help6" />    
+        android:src="@drawable/help6" android:scaleType="centerCrop"/>    
     
     <ImageView
         android:id="@+id/help5"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
-        android:src="@drawable/help5" />        
+        android:src="@drawable/help5" android:scaleType="centerCrop"/>        
 
     
    <ImageView
@@ -24,14 +24,14 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
-        android:src="@drawable/help4" />    
+        android:src="@drawable/help4" android:scaleType="centerCrop"/>    
  
     <ImageView
         android:id="@+id/help3"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
-        android:src="@drawable/help3" />
+        android:src="@drawable/help3" android:scaleType="centerCrop"/>
     
     
     
@@ -40,14 +40,14 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
-        android:src="@drawable/help2" />
+        android:src="@drawable/help2" android:scaleType="centerCrop"/>
     
     <ImageView
         android:id="@+id/help1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
-        android:src="@drawable/help1" />
+        android:src="@drawable/help1" android:scaleType="centerCrop"/>
 
 
     

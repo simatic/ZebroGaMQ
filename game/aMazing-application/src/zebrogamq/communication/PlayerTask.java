@@ -1,33 +1,33 @@
 /**
  * aMazing! Geolocalized multiplayer game for Android devices.
- * Conceived and realized within the course "Mixed Reality Games for 
+ * Conceived and realized within the course "Mixed Reality Games for
  * Mobile Devices" at Fraunhofer FIT.
- * 
+ *
  * http://www.fit.fraunhofer.de/de/fb/cscw/mixed-reality.html
  * http://www.totem-games.org/?q=aMazing
- * 
- * Copyright (C) 2012  Alexander Hermans, Tianjiao Wang
- * 
- * Contact: 
+ *
+ * Copyright (C) 2012 Alexander Hermans, Tianjiao Wang
+ *
+ * Contact:
  * alexander.hermans0@gmail.com, tianjiao.wang@rwth-aachen.de,
- * richard.wetzel@fit.fraunhofer.de, lisa.blum@fit.fraunhofer.de, 
+ * richard.wetzel@fit.fraunhofer.de, lisa.blum@fit.fraunhofer.de,
  * denis.conan@telecom-sudparis.eu, michel.simatic@telecom-sudparis.eu
 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  * Developer(s): Alexander Hermans, Tianjiao Wang
- * ZebroGaMQ:  Denis Conan, Gabriel Adgeg 
+ * ZebroGaMQ: Denis Conan, Gabriel Adgeg
  */
 
 package zebrogamq.communication;
@@ -85,27 +85,29 @@ public class PlayerTask extends AsyncTask<Void, Integer, Integer> {
 
 			// start the number of retries thread
 			startNumberOfRetriesThread();
-            if(activity.playerName.equals(GameActivity.INSTANCE_CREATOR_NAME)){
-    			Toast wait = Toast.makeText(activity, "Wait for another player to join",
-    					Toast.LENGTH_LONG);
-    			wait.show();
-            }
+			if (activity.playerName.equals(GameActivity.INSTANCE_CREATOR_NAME)) {
+				Toast wait = Toast.makeText(activity,
+						"Wait for another player to join", Toast.LENGTH_LONG);
+				wait.show();
+			}
 			playerReady();
 			break;
 		case RESULT_ERROR:
-			//Dialog.showMessage(activity, "Error on creation of game instance.");
-			AlertDialog.Builder dialog = new AlertDialog.Builder(activity);	    
-		    
-		    dialog.setMessage("Error on creation of game instance. Either the instance name is in use or the server is down.");
+			// Dialog.showMessage(activity,
+			// "Error on creation of game instance.");
+			AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
 
-		   dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-		        public void onClick(DialogInterface arg0, int arg1) {
-					activity.finish();
-		        }
-		    });
-		
-		    dialog.show();
-			
+			dialog.setMessage("Could not create or join this instance. \n It is either in use or there is a problem with the server.");
+
+			dialog.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface arg0, int arg1) {
+							activity.finish();
+						}
+					});
+
+			dialog.show();
+
 			break;
 		}
 	}
@@ -131,28 +133,27 @@ public class PlayerTask extends AsyncTask<Void, Integer, Integer> {
 	protected void onProgressUpdate(Integer... values) {
 		switch (values[0]) {
 		case COMPUTING_CALL:
-			dialog.setMessage("XML-RPC call...");
+			dialog.setMessage("Trying to connect to the server...");
 			break;
 		case COMPUTING_ANSWER:
-			dialog.setMessage("Computing XML-RPC answer...");
+			dialog.setMessage("Starting instance...");
 			break;
 		}
 	}
 
-	
 	@Override
 	protected Integer doInBackground(Void... params) {
 		publishProgress(COMPUTING_CALL);
 		boolean loggedIn = executeXMLRPCLogin();
-		if(loggedIn){
+		if (loggedIn) {
 			publishProgress(COMPUTING_ANSWER);
 			initChannelsManager();
 			return RESULT_OK;
-		}else{
+		} else {
 			return RESULT_ERROR;
 		}
 	}
-	
+
 	static class Dialog {
 		public static void showMessage(Context context, String msg) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -162,30 +163,32 @@ public class PlayerTask extends AsyncTask<Void, Integer, Integer> {
 			alert.show();
 		}
 	}
-	
-	
-	private boolean executeXMLRPCLogin(){
+
+	private boolean executeXMLRPCLogin() {
 		boolean res = false;
-		if(state.login.equals(GameActivity.INSTANCE_CREATOR_NAME)){
-			res = XMLRPCLogin.createAndJoinGameInstance(state.login, state.password, state.gameName, state.instanceName);
-		}else{
-			res = XMLRPCLogin.joinGameInstance(state.login, state.password, state.gameName, state.instanceName);
+		if (state.login.equals(GameActivity.INSTANCE_CREATOR_NAME)) {
+			res = XMLRPCLogin.createAndJoinGameInstance(state.login,
+					state.password, state.gameName, state.instanceName);
+		} else {
+			res = XMLRPCLogin.joinGameInstance(state.login, state.password,
+					state.gameName, state.instanceName);
 		}
 		return res;
 	}
-	
-	
-	private void initChannelsManager(){
+
+	private void initChannelsManager() {
 		try {
 			// Instantiate the channelsManager
-			state.channelsManager = ChannelsManager.getInstance(state, MyListOfGameLogicActions.ListOfActionsMaps);
-			String content = state.login + "," + state.gameName + "," + state.instanceName;
-			state.channelsManager.publishToGameLogicServer(state, JoinAction.JOIN, content);
+			state.channelsManager = ChannelsManager.getInstance(state,
+					MyListOfGameLogicActions.ListOfActionsMaps);
+			String content = state.login + "," + state.gameName + ","
+					+ state.instanceName;
+			state.channelsManager.publishToGameLogicServer(state,
+					JoinAction.JOIN, content);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
 
 	// The use of runOnUiThread is here to avoid the handler mechanism
 	// for the communication between this thread and UI thread.
