@@ -33,6 +33,7 @@ class WorkerChannel(object):
         credentials = PlainCredentials(RabbitMQConfiguration().getRabbitMQProperty("gameLogicServerUserName"),
                                        RabbitMQConfiguration().getRabbitMQProperty("gameLogicServerUserName"))
         parameters = pika.ConnectionParameters(host=RabbitMQConfiguration().getRabbitMQProperty("gameLogicServerBrokerHost"),
+                                               port=int(RabbitMQConfiguration().getRabbitMQProperty("gameLogicServerBrokerPort")),
                                                virtual_host=self.state.vhost,
                                                credentials=credentials)
         # instantiate a connection

@@ -21,14 +21,13 @@
 #
 # Developer(s): Denis Conan, Gabriel Adgeg
 
-RESOURCE_DIRECTORY="resources"
+RESOURCE_DIRECTORY="resources-perf"
 
 PYTHONPATH=$PYTHONPATH:$PWD/Python-gamelogicserver/:$PWD/../src/Python-server/
 CONFIGURATION_FILES_DIRECTORY="../../test/$RESOURCE_DIRECTORY/"
-echo $CONFIGURATION_FILES_DIRECTORY
 
-export RABBITMQ_NODENAME=zebro
-export RABBITMQ_NODE_PORT=5672
+export RABBITMQ_NODENAME=zebro-perf
+export RABBITMQ_NODE_PORT=5674
 
 # terminate
 (cd Termination-application; python termination.py $CONFIGURATION_FILES_DIRECTORY) &

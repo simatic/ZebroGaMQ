@@ -32,6 +32,7 @@ def createLoggingServer(gameName, instanceName):
     credentials = PlainCredentials(RabbitMQConfiguration().getRabbitMQProperty("loggingServerUserName"),
                                    RabbitMQConfiguration().getRabbitMQProperty("loggingServerUserName"))
     parameters = pika.ConnectionParameters(host=RabbitMQConfiguration().getRabbitMQProperty("gameLogicServerBrokerHost"),
+                                           port=int(RabbitMQConfiguration().getRabbitMQProperty("gameLogicServerBrokerPort")),
                                            virtual_host=vhost,
                                            credentials=credentials)
     logging.debug("LoggingServer] Starting a connection")

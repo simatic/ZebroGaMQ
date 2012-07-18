@@ -22,7 +22,7 @@
 # Developer(s): Denis Conan, Gabriel Adgeg
 
 MODULE_VERSION=1.0-SNAPSHOT
-RABBITMQ_CLIENT_VERSION=2.7.0
+RABBITMQ_CLIENT_VERSION=2.7.1
 CLASS=zebrogamq.integration.j2se.GameLogicApplication
 RABBITMQPROPERTIESFILE=rabbitmq.properties
 XMLRPCPROPERTIESFILE=xmlrpc.properties

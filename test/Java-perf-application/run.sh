@@ -60,4 +60,4 @@ export JARS=${HOME}/.m2/repository/commons-codec/commons-codec/1.4/commons-codec
 # argv[5] = nb msgs
 # argv[6] = millisec between msg
 # argv[7] = payload size
-exec java -Drabbitmq.config.file=${RABBITMQPROPERTIESFILE} -Dxmlrpc.config.file=${XMLRPCPROPERTIESFILE} -cp ${JARS} ${CLASS} $1 $2 $3 $4 $5 $6 $7 $8 
+exec java -Drabbitmq.config.file=${RABBITMQPROPERTIESFILE} -Dxmlrpc.config.file=${XMLRPCPROPERTIESFILE} -cp ${JARS} ${CLASS} $1 $2 $3 $4 $5 $6 $7 $8 &

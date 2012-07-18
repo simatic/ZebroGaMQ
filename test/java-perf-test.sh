@@ -21,22 +21,20 @@
 #
 # Developer(s): Denis Conan, Gabriel Adgeg, Michel Simatic
 
-RESOURCE_DIRECTORY="resources"
+RESOURCE_DIRECTORY="resources-perf"
 
-PYTHONPATH=$PYTHONPATH:$PWD/Python-gamelogicserver/:$PWD/../src/Python-server/
+PYTHONPATH=$PYTHONPATH:$PWD/Python-perf-gamelogicserver/:$PWD/../src/Python-server/
 CONFIGURATION_FILES_DIRECTORY="../../test/$RESOURCE_DIRECTORY/"
-echo $CONFIGURATION_FILES_DIRECTORY
 
 # Warning: In RABBITMQ_NODENAME, no   "-" (minus) character 
 #                                only "_" (underscore) character
-export RABBITMQ_NODENAME=zebro
-export RABBITMQ_NODE_PORT=5672
+export RABBITMQ_NODENAME=zebro_perf # and not zebro-perf
+export RABBITMQ_NODE_PORT=5673
 
 # Position the following variables if you want RabbitMQ log and database
 # to be positionned in a dedicated place
 #export RABBITMQ_LOG_BASE=
 #export RABBITMQ_MNESIA_BASE=
-
 
 # stop and re-launch the RabbitMQ broker
 rabbitmqctl stop
@@ -47,22 +45,18 @@ rabbitmqctl stop_app
 rabbitmqctl reset
 rabbitmqctl start_app
 
-# launch the Game Server
+# Launch the Game Server
 (cd ../src/Python-server; python zebrogamq/gameserver/gameserver.py $CONFIGURATION_FILES_DIRECTORY) &
 GAMESERVER_PID=$!
 echo $GAMESERVER_PID >> $RESOURCE_DIRECTORY/gameserver_temp_pid.txt
 sleep 2
 
 # launch the Game Master Application
-(cd Java-application; ./run.sh "michel" "simatic" "Master" "Tidy-City" "Instance-1")
+(cd Java-perf-application; ./run.sh "michel" "simatic" "Master" "PerfTidy-City" "Instance-1" "100" "1000" "30")
 sleep 2
 
-# launch the Spectator Application
-(cd Java-application; ./run.sh "denis" "conan" "Spectator" "Tidy-City" "Instance-1" "*.*.*.*")
-sleep 3
-
 # launch the Player Application
-(cd Java-application; ./run.sh "lisa" "blum" "Player" "Tidy-City" "Instance-1")
+(cd Java-perf-application; ./run.sh "denis" "conan" "Player" "PerfTidy-City" "Instance-1" "100" "1000" "30")
 sleep 3
 
 echo ""
