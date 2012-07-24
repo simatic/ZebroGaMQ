@@ -28,6 +28,31 @@ from zebrogamq.configuration.xmlrpc.xmlrpcconfig import XMLRPCConfiguration
 from zebrogamq.configuration.rabbitmq.rabbitmqconfig import RabbitMQConfiguration
 import gameserverprotocol
 
+#Begin Code to avoid important delay when doing XMLRPC from Android phones
+# This code is explained in http://www.answermysearches.com/xmlrpc-server-slow-in-python-how-to-fix/2140/
+# Hereafter is a short extract of this site.
+"""
+Background:
+I had set up a Python XML-RPC server on one machine. When accessing the web services from other 
+machines it would sometimes take up to 20 seconds to get a response. The strange thing was that 
+this only happened when accessing the web service from some machines but not others.
+
+Problem and Solution:
+It turns out that Python's BaseHTTPRequestHandler was trying to log the fully qualified domain 
+name of each request's IP address. Thus when we connected from machines that didn't have a fully 
+qualified domain name, it would take a long time to not find the FQDN. There is actually a bug 
+for this.
+
+We add in an override for the trouble function
+"""
+import BaseHTTPServer
+def not_insane_address_string(self):
+    host, port = self.client_address[:2]
+    return '%s (no getfqdn)' % host #used to call: socket.getfqdn(host)
+BaseHTTPServer.BaseHTTPRequestHandler.address_string = \
+    not_insane_address_string
+#end Code to avoid important delay when doing XMLRPC from Android phones
+
 global server
 confDir = "resources/"
 
