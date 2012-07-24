@@ -32,7 +32,7 @@ the publication of messages IS NOT thread-safe.
 """
 
 import logging
-
+import os
 
 def pingServerAction(state, header, body):
     """
@@ -42,6 +42,6 @@ def pingServerAction(state, header, body):
 	- header[2] = action kind
 	- header[3] = action name
     """
-    logging.info("GameLogicServer] React to pingServerAction message")
+    logging.info("GameLogicServer (process #"+str(os.getpid())+")] React to pingServerAction message")
     contents = string.split(body,',')
     state.gamelogicchannel.publish(header[0], state, "pongActionKind.pongServerAction", contents[0])
