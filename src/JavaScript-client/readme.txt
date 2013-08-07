@@ -23,7 +23,7 @@ This is the ZebroGaMQ Library for using XML-RPC and RabbitMQ through a
 Node.js proxy in JavaScript Client applications.
 
 Prerequisites:
-- RabbitMQ Server version ≥ 2.7.1: http://www.rabbitmq.com/server.html
+- RabbitMQ Server version ≥ 3.1.3: http://www.rabbitmq.com/server.html
 - Node.js version ≥ 0.4.10: http://nodejs.org/
 - NPM: http://npmjs.org/
   |_ node-amqp version 0.1.0 (bugs have been noticed on versions ≥ 0.1.0)
