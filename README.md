@@ -28,7 +28,7 @@ Installation and tests
 
 ### For the server side (mandatory)
 * Erlang ≥ R13B03,
-* RabbitMQ Server ≥ 2.7.1,
+* RabbitMQ Server ≥ 3.1.3,
 * Python ≥ 2.6,
 * Pika version ≥ 0.9.5
 

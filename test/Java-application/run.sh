@@ -22,7 +22,7 @@
 # Developer(s): Denis Conan, Gabriel Adgeg
 
 MODULE_VERSION=1.0-SNAPSHOT
-RABBITMQ_CLIENT_VERSION=2.7.1
+RABBITMQ_CLIENT_VERSION=3.1.3
 CLASS=zebrogamq.integration.j2se.GameLogicApplication
 RABBITMQPROPERTIESFILE=rabbitmq.properties
 XMLRPCPROPERTIESFILE=xmlrpc.properties
@@ -46,7 +46,6 @@ else
 fi
 
 export JARS=${HOME}/.m2/repository/com/rabbitmq/amqp-client/${RABBITMQ_CLIENT_VERSION}/amqp-client-${RABBITMQ_CLIENT_VERSION}.jar:${JARS}
-export JARS=${HOME}/.m2/repository/org/apache/commons/commons-io/1.3.2/commons-io-1.3.2.jar:${JARS}
 export JARS=${HOME}/.m2/repository/xmlrpc/xmlrpc/2.0.1/xmlrpc-2.0.1.jar:${JARS}
 export JARS=${HOME}/.m2/repository/ws-commons-util/ws-commons-util/1.0.1/ws-commons-util-1.0.1.jar:${JARS}
 export JARS=${HOME}/.m2/repository/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar:${JARS}

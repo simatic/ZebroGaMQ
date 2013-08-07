@@ -107,11 +107,11 @@ class="ec-lmtt-10">&#x00A0;python</span>
               </li></ul>
           </li>
           <li class="itemize">Next, install <span 
-class="ec-lmss-10x-x-109">RabbitMQ </span>version&#x00A0;2.7.1 from the &#8220;Package for generic Unix
+class="ec-lmss-10x-x-109">RabbitMQ </span>version&#x00A0;3.1.3 from the &#8220;Package for generic Unix
           systems&#8221; (file <span 
-class="ec-lmss-10x-x-109">rabbitmq-server-generic-unix-2.7.1.tar.gz</span>) or from the &#8220;Windows
+class="ec-lmss-10x-x-109">rabbitmq-server-generic-unix-3.1.3.tar.gz</span>) or from the &#8220;Windows
           Bundle&#8221; (file <span 
-class="ec-lmss-10x-x-109">rabbitmq-server-windows-2.7.1.zip</span>). In the following, adapt the
+class="ec-lmss-10x-x-109">rabbitmq-server-windows-3.1.3.zip</span>). In the following, adapt the
           commands if you are running a Windows operationg system (cf.&#x00A0;the Web page
           <span 
 class="ec-lmtt-10">http://www.rabbitmq.com/install.html#windows</span>
@@ -129,11 +129,11 @@ class="ec-lmtt-10">&#x00A0;</span><span
 class="ec-lmtt-10">&#x00A0;</span><span 
 class="ec-lmtt-10">&#x00A0;</span><span 
 class="ec-lmtt-10">&#x00A0;</span><span 
-class="ec-lmtt-10">&#x00A0;v2.7.1/rabbitmq-server-generic-unix-2.7.1.tar.gz</span>
+class="ec-lmtt-10">&#x00A0;v3.1.3/rabbitmq-server-generic-unix-3.1.3.tar.gz</span>
               <br /><span 
 class="ec-lmtt-10">tar</span><span 
 class="ec-lmtt-10">&#x00A0;xfz</span><span 
-class="ec-lmtt-10">&#x00A0;rabbitmq-server-generic-unix-2.7.1.tar.gz</span>
+class="ec-lmtt-10">&#x00A0;rabbitmq-server-generic-unix-3.1.3.tar.gz</span>
 </div>
               </div>
               </li></ul>
@@ -143,14 +143,14 @@ class="ec-lmss-10x-x-109">RabbitMQ</span>, called the server in <span
 class="ec-lmss-10x-x-109">RabbitMQ</span>
      terminology, is now installed in the directory <span 
 class="ec-lmcsc-10x-x-109">${yourdirectory}</span><span 
-class="ec-lmss-10x-x-109">/rabbitmq_server-2.7.1</span>. The
+class="ec-lmss-10x-x-109">/rabbitmq_server-3.1.3</span>. The
      commands of <span 
 class="ec-lmss-10x-x-109">RabbitMQ </span>(<span 
 class="ec-lmss-10x-x-109">rabbitmq-server </span>to launch the broker and <span 
 class="ec-lmss-10x-x-109">rabbitmqctl </span>to control
      the broker) are available in the directory <span 
 class="ec-lmcsc-10x-x-109">${yourdirectory}</span><span 
-class="ec-lmss-10x-x-109">/rabbitmq_server-2.7.1/sbin</span>.
+class="ec-lmss-10x-x-109">/rabbitmq_server-3.1.3/sbin</span>.
      </li>
      <li 
   class="enumerate" id="x1-54004x2">
@@ -169,26 +169,26 @@ class="ec-lmss-10x-x-109">~/.bashrc</span>: <div class="alltt">
           <span 
 class="ec-lmtt-10">PATH=$PATH:</span><span 
 class="ec-lmtcsc-10">${yourdirectory}</span><span 
-class="ec-lmtt-10">/rabbitmq_server-2.7.1/sbin</span>
+class="ec-lmtt-10">/rabbitmq_server-3.1.3/sbin</span>
           <br /><span 
 class="ec-lmtt-10">export</span><span 
 class="ec-lmtt-10">&#x00A0;RABBITMQ_MNESIA_BASE=</span><span 
 class="ec-lmtcsc-10">${yourdirectory}</span><span 
-class="ec-lmtt-10">/rabbitmq_server-2.7.1/mnesia</span>
+class="ec-lmtt-10">/rabbitmq_server-3.1.3/mnesia</span>
           <br /><span 
 class="ec-lmtt-10">export</span><span 
 class="ec-lmtt-10">&#x00A0;RABBITMQ_LOG_BASE=</span><span 
 class="ec-lmtcsc-10">${yourdirectory}</span><span 
-class="ec-lmtt-10">/rabbitmq_server-2.7.1/log</span>
+class="ec-lmtt-10">/rabbitmq_server-3.1.3/log</span>
 </div>
           </div>
           Note that we assume that you are now going to create the
           directories <span 
 class="ec-lmcsc-10x-x-109">${yourdirectory}</span><span 
-class="ec-lmss-10x-x-109">/rabbitmq_server-2.7.1/mnesia </span>and
+class="ec-lmss-10x-x-109">/rabbitmq_server-3.1.3/mnesia </span>and
           <span 
 class="ec-lmcsc-10x-x-109">${yourdirectory}</span><span 
-class="ec-lmss-10x-x-109">/rabbitmq_server-2.7.1/log</span>.
+class="ec-lmss-10x-x-109">/rabbitmq_server-3.1.3/log</span>.
           </li>
           <li 
   class="enumerate" id="x1-54008x2">On Windows systems, follow the instructions in <span 
@@ -207,9 +207,9 @@ class="ec-lmss-10x-x-109">%\bin\erl.exe</span>.
               <li class="itemize">Create  a  system  environment  variable  (e.g.  <span 
 class="ec-lmcsc-10x-x-109">rabbitmq_server</span>)  for
               <span 
-class="ec-lmss-10x-x-109">C:\Program Files\RabbitMQ\rabbitmq_server-2.7.1</span>. Adjust this if you put
+class="ec-lmss-10x-x-109">C:\Program Files\RabbitMQ\rabbitmq_server-3.1.3</span>. Adjust this if you put
               <span 
-class="ec-lmss-10x-x-109">rabbitmq_server-2.7.1 </span>elsewhere.
+class="ec-lmss-10x-x-109">rabbitmq_server-3.1.3 </span>elsewhere.
               </li>
               <li class="itemize">Append the literal string <span 
 class="ec-lmtt-10x-x-109">;</span><span 
@@ -256,7 +256,7 @@ class="ec-lmtt-10">&#x00A0;node</span><span
 class="ec-lmtt-10">&#x00A0;rabbit@rabbit</span><span 
 class="ec-lmtt-10">&#x00A0;...</span>
      <br /><span 
-class="ec-lmtt-10">[running_applications,[rabbit,"RabbitMQ","2.7.1",</span>
+class="ec-lmtt-10">[running_applications,[rabbit,"RabbitMQ","3.1.3",</span>
      <br /><span 
 class="ec-lmtt-10">&#x00A0;</span><span 
 class="ec-lmtt-10">&#x00A0;</span><span 
