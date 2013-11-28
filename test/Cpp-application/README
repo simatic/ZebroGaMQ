@@ -1,0 +1,7 @@
+ICEBREAK ZebroGamQ CPP CODE
+
++ resources: Folder containing property files (must store in the same folder with application file (zebrogamq-gamelogic-icebreak-cpp))
++ src: Contain .cpp and .h files.
++ Compile
+    - Take ZebroGamQ CPP library (cpp-client), place it in any folder you want, then modify the makefile so that the cpp-client can be refered.
+    - Run $ make, the application file zebrogamq-gamelogic-icebreak-cpp is generated.

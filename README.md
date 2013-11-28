@@ -9,6 +9,8 @@ A prototypical game involves:
 * Android applications
 * JavaScript applications
 * Java J2SE applications
+* C++ applications
+* iOS applications
 
 Here are the most powerful features of the middleware:
 

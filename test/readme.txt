@@ -25,6 +25,7 @@ Demonstration
 Here is the scenario for a demonstration that includes:
 - a JavaScript application
 - an Android application
+- an iOS application
 
 
 1/ Setting IP addresses
@@ -41,6 +42,8 @@ Here are the configuration files you need to update:
 - resources/rabbitmq.properties & resources/xmlrpc.properties
 - Android-application/res/raw/rabbitmq.properties & 
   Android-application/res/raw/xmlrpc.properties.
+- ios-application/ios-application/resources/rabbitmq.properties & 
+  ios-application/ios-application/resources/xmlrpc.properties.
 
 2/ Starting the demonstration
 -----------------------------
@@ -85,7 +88,15 @@ Here are the configuration files you need to update:
     emulator) as an Android Application.
     Press the menu button, and click on "Join Instance".
 
-2.4 Messages exchanged
+2.4 Launch the iOS application for the player
+
+    ios-application is a Xcode project. You need to open the project file 
+    ios-application/ios-application.xcodeproj
+    by Xcode, and run it (whether on an iOS device or on an 
+    emulator) as an iOS Application.
+    Press the menu button, and click on "Join Instance".
+
+2.5 Messages exchanged
 
     The JavaScript and the Android application should have logged in and and 
     should have joined the game instance. They will periodically send 

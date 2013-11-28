@@ -1,0 +1,14 @@
+
+The library ZebroGamQ in C++
+
++ Three external libraries are used:
+    - rabbitmq-cpp: C implementation of RabbitMQ (https://github.com/alanxz/rabbitmq-c)
+    - amqpcpp: C++ wrapper of rabbitmq-cpp (https://github.com/akalend/amqpcpp)
+    - xmlrpcpp: C++ implementation of XMLRPC (http://sourceforge.net/projects/xmlrpcpp/)
+Code files (including *.c/*.cpp files and *.h files) are put in equivalent folders (amqpcpp, rabbitmq-c, xmlrpcpp).
+
++ Compile: 
+    - Linux: $ make (the library file zebrogamq-gamelogic-client.a is generated).
+
++ Use: 
+    - Linux: Copy lib file zebrogamq-gamelogic-client.a, four folders amqpcpp, rabbitmq-c, src, xmlrpc and all header files in them.

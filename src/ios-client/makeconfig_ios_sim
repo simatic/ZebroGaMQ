@@ -1,0 +1,27 @@
+OS_SDK=iPhoneSimulator7.0.sdk
+
+CCP=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c++ -arch i386
+
+CC=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -arch i386
+
+LIBTOOL=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool
+
+INCLUDES = -I"$(shell pwd)/amqpcpp" -I"$(shell pwd)/src" -I"$(shell pwd)/xmlrpcpp" -I"$(shell pwd)/rabbitmq-c"
+
+CFLAGS = -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wno-bool-conversion -Wenum-conversion -Wno-shorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/$(OS_SDK) -fexceptions -fasm-blocks -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -g -fvisibility-inlines-hidden -Wno-sign-conversion -mios-simulator-version-min=6.1 -MMD -MT dependencies
+
+CPP11FLAGS =  -std=gnu++11 -stdlib=libc++
+
+C11FLAGS =  -std=c11
+
+ARCH_ONLY = -arch_only i386
+
+SYSLIBROOT = -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/$(OS_SDK)
+
+SYSLIBROOT = -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/$(OS_SDK)
+
+FILELIST= 
+
+THREADFLAGS = -lpthread -pthread
+
+LIBFILE = libzebrogamq-gamelogic-client-sim.a

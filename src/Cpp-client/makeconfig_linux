@@ -1,0 +1,11 @@
+CCP=g++
+
+CC=gcc
+
+INCLUDES = -I"$(shell pwd)/amqpcpp" -I"$(shell pwd)/src" -I"$(shell pwd)/xmlrpcpp" -I"$(shell pwd)/rabbitmq-c"
+
+CFLAGS = -D__GXX_EXPERIMENTAL_CXX0X__ -O0 -g3 -Wall -c -fmessage-length=0 -std=c++0x -MMD -MP
+
+THREADFLAGS = -lpthread -pthread
+
+LIBNAME = zebrogamq-gamelogic-client.a

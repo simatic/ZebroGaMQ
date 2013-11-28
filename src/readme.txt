@@ -25,6 +25,10 @@ This directory structure contains the code of:
 - JavaScript-client:
   Libraries required by JavaScript applications to communicate with the 
   JavaScript proxy.
+- Cpp-client:
+  Libraries required by C++ applications.
+- ios-client:
+  Libraries required by iOS applications.
 - JavaScript-proxy:
   Node.js process used by JavaScript applications to communicate with the 
   GameServer during the loggin phase, and the with RabbitMQ broker during 
