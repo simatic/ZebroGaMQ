@@ -23,7 +23,7 @@ rem Developer(s): Denis Conan, Gabriel Adgeg
 
 setlocal
 set MODULE_VERSION=1.0-SNAPSHOT
-set RABBITMQ_CLIENT_VERSION=2.7.0
+set RABBITMQ_CLIENT_VERSION=3.1.3
 set CLASS=zebrogamq.integration.j2se.GameLogicApplication
 set RABBITMQPROPERTIESFILE=rabbitmq.properties
 set XMLRPCPROPERTIESFILE=xmlrpc.properties
@@ -49,7 +49,6 @@ IF EXIST "%PWD%target\zebrogamq-gamelogic-integration-application-%MODULE_VERSIO
 )
 
 set JARS="%HOMEPATH%\.m2\repository\com\rabbitmq\amqp-client\%RABBITMQ_CLIENT_VERSION%\amqp-client-%RABBITMQ_CLIENT_VERSION%.jar";%JARS%
-set JARS="%HOMEPATH%\.m2\repository\org\apache\commons\commons-io\1.3.2\commons-io-1.3.2.jar";%JARS%
 set JARS="%HOMEPATH%\.m2\repository\xmlrpc\xmlrpc\2.0.1\xmlrpc-2.0.1.jar";%JARS%
 set JARS="%HOMEPATH%\.m2\repository\ws-commons-util\ws-commons-util\1.0.1\ws-commons-util-1.0.1.jar";%JARS%
 set JARS="%HOMEPATH%\.m2\repository\xml-apis\xml-apis\1.0.b2\xml-apis-1.0.b2.jar";%JARS%

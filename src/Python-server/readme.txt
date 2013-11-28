@@ -24,5 +24,5 @@ This is the TOTEM Library for using RabbitMQ in Python game instance
 applications.
 
 Prerequisites:
-- RabbitMQ Server version 2.7.1: http://www.rabbitmq.com/server.html
+- RabbitMQ Server version 3.1.3: http://www.rabbitmq.com/server.html
 - RabbitMQ Client for Python named Pika version 0.9.5 http://pika.github.com
