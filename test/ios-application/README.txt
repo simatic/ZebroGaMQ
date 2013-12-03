@@ -10,4 +10,4 @@
 	+ Open application project by XCode, run it and enjoy (after pressing buttons Create Instance or Join Instance, exchange messages are shown on the Text View of application).
 
 3. Change logs
-	+ 22/11/2013: Application runs OK when the server is available. If not, it is crashed, reason: C++ error comes from the xmlrpc server checking (from line int n = write(fd, sp, nToWrite); of ios-client/xmlrpcpp/XmlRpcSocket.cpp) and it crashes application (we cannot handle it from ObjC code). Temporary solution: Write a XMLRPC server checking method in ObjC but it cannot save application colapse if server is not available when application is running.
+	+ 22/11/2013: C++ error should come from the xmlrpc server checking (from line int n = write(fd, sp, nToWrite); of ios-client/xmlrpcpp/XmlRpcSocket.cpp) if the xmlrpc server is not running and it crashes application (we cannot handle it from ObjC code). Solution: Check the xmlrpc server by calling GameLogicApplication::checkXMLRPCServer() at the beginning, before login and init ChannelsManager.

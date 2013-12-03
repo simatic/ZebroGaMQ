@@ -61,6 +61,9 @@ public:
 	static bool loadProperties();
     static bool loadProperties(std::string xmlrpcPropertiesFile, std::string rabbitmqPropertiesFile, std::string configPropertiesFile);
     static bool updateConfigProperties(std::string propType, std::string propValue, const std::string &propFilename);
+    
+    /* Method check the XMLRPC server is available in (host, port) or not */
+    static bool checkXMLRPCServer();
 };
 
 

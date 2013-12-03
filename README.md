@@ -66,6 +66,16 @@ Installation and tests
     android-integration-test.bat
 
 
+### For iOS applications
+* XCode ≥ 5.0.2,
+* iOS SDK API level ≥ 7
+
+##### To run the tests on Unix/Mac:
+
+    cd test
+    ./ios-integration-test.sh
+
+
 ### For JavaScript applications
 * Node.js ≥ 0.4.10,
 * NPM ≥ 1.0.106,

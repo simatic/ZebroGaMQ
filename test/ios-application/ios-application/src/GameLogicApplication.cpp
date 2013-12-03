@@ -36,6 +36,14 @@
 #include <zebrogamq-ios/ZebroGamqUtil.h>
 #include <fstream>
 
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <errno.h>
+#include <fcntl.h>
+
 using namespace std;
 
 GameLogicState* GameLogicApplication::state = 0;
@@ -145,4 +153,37 @@ bool GameLogicApplication::loadProperties(std::string xmlrpcPropertiesFile, std:
     ZebroGamqUtil::setConfigProperties(configProperty);
     
 	return result;
+}
+
+/* Method check the XMLRPC server is available in (host, port) or not */
+bool GameLogicApplication::checkXMLRPCServer() {
+    std::string GAME_SERVER_URL = ZebroGamqUtil::getXMLRPCProperties()->getProperty("gameServerXMLRPCHost");
+	int GAME_SERVER_PORT = atoi(ZebroGamqUtil::getXMLRPCProperties()->getProperty("gameServerXMLRPCPort").c_str());
+	int MAX_RETRY = atoi(ZebroGamqUtil::getXMLRPCProperties()->getProperty("maxRetry").c_str());
+    
+    struct sockaddr_in saddr;
+    memset(&saddr, 0, sizeof(saddr));
+    saddr.sin_family = AF_INET;
+    
+    struct hostent *hp = gethostbyname(GAME_SERVER_URL.c_str());
+    if (hp == 0) return false;
+    
+    saddr.sin_family = hp->h_addrtype;
+    memcpy(&saddr.sin_addr, hp->h_addr, hp->h_length);
+    saddr.sin_port = htons((u_short) GAME_SERVER_PORT);
+
+    int result = -1;
+    for(int i = 0; i < MAX_RETRY; i++) {
+    	// For asynch operation, this will return EWOULDBLOCK (windows) or
+    	// EINPROGRESS (linux) and we just need to wait for the socket to be writable...
+        int sock = ::socket(AF_INET, SOCK_STREAM, 0);
+        result = ::connect(sock, (struct sockaddr *)&saddr, sizeof(saddr));
+        if (result == 0) {
+            close(sock);
+            break;
+        }
+        close(sock);
+        usleep(1000 * 1000);
+    }
+    return (result == 0);
 }

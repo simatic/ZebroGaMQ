@@ -138,12 +138,12 @@ bool XMLRPCLogin::joinGameInstance(std::string login, std::string password, std:
         bool isTempFileUsed = (ZebroGamqUtil::getConfigProperties()->getProperty("temporaryLogFile").compare("out") != 0);
         if ( isTempFileUsed ) {
             filestr.open (ZebroGamqUtil::getConfigProperties()->getProperty("temporaryLogFile"), ios::in | ios::out | ios::trunc);
-            filestr << "XMLRPC call createAndJoinGameInstance has succeded for "
+            filestr << "XMLRPC call joinGameInstance has succeded for "
                 << login << " in " << gameName << "/" << gameInstanceName
                 << endl;
             filestr.close();
         } else {
-            cout << "XMLRPC call createAndJoinGameInstance has succeded for "
+            cout << "XMLRPC call joinGameInstance has succeded for "
                  << login << " in " << gameName << "/" << gameInstanceName
                  << endl;
         }
@@ -159,11 +159,11 @@ bool XMLRPCLogin::joinGameInstance(std::string login, std::string password, std:
 	XmlRpcValue result;
 
 	std::vector<std::string> params;
-	params.push_back(observationKey);
-	params.push_back(gameInstanceName);
-	params.push_back(gameName);
-	params.push_back(password);
 	params.push_back(login);
+    params.push_back(password);
+    params.push_back(gameName);
+    params.push_back(gameInstanceName);
+    params.push_back(observationKey);
 	answer = executeXmlRpcCall("joinGameInstance", params, result);
 	if (answer == true) {
         ofstream filestr;
@@ -210,8 +210,8 @@ bool XMLRPCLogin::terminateGameInstance(std::string gameName, std::string gameIn
 	bool answer = false;
 	XmlRpcValue result;
 	std::vector<std::string> params;
-	params.push_back(gameInstanceName);
 	params.push_back(gameName);
+	params.push_back(gameInstanceName);
 	answer = executeXmlRpcCall("terminateGameInstance", params, result);
 	if (answer == true) {
         ofstream filestr;
@@ -248,5 +248,3 @@ bool XMLRPCLogin::terminate() {
 	}
 	return res;
 }
-
-

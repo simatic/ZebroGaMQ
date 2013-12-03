@@ -71,7 +71,10 @@ NSString * const DEFAULT_INSTANCENAME = @"Instance-1";
                                             ofType:@"properties"];
     self.configPropertiesFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"config.properties"];
     
+    // Create log file
     self.logFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"Log.log"];
+    [self createFile:self.logFilePath :@""];
+    
     std::string xmlrpcPropertiesFile = std::string( [[self xmlrpcPropertiesFilePath ] UTF8String] );
     std::string rabbitmqPropertiesFile = std::string( [[self rabbitmqPropertiesFilePath] UTF8String] );
     std::string configPropertiesFile = std::string( [[self configPropertiesFilePath ] UTF8String] );
@@ -163,10 +166,8 @@ NSString * const DEFAULT_INSTANCENAME = @"Instance-1";
             GameLogicApplication::state->gameName = std::string( [DEFAULT_GAMENAME UTF8String] );
             GameLogicApplication::state->instanceName = std::string( [DEFAULT_INSTANCENAME UTF8String] );
             
-            // Check XMLRPC connection in ObjC
-            NSString* host = [NSString stringWithUTF8String:ZebroGamqUtil::getXMLRPCProperties()->getProperty("gameServerXMLRPCHost").c_str()];
-            NSString* port = [NSString stringWithUTF8String:ZebroGamqUtil::getXMLRPCProperties()->getProperty("gameServerXMLRPCPort").c_str()];
-            self.xmlrpcConnected = [self checkXMLRPCConnection: host : port ];
+            // Check XMLRPC connection first, MAX_RETRY times
+            self.xmlrpcConnected = (GameLogicApplication::checkXMLRPCServer() == true);
             if (!self.xmlrpcConnected) {
                 dispatch_async(dispatch_get_main_queue(), ^ {
                     [self.indicator stopAnimating];
@@ -223,10 +224,8 @@ NSString * const DEFAULT_INSTANCENAME = @"Instance-1";
             GameLogicApplication::state->gameName = std::string( [DEFAULT_GAMENAME UTF8String] );
             GameLogicApplication::state->instanceName = std::string( [DEFAULT_INSTANCENAME UTF8String] );
             
-            // Check XMLRPC connection
-            NSString* host = [NSString stringWithUTF8String:ZebroGamqUtil::getXMLRPCProperties()->getProperty("gameServerXMLRPCHost").c_str()];
-            NSString* port = [NSString stringWithUTF8String:ZebroGamqUtil::getXMLRPCProperties()->getProperty("gameServerXMLRPCPort").c_str()];
-            self.xmlrpcConnected  = [self checkXMLRPCConnection: host : port ];
+            // Check XMLRPC connection first, MAX_RETRY times
+            self.xmlrpcConnected = (GameLogicApplication::checkXMLRPCServer() == true);
             if (!self.xmlrpcConnected) {
                 dispatch_async(dispatch_get_main_queue(), ^ {
                     [self.indicator stopAnimating];
@@ -267,31 +266,10 @@ NSString * const DEFAULT_INSTANCENAME = @"Instance-1";
 }
 
 /*
- * TODO: Check XMLRPC connection by sending one Html POST request to server. This method is needed because the XMLRPC connection by C++ crashes the application
+ * TODO: Exit application
  */
-- (BOOL)checkXMLRPCConnection:(NSString*) host :(NSString*) port
-{
-    NSString *bodyData = @"<?xml version=\"1.0\"?>\r\n<methodCall><methodName>createAndJoinGameInstance</methodName>\r\n<params><param><value>TEST_PLAYER</value></param><param><value>TEST_PASSWORD</value></param><param><value>TEST_GAMENAME</value></param><param><value>TEST_INSTANCETAME</value></param></params></methodCall>\r\n";
-    
-    NSString * url = [NSString stringWithFormat:@"http://%@:%@/RPC2", host, port];
-    NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-    
-    // Set the request's header
-    [postRequest setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
-    [postRequest setValue:@"XMLRPC++ 0.7" forHTTPHeaderField:@"User-Agent"];
-    [postRequest setValue:@"293" forHTTPHeaderField:@"Content-length"];
-    NSString * hostURL = [NSString stringWithFormat:@"%@:%@", host, port];
-    [postRequest setValue:hostURL forHTTPHeaderField:@"Host"];
-    
-    // Designate the request a POST request and specify its body data
-    [postRequest setHTTPMethod:@"POST"];
-    [postRequest setHTTPBody:[NSData dataWithBytes:[bodyData UTF8String] length:strlen([bodyData UTF8String])]];
-    
-    // Release the request
-    NSError *err=nil;
-    NSData *responseData=[NSURLConnection sendSynchronousRequest:postRequest returningResponse:nil error:&err];
-    
-    return (responseData != nil);
+- (IBAction)exit:(id)sender {
+    exit(0);
 }
 
 /*
@@ -300,6 +278,16 @@ NSString * const DEFAULT_INSTANCENAME = @"Instance-1";
 - (NSString* )readFile:(NSString*) filename {
     NSString *contents = [NSString stringWithContentsOfFile:filename encoding:NSASCIIStringEncoding error:nil];
     return contents;
+}
+
+/*
+ * TODO: Create text file
+ */
+- (void) createFile:(NSString*)filename :(NSString*) content {
+    NSData *fileContents = [content dataUsingEncoding:NSUTF8StringEncoding];
+    [[NSFileManager defaultManager] createFileAtPath:filename
+                                    contents:fileContents
+                                    attributes:nil];
 }
 
 - (void)didReceiveMemoryWarning

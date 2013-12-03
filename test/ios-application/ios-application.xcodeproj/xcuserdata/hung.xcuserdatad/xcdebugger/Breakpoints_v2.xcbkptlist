@@ -10,11 +10,41 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/src/GameLogicApplication.cpp"
-            timestampString = "407084587.558773"
+            timestampString = "407758344.405797"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
+            landmarkName = "GameLogicApplication::updateConfigProperties(std::string propType, std::string propValue, const std::string &amp;propFilename)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ios-application/src/GameLogicApplication.cpp"
+            timestampString = "407758344.405797"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "134"
+            endingLineNumber = "134">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ios-application/src/GameLogicApplication.cpp"
+            timestampString = "407758344.405797"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "GameLogicApplication::loadProperties(std::string xmlrpcPropertiesFile, std::string rabbitmqPropertiesFile, std::string configPropertiesFile)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,43 +56,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/src/GameLogicApplication.cpp"
-            timestampString = "407084587.558773"
+            timestampString = "407758344.405797"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
-            landmarkName = "GameLogicApplication::loadProperties(std::string xmlrpcPropertiesFile, std::string rabbitmqPropertiesFile, std::string configPropertiesFile)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ios-application/src/GameLogicApplication.cpp"
-            timestampString = "407084587.558773"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "GameLogicApplication::loadProperties(std::string xmlrpcPropertiesFile, std::string rabbitmqPropertiesFile, std::string configPropertiesFile)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ios-application/src/GameLogicApplication.cpp"
-            timestampString = "407084587.558773"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
             landmarkName = "GameLogicApplication::loadProperties(std::string xmlrpcPropertiesFile, std::string rabbitmqPropertiesFile, std::string configPropertiesFile)"
             landmarkType = "5">
          </BreakpointContent>
@@ -212,11 +210,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/src/GameLogicApplication.cpp"
-            timestampString = "407084587.558773"
+            timestampString = "407758344.405797"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "GameLogicApplication::loadProperties(std::string xmlrpcPropertiesFile, std::string rabbitmqPropertiesFile, std::string configPropertiesFile)"
             landmarkType = "5">
          </BreakpointContent>
@@ -274,11 +272,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/src/GameLogicApplication.cpp"
-            timestampString = "407084587.558773"
+            timestampString = "407758344.405797"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
             landmarkName = "GameLogicApplication::loadProperties(std::string xmlrpcPropertiesFile, std::string rabbitmqPropertiesFile, std::string configPropertiesFile)"
             landmarkType = "5">
          </BreakpointContent>
@@ -290,11 +288,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/src/GameLogicApplication.cpp"
-            timestampString = "407084587.558773"
+            timestampString = "407758344.405797"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
             landmarkName = "GameLogicApplication::loadProperties(std::string xmlrpcPropertiesFile, std::string rabbitmqPropertiesFile, std::string configPropertiesFile)"
             landmarkType = "5">
             <Locations>
@@ -396,13 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/src/GameLogicApplication.cpp"
-            timestampString = "406833713.986121"
+            timestampString = "407758344.405797"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "GameLogicApplication::initChannelsManager()"
-            landmarkType = "5">
+            startingLineNumber = "71"
+            endingLineNumber = "71">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -412,11 +408,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
+            timestampString = "407764723.589109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
             <Locations>
@@ -472,11 +468,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
+            timestampString = "407764723.589109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
             landmarkName = "-MonitorNameChangesToFile:"
             landmarkType = "5">
          </BreakpointContent>
@@ -488,11 +484,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
+            timestampString = "407764723.589109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
             <Locations>
@@ -548,11 +544,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
+            timestampString = "407764723.589109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
             <Locations>
@@ -608,13 +604,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/src/GameLogicApplication.cpp"
-            timestampString = "407084587.558773"
+            timestampString = "407758344.405797"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
-            landmarkName = "GameLogicApplication::loadProperties(std::string xmlrpcPropertiesFile, std::string rabbitmqPropertiesFile, std::string configPropertiesFile)"
-            landmarkType = "5">
+            startingLineNumber = "133"
+            endingLineNumber = "133">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -814,11 +808,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
+            timestampString = "407764723.589109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "-MonitorNameChangesToFile:"
             landmarkType = "5">
             <Locations>
@@ -888,11 +882,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
+            timestampString = "407764723.589109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "-createInstance:"
             landmarkType = "5">
             <Locations>
@@ -948,13 +942,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/src/GameLogicApplication.cpp"
-            timestampString = "406833713.986121"
+            timestampString = "407758344.405797"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "GameLogicApplication::executeXMLRPCLogin(std::string action)"
-            landmarkType = "5">
+            startingLineNumber = "47"
+            endingLineNumber = "47">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1288,11 +1280,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
+            timestampString = "407764723.589109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
             landmarkName = "-createInstance:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1304,11 +1296,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
+            timestampString = "407764723.589109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
             landmarkName = "-createInstance:"
             landmarkType = "5">
             <Locations>
@@ -1443,11 +1435,11 @@
                   symbolName = "XmlRpc::XmlRpcClient::writeRequest()"
                   moduleName = "ios-application"
                   urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-client/xmlrpcpp/XmlRpcClient.cpp"
-                  timestampString = "406495192.026145"
+                  timestampString = "407250572.270299"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "267"
-                  endingLineNumber = "267"
+                  startingLineNumber = "269"
+                  endingLineNumber = "269"
                   offsetFromSymbolStart = "418">
                </Location>
                <Location
@@ -1457,11 +1449,11 @@
                   symbolName = "XmlRpc::XmlRpcClient::writeRequest()"
                   moduleName = "ios-application"
                   urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-client/xmlrpcpp/XmlRpcClient.cpp"
-                  timestampString = "406495192.026386"
+                  timestampString = "407250572.270631"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "267"
-                  endingLineNumber = "267"
+                  startingLineNumber = "269"
+                  endingLineNumber = "269"
                   offsetFromSymbolStart = "608">
                </Location>
             </Locations>
@@ -1474,11 +1466,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
+            timestampString = "407764723.589109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "203"
-            endingLineNumber = "203"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
             landmarkName = "-createInstance:"
             landmarkType = "5">
             <Locations>
@@ -1566,11 +1558,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
+            timestampString = "407764723.589109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
             landmarkName = "-createInstance:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1613,7 +1605,7 @@
                   symbolName = "XmlRpc::XmlRpcClient::execute(char const*, XmlRpc::XmlRpcValue const&amp;, XmlRpc::XmlRpcValue&amp;)"
                   moduleName = "ios-application"
                   urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-client/xmlrpcpp/XmlRpcClient.cpp"
-                  timestampString = "406545960.597747"
+                  timestampString = "407755198.633705"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "101"
@@ -1627,7 +1619,7 @@
                   symbolName = "XmlRpc::XmlRpcClient::execute(char const*, XmlRpc::XmlRpcValue const&amp;, XmlRpc::XmlRpcValue&amp;)"
                   moduleName = "ios-application"
                   urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-client/xmlrpcpp/XmlRpcClient.cpp"
-                  timestampString = "406545960.598086"
+                  timestampString = "407755198.63398"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "101"
@@ -1659,12 +1651,12 @@
                   symbolName = "XmlRpc::XmlRpcClient::writeRequest()"
                   moduleName = "ios-application"
                   urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-client/xmlrpcpp/XmlRpcClient.cpp"
-                  timestampString = "406545639.468976"
+                  timestampString = "407254431.715784"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "273"
                   endingLineNumber = "273"
-                  offsetFromSymbolStart = "394">
+                  offsetFromSymbolStart = "694">
                </Location>
                <Location
                   shouldBeEnabled = "No"
@@ -1673,12 +1665,12 @@
                   symbolName = "XmlRpc::XmlRpcClient::writeRequest()"
                   moduleName = "ios-application"
                   urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-client/xmlrpcpp/XmlRpcClient.cpp"
-                  timestampString = "406545639.469317"
+                  timestampString = "407254431.716066"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "273"
                   endingLineNumber = "273"
-                  offsetFromSymbolStart = "568">
+                  offsetFromSymbolStart = "868">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1706,11 +1698,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
-            timestampString = "406507932.368612"
+            timestampString = "407254431.13344"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
             landmarkName = "XmlRpcSocket::nbWrite(int fd, std::string&amp; s, int *bytesSoFar)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1736,11 +1728,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
-            timestampString = "406517599.194473"
+            timestampString = "407254431.13344"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "227"
-            endingLineNumber = "227"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
             landmarkName = "XmlRpcSocket::nbWrite(int fd, std::string&amp; s, int *bytesSoFar)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1866,9 +1858,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "198"
-            endingLineNumber = "198"
-            landmarkName = "XmlRpcClient::doConnect()"
-            landmarkType = "5">
+            endingLineNumber = "198">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1878,11 +1868,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
-            timestampString = "406517483.321836"
+            timestampString = "407254431.13344"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "XmlRpcSocket::nbWrite(int fd, std::string&amp; s, int *bytesSoFar)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1898,9 +1888,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "281"
-            endingLineNumber = "281"
-            landmarkName = "XmlRpcClient::writeRequest()"
-            landmarkType = "5">
+            endingLineNumber = "281">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1926,28 +1914,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
-            timestampString = "406566060.98263"
+            timestampString = "407254431.13344"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
             landmarkName = "XmlRpcSocket::nbWrite(int fd, std::string&amp; s, int *bytesSoFar)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
-            landmarkName = "-createInstance:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2004,11 +1976,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
+            timestampString = "407764723.589109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -2020,11 +1992,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
+            timestampString = "407764723.589109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "-MonitorNameChangesToFile:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2036,11 +2008,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
+            timestampString = "407764723.589109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
             landmarkName = "-MonitorNameChangesToFile:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2052,11 +2024,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/ViewController.m"
-            timestampString = "407084587.558773"
+            timestampString = "407764723.589109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
             <Locations>
@@ -2126,12 +2098,26 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/src/GameLogicApplication.cpp"
-            timestampString = "407084587.558773"
+            timestampString = "407758344.405797"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
-            landmarkName = "GameLogicApplication::updateConfigProperties(std::string propType, std::string propValue, const std::string &amp;propFilename)"
+            startingLineNumber = "120"
+            endingLineNumber = "120">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ios-application/src/GameLogicApplication.cpp"
+            timestampString = "407758344.405797"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "GameLogicApplication::loadProperties()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2142,44 +2128,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios-application/src/GameLogicApplication.cpp"
-            timestampString = "407084587.558773"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "GameLogicApplication::updateConfigProperties(std::string propType, std::string propValue, const std::string &amp;propFilename)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ios-application/src/GameLogicApplication.cpp"
-            timestampString = "407084587.558773"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
-            landmarkName = "GameLogicApplication::updateConfigProperties(std::string propType, std::string propValue, const std::string &amp;propFilename)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ios-application/src/GameLogicApplication.cpp"
-            timestampString = "407084587.558773"
+            timestampString = "407758344.405797"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "118"
             endingLineNumber = "118"
-            landmarkName = "GameLogicApplication::updateConfigProperties(std::string propType, std::string propValue, const std::string &amp;propFilename)"
+            landmarkName = "GameLogicApplication::loadProperties()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ios-application/src/GameLogicApplication.cpp"
+            timestampString = "407758344.405797"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "GameLogicApplication::loadProperties()"
             landmarkType = "5">
             <Locations>
                <Location
@@ -2211,6 +2181,626 @@
                   offsetFromSymbolStart = "490">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcClient.cpp"
+            timestampString = "407250146.589626"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
+            landmarkName = "XmlRpcClient::writeRequest()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
+            timestampString = "407254431.13344"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
+            landmarkName = "XmlRpcSocket::nbWrite(int fd, std::string&amp; s, int *bytesSoFar)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
+            timestampString = "407254431.13344"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
+            landmarkName = "XmlRpcSocket::nbWrite(int fd, std::string&amp; s, int *bytesSoFar)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
+            timestampString = "407250803.273987"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "nonFatalError()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
+            timestampString = "407250804.697834"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "nonFatalError()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcClient.cpp"
+            timestampString = "407251746.370435"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "XmlRpcClient::doConnect()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
+            timestampString = "407254431.13344"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "278"
+            endingLineNumber = "278">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
+            timestampString = "407254431.13344"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "261"
+            endingLineNumber = "261">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcClient.cpp"
+            timestampString = "407254473.208122"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "278"
+            endingLineNumber = "278"
+            landmarkName = "XmlRpcClient::writeRequest()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcClient.cpp"
+            timestampString = "407254669.525258"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "279"
+            endingLineNumber = "279"
+            landmarkName = "XmlRpcClient::writeRequest()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
+            timestampString = "407255071.847093"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "242"
+            endingLineNumber = "242">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
+            timestampString = "407255079.094655"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
+            landmarkName = "XmlRpcSocket::nbRead(int fd, std::string&amp; s, bool *eof)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
+            timestampString = "407255143.780084"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
+            landmarkName = "XmlRpcSocket::nbRead(int fd, std::string&amp; s, bool *eof)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
+            timestampString = "407255147.819887"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
+            landmarkName = "XmlRpcSocket::getError()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
+            timestampString = "407255158.203423"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
+            landmarkName = "XmlRpcSocket::nbRead(int fd, std::string&amp; s, bool *eof)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcSocket.cpp"
+            timestampString = "407259171.05128"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
+            landmarkName = "XmlRpcSocket::nbRead(int fd, std::string&amp; s, bool *eof)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcClient.cpp"
+            timestampString = "407259296.869961"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "282"
+            endingLineNumber = "282">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcClient.cpp"
+            timestampString = "407261695.705778"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
+            landmarkName = "XmlRpcClient::writeRequest()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcClient.cpp"
+            timestampString = "407261720.643569"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "305"
+            endingLineNumber = "305"
+            landmarkName = "XmlRpcClient::readHeader()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "XmlRpc::XmlRpcClient::readHeader()"
+                  moduleName = "ios-application"
+                  urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-client/xmlrpcpp/XmlRpcClient.cpp"
+                  timestampString = "407755198.637552"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "305"
+                  endingLineNumber = "305"
+                  offsetFromSymbolStart = "1094">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "XmlRpc::XmlRpcClient::readHeader()"
+                  moduleName = "ios-application"
+                  urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-client/xmlrpcpp/XmlRpcClient.cpp"
+                  timestampString = "407755198.63781"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "305"
+                  endingLineNumber = "305"
+                  offsetFromSymbolStart = "1259">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcClient.cpp"
+            timestampString = "407261723.69652"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "302"
+            endingLineNumber = "302"
+            landmarkName = "XmlRpcClient::readHeader()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcClient.cpp"
+            timestampString = "407261726.46489"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
+            landmarkName = "XmlRpcClient::writeRequest()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "XmlRpc::XmlRpcClient::writeRequest()"
+                  moduleName = "ios-application"
+                  urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-client/xmlrpcpp/XmlRpcClient.cpp"
+                  timestampString = "407755198.638403"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "263"
+                  endingLineNumber = "263"
+                  offsetFromSymbolStart = "56">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "XmlRpc::XmlRpcClient::writeRequest()"
+                  moduleName = "ios-application"
+                  urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-client/xmlrpcpp/XmlRpcClient.cpp"
+                  timestampString = "407755198.638667"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "263"
+                  endingLineNumber = "263"
+                  offsetFromSymbolStart = "314">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcClient.cpp"
+            timestampString = "407261732.645772"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "376"
+            endingLineNumber = "376"
+            landmarkName = "XmlRpcClient::readResponse()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "XmlRpc::XmlRpcClient::readResponse()"
+                  moduleName = "ios-application"
+                  urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-client/xmlrpcpp/XmlRpcClient.cpp"
+                  timestampString = "407756560.841464"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "376"
+                  endingLineNumber = "376"
+                  offsetFromSymbolStart = "1020">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "XmlRpc::XmlRpcClient::readResponse()"
+                  moduleName = "ios-application"
+                  urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-client/xmlrpcpp/XmlRpcClient.cpp"
+                  timestampString = "407756560.841784"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "376"
+                  endingLineNumber = "376"
+                  offsetFromSymbolStart = "1263">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcClient.cpp"
+            timestampString = "407261733.839888"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "379"
+            endingLineNumber = "379"
+            landmarkName = "XmlRpcClient::readResponse()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcClient.cpp"
+            timestampString = "407261984.305206"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "351"
+            endingLineNumber = "351"
+            landmarkName = "XmlRpcClient::readHeader()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ios-client/xmlrpcpp/XmlRpcClient.cpp"
+            timestampString = "407261993.517244"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
+            landmarkName = "XmlRpcClient::readResponse()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ios-application/ViewController.m"
+            timestampString = "407764723.589109"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
+            landmarkName = "-createInstance:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__33-[ViewController createInstance:]_block_invoke"
+                  moduleName = "ios-application"
+                  urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-application/ios-application/ViewController.m"
+                  timestampString = "407756560.842734"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "196"
+                  endingLineNumber = "196"
+                  offsetFromSymbolStart = "12076">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__33-[ViewController createInstance:]_block_invoke"
+                  moduleName = "ios-application"
+                  urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-application/ios-application/ViewController.m"
+                  timestampString = "407756560.843035"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "196"
+                  endingLineNumber = "196"
+                  offsetFromSymbolStart = "15807">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ios-application/ViewController.m"
+            timestampString = "407764723.589109"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
+            landmarkName = "-createInstance:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ios-application/ViewController.m"
+            timestampString = "407764723.589109"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
+            landmarkName = "-joinInstance:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__31-[ViewController joinInstance:]_block_invoke"
+                  moduleName = "ios-application"
+                  urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-application/ios-application/ViewController.m"
+                  timestampString = "407756969.62537"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "266"
+                  endingLineNumber = "266"
+                  offsetFromSymbolStart = "12076">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__31-[ViewController joinInstance:]_block_invoke"
+                  moduleName = "ios-application"
+                  urlString = "file:///Users/hung/Dropbox/ICEBreak/iOS/ZebroGaMQ/ios-application/ios-application/ViewController.m"
+                  timestampString = "407756969.625649"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "266"
+                  endingLineNumber = "266"
+                  offsetFromSymbolStart = "15807">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ios-application/ViewController.m"
+            timestampString = "407764723.589109"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "-createInstance:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ios-application/src/GameLogicApplication.cpp"
+            timestampString = "407758344.405797"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
