@@ -94,7 +94,7 @@ Here are the configuration files you need to update:
     ios-application/ios-application.xcodeproj
     by Xcode, and run it (whether on an iOS device or on an 
     emulator) as an iOS Application.
-    Press the menu button, and click on "Join Instance".
+    Click on "Join Instance".
 
 2.5 Messages exchanged
 
