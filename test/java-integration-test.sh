@@ -29,8 +29,8 @@ echo $CONFIGURATION_FILES_DIRECTORY
 
 # Warning: In RABBITMQ_NODENAME, no   "-" (minus) character 
 #                                only "_" (underscore) character
-export RABBITMQ_NODENAME=zebro
-export RABBITMQ_NODE_PORT=5672
+#export RABBITMQ_NODENAME=zebro
+#export RABBITMQ_NODE_PORT=5672
 
 # Position the following variables if you want RabbitMQ log and database
 # to be positionned in a dedicated place
